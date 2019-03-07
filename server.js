@@ -11,10 +11,20 @@ require('./server/models/User');
 const winston = require('winston'), expressWinston = require('express-winston');
 const mongoose = require('mongoose');
 
+const url = 'mongodb://localhost/tfg';
 const debugConfig = require('./server/config/debug.json');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/passport-tutorial');
+
+mongoose.connect(url, function (err, res) {
+  if (err)
+    console.log ('ERROR connecting to: ' + url + '. ' + err);
+  else
+    console.log ('Succeeded connected to: ' + url );
+});
+
+
+// mongoose.connect('mongodb://localhost/passport-tutorial');
 
 app.use(express.static(path.join(__dirname, 'dist/clusterApp')));
 app.use(bodyParser.urlencoded({ extended: true }));

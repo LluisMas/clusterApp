@@ -28,28 +28,32 @@ router.get('/posts', auth.optional, (req, res) => {
     });
 });
 
-router.post('/auth', auth.optional, (req, res, next) => {
+router.post('/auth', (req, res) => {
 
-  var newuser = new Users();
-  newuser.email = "asd";
-  newuser.setPassword("root");
-  newuser.save();
+  passport.authenticate('local', (err, username, info) => {
+    if(err){
+      console.log(err);
+      res.status(402).json(info);
+      return (err);
+    }
 
-  passport.authenticate('local', (err, passportUser, info) => {
-    if(err)
-      return next(err);
-
-    if(passportUser) {
-      const user = passportUser;
-      user.token = passportUser.generateJWT();
-
+    if(username) {
+      const user = username;
+      user.token = username.generateJWT();
+      console.log(username);
       res.json({ user: user.toAuthJSON() });
     }else {
-      res.sendStatus(400);
+      console.log(username);
+      res.status(401).json(info);
     }
-  })(req, res, next);
+  })(req, res);
+  var newuser = new Users();
+  newuser.save();
+  newuser.email = "asd";
+  newuser.setPassword("root");
 
   return;
+  /*
   const body = req.body;
 
   console.log(Users);
@@ -58,8 +62,8 @@ router.post('/auth', auth.optional, (req, res, next) => {
   const user = USERS.find(user => user.username == body.username);
   if(!user || body.password != 'todo') return res.sendStatus(401);
 
-  var token = jwt.sign({userID: user.id}, 'todo-app-super-shared-secret', {expiresIn: '2h'});
-  res.send({token});
+  var token = jwt.sign({userID: user.id}, 'secret', {expiresIn: '2h'});
+  res.send({token});*/
 });
 
 module.exports = router;

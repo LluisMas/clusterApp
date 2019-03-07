@@ -11,12 +11,12 @@ const getTokenFromHeaders = (req) => {
 
 const auth = {
   required: jwt({
-    secret: 'todo-app-super-shared-secret',
+    secret: 'secret',
     userProperty: 'payload',
     getToken: getTokenFromHeaders,
   }),
   optional: jwt({
-    secret: 'todo-app-super-shared-secret',
+    secret: 'secret',
     userProperty: 'payload',
     getToken: getTokenFromHeaders,
     credentialsRequired: false,

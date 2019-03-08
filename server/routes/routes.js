@@ -19,12 +19,12 @@ router.get('/', (req, res) =>{
 });
 
 
-router.get('/posts', auth.optional, (req, res) => {
+router.get('/posts', auth.required, (req, res) => {
   axios.get(`${API}/posts`).then(posts=>{
     res.status(200).json(posts.data);
   })
     .catch(error =>{
-      res.status(500).send(error);
+      //res.status(500).send(error);
     });
 });
 
@@ -40,19 +40,11 @@ router.post('/auth', (req, res) => {
     if(username) {
       const user = username;
       user.token = username.generateJWT();
-      console.log(username);
       res.json({ user: user.toAuthJSON() });
     }else {
-      console.log(username);
       res.status(401).json(info);
     }
   })(req, res);
-  var newuser = new Users();
-  newuser.save();
-  newuser.email = "asd";
-  newuser.setPassword("root");
-
-  return;
   /*
   const body = req.body;
 

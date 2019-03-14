@@ -27,31 +27,8 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(cors());
 
-// app.use(expressWinston.logger({
-//   transports: [
-//     new winston.transports.Console(debugConfig.console)
-//   ]
-// }));
-
 const routes = require('./server/routes/routes');
 app.use('/routes', routes);
-
-app.use(function(req, res, next) {
-  if(req.user)
-  {
-      console.log("hi");
-      console.log(req.user.isAuthenticated());
-  }
-  else {
-    console.log("bye");
-  }
-  //if (req.session.user == null){
-// if user is not logged-in redirect back to login page //
-    //res.redirect('/login');
-  //}   else{
-    next();
-  //}
-});
 
 app.use(expressWinston.errorLogger({
   transports: [
@@ -63,7 +40,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/clusterApp/index.html'))
 });
 
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    console.log("Unauthorized");
+    res.status(401);
+    res.json({"message" : err.name + ": " + err.message});
+  }
+});
+
 app.listen(port, (req, res) => {
   console.log(`working on port ${port}`);
 });
-

@@ -42,9 +42,13 @@ app.get('*', (req, res) => {
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
-    console.log("Unauthorized");
-    res.status(401);
-    res.json({"message" : err.name + ": " + err.message});
+    console.log("REDIRECT");
+    /*res.status(401);
+    res.json({"message" : err.name + ": " + err.message});*/
+    res.status(err.status).send({message:err.message});
+  }
+  else{
+    next();
   }
 });
 

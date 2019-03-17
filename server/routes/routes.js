@@ -1,23 +1,14 @@
 const mongoose = require('mongoose');
 const passport = require('passport');
-
 const express = require('express');
 const router = express.Router();
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
-
 const axios = require('axios');
-const jwt = require('jsonwebtoken');
 const auth = require('../auth');
-
 const Users = mongoose.model('User');
 
-const API = 'https://jsonplaceholder.typicode.com';;
-
-router.get('/', (req, res) =>{
-  res.send("ok")
-});
-
+const API = 'https://jsonplaceholder.typicode.com';
 
 router.get('/posts', auth.required, (req, res) => {
   axios.get(`${API}/posts`).then(posts=>{

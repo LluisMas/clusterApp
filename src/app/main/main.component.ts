@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from '../main.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-main',
@@ -13,10 +14,15 @@ export class MainComponent implements OnInit {
   constructor(private mainService: MainService) { }
 
   ngOnInit() {
-    this.mainService.getAllPosts().subscribe(posts => {
-      this.posts = posts;
-    });
+    const result = this.mainService.getAllPosts();
 
+    if (result !== null) {
+      result.subscribe(
+        posts => {
+          this.posts = posts;
+        }
+      );
+    }
   }
 
 }

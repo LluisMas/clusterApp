@@ -1,1 +1,31 @@
-<router-outlet></router-outlet>
+<nav class="navbar navbar-expand-lg navbar-light bg-light stroke" *ngIf="navbarService.visible">
+
+<a class="navbar-brand" href="#">
+    <img src="../assets/UdL_small.png" width="40" height="30" class="img-responsive" alt="Brand">
+    Cluster APP
+  </a>
+
+    <ul class="navbar-nav mr-auto">
+      <li>
+        <a class="nav-link" href="#">Home <span class="sr-only align-middle">(current)</span></a>
+      </li>
+
+      <li *ngFor="let link of links">
+        <a [routerLink]="link.path">{{ link.text }}</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+        <li *ngIf="isLoggedIn">
+          <a class="nav-link" routerLink="logout" (click)="logout()">Logout</a>
+        </li>
+      <li *ngIf="!isLoggedIn">
+        <a class="nav-link" routerLink="logout" (click)="login()">Login</a>
+      </li>
+    </ul>
+
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

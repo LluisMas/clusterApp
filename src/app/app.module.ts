@@ -11,12 +11,14 @@ import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { FormsModule } from '@angular/forms';
 import {AuthInterceptorService} from './auth/auth-interceptor.service';
+import { HomeComponent } from './home/home.component';
 
 
 
 const Routes = [
-  { path: '', redirectTo: 'posts', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'posts', component: MainComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
 ];
 
@@ -24,7 +26,8 @@ const Routes = [
   declarations: [
     AppComponent,
     MainComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +38,7 @@ const Routes = [
   providers: [
     MainService,
     AuthService,
-    AuthGuard,
-    AuthInterceptorService,
+    AuthGuard, AuthInterceptorService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
@@ -45,4 +47,5 @@ const Routes = [
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

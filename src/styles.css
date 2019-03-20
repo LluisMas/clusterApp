@@ -24,3 +24,85 @@ div.well{
   width:200px;
   height:30px;
 }
+
+.nav-item {
+  color: #fff;
+  background-color: #f8f9fa;
+  border-color: #fff;
+  border-radius: 20px;
+}
+.nav-item:hover {
+  color: #fff;
+  background-color: #DCDCDC;
+  border-color: #C0C0C0;
+}
+
+
+h1 {
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: inherit;
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 30px;
+  color: inherit;
+}
+
+/* NAVIGATION */
+nav {
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0px 5px 0px #dedede;
+  text-align: center;
+}
+nav ul {
+  list-style: none;
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+nav ul li a {
+  display: block;
+  text-decoration: none;
+  color: #aaa;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+nav ul li a,
+nav ul li a:after,
+nav ul li a:before {
+  transition: all .5s;
+}
+
+nav ul li a:hover {
+  color: #555;
+}
+
+
+/* stroke */
+nav.stroke ul li a,
+nav.fill ul li a {
+  position: relative;
+}
+nav.stroke ul li a:after,
+nav.fill ul li a:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0%;
+  content: '.';
+  color: transparent;
+  background: #aaa;
+  height: 1px;
+}
+
+nav.stroke ul li a:hover:after {
+  width: 100%;
+}

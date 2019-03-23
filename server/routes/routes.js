@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 const axios = require('axios');
 const auth = require('../auth');
-const Users = mongoose.model('User');
+const User = mongoose.model('User');
 
 const API = 'https://jsonplaceholder.typicode.com';
 
@@ -17,15 +17,26 @@ router.get('/posts', auth.required, (req, res) => {
 });
 
 router.get('/users', auth.optional, (req, res) => {
-  Users.find({}, function(err, users) {
-    var userMap = {};
+
+  User.find({}, function(err, users) {
+    var userMap = [];
 
     users.forEach(function(user) {
-      userMap[user._id] = user;
+      userMap.push(user);
     });
 
-    res.send(userMap);
+    console.log(userMap);
+    res.json(userMap);
   });
+});
+
+router.post('/init', (req, res) => {
+  console.log("asdasd");
+  const user = new User();
+  user.email = "asd2";
+  user.setPassword("root");
+  user.save();
+  res.status(200).send();
 });
 
 router.post('/auth', (req, res) => {

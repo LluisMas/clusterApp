@@ -14,17 +14,22 @@ export class AdminComponent implements OnInit {
   constructor(private userService: DataProvider) { }
 
   ngOnInit() {
-    this.getAllUsers();
-    console.log(this.users);
-  }
-
-
-  private getAllUsers() {
     return this.userService.getCustomers().subscribe(
-      user => {
-        console.log(user);
-        this.users = user;
-        console.log(this.users);
+      result => {
+
+        this.users = result;
+        /*for (let i = 0; i < result.length; i++) {
+          console.log(result[i]);*/
+        /*for (const key in user) {
+          this.users.push(user[key]);
+          console.log(key);
+          console.log('as');
+        }
+        */
+        // this.users = result.json()[''];
+        // console.log(user);
+        // this.users = user;
+        // console.log(this.users);
       }
     );
   }

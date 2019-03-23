@@ -9,7 +9,9 @@ require('./server/config/passport');
 require('./server/models/User');
 const winston = require('winston'), expressWinston = require('express-winston');
 const mongoose = require('mongoose');
+var morgan = require('morgan');
 
+app.use(morgan('combined'));
 const url = 'mongodb://localhost/tfg';
 const debugConfig = require('./server/config/debug.json');
 
@@ -26,6 +28,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(cors());
+
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console(debugConfig.console)
+  ]
+}));
 
 const routes = require('./server/routes/routes');
 app.use('/routes', routes);

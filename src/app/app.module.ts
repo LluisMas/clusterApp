@@ -12,6 +12,8 @@ import { AuthGuard } from './auth/auth.guard';
 import { FormsModule } from '@angular/forms';
 import {AuthInterceptorService} from './auth/auth-interceptor.service';
 import { HomeComponent } from './home/home.component';
+import { AdminComponent } from './admin/admin.component';
+import {DataProvider} from './user/data-provider.service';
 
 
 
@@ -20,6 +22,7 @@ const Routes = [
   { path: 'posts', component: MainComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'admin', component: AdminComponent },
 ];
 
 @NgModule({
@@ -27,7 +30,8 @@ const Routes = [
     AppComponent,
     MainComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +42,7 @@ const Routes = [
   providers: [
     MainService,
     AuthService,
+    DataProvider,
     AuthGuard, AuthInterceptorService,
     {
       provide: HTTP_INTERCEPTORS,

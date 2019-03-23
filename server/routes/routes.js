@@ -16,6 +16,18 @@ router.get('/posts', auth.required, (req, res) => {
   })
 });
 
+router.get('/users', auth.optional, (req, res) => {
+  Users.find({}, function(err, users) {
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    res.send(userMap);
+  });
+});
+
 router.post('/auth', (req, res) => {
 
   passport.authenticate('local', (err, username, info) => {

@@ -10,19 +10,19 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { FormsModule } from '@angular/forms';
-import {AuthInterceptorService} from './auth/auth-interceptor.service';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
-import {DataProvider} from './user/data-provider.service';
-
-
+import { DataProvider } from './user/data-provider.service';
+import { AdminUsersComponent } from './admin/admin-users.component';
 
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'posts', component: MainComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent, },
+  { path: 'admin/users', component: AdminUsersComponent },
 ];
 
 @NgModule({
@@ -31,7 +31,8 @@ const Routes = [
     MainComponent,
     LoginComponent,
     HomeComponent,
-    AdminComponent
+    AdminComponent,
+    AdminUsersComponent
   ],
   imports: [
     BrowserModule,

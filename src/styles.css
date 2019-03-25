@@ -50,6 +50,10 @@ h2 {
   color: inherit;
 }
 
+body {
+  padding-top: 60px;
+}
+
 /* NAVIGATION */
 nav {
   margin: 0 auto;
@@ -105,4 +109,15 @@ nav.fill ul li a:after {
 
 nav.stroke ul li a:hover:after {
   width: 100%;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+.sidebar-item {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 60px;
 }

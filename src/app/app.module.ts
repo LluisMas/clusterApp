@@ -16,6 +16,7 @@ import { AdminComponent } from './admin/admin.component';
 import { DataProvider } from './user/data-provider.service';
 import { AdminUsersComponent } from './admin/admin-users.component';
 
+
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'posts', component: MainComponent },

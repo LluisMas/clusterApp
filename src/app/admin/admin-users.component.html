@@ -1,3 +1,4 @@
+<!--
 <div class="d-flex" id="wrapper">
   <app-admin></app-admin>
   <div>
@@ -6,3 +7,66 @@
     </div>
   </div>
 </div>
+-->
+
+<div class="d-flex container-full" id="wrapper">
+  <app-admin></app-admin>
+
+  <div class="card container-full">
+    <div class="card-body container-full">
+      <div id="table" class="table-editable container-full">
+      <span class="table-add float-right mb-3 mr-2">
+        <a class="text-success">
+          <button type="button" class="btn btn-outline-primary" size="sm" (click)="add()">Add</button>
+        </a>
+      </span>
+        <table class="table table-bordered table-responsive-md table-striped text-center container-full">
+          <tr>
+            <th class="text-center">Person Name</th>
+            <th class="text-center">Age</th>
+            <th class="text-center">Company Name</th>
+            <th class="text-center">Country</th>
+            <th class="text-center">City</th>
+            <th class="text-center">Sort</th>
+            <th class="text-center">Remove</th>
+          </tr>
+          <tr *ngFor="let person of personList; let id = index">
+            <td>
+              <span (keyup)="changeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)" contenteditable="true">{{person.name}}</span>
+            </td>
+            <td>
+              <span contenteditable="true" (keyup)="changeValue(id, 'age', $event)" (blur)="updateList(id, 'age', $event)">{{person.age}}</span>
+            </td>
+            <td>
+              <span contenteditable="true" (keyup)="changeValue(id, 'companyName', $event)" (blur)="updateList(id, 'companyName', $event)">{{person.companyName}}</span>
+            </td>
+            <td>
+              <span contenteditable="true" (keyup)="changeValue(id, 'country', $event)" (blur)="updateList(id, 'country', $event)">{{person.country}}</span>
+            </td>
+            <td>
+              <span contenteditable="true" (keyup)="changeValue(id, 'city', $event)" (blur)="updateList(id, 'city', $event)">{{person.city}}</span>
+            </td>
+            <td>
+            <span class="table-up">
+              <a class="indigo-text">
+                <!--<mdb-icon fas icon="long-arrow-alt-up"></mdb-icon>-->
+              </a>
+            </span>
+              <span class="table-down">
+              <a class="indigo-text">
+                <!--<mdb-icon fas icon="long-arrow-alt-down"></mdb-icon>-->
+              </a>
+            </span>
+            </td>
+            <td>
+            <span class="table-remove">
+              <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(id)">Remove</button>
+            </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

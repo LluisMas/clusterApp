@@ -37,6 +37,11 @@ div.well{
   border-color: #C0C0C0;
 }
 
+.container-full {
+  margin: 0 auto;
+  width: 100%;
+}
+
 
 h1 {
   font-weight: 800;

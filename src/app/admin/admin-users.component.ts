@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../user/user';
 import {DataProvider} from '../user/data-provider.service';
+import {Observable} from 'rxjs';
+import {tsStructureIsReused} from '@angular/compiler-cli/src/transformers/util';
 
 @Component({
   selector: 'app-admin-users',
@@ -11,52 +13,65 @@ export class AdminUsersComponent implements OnInit {
 
   users: User[];
   editField: string;
-  personList: Array<any> = [
-    { id: 1, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' },
-    { id: 2, name: 'Guerra Cortez', age: 45, companyName: 'Insectus', country: 'USA', city: 'San Francisco' },
-    { id: 3, name: 'Guadalupe House', age: 26, companyName: 'Isotronic', country: 'Germany', city: 'Frankfurt am Main' },
-    { id: 4, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' },
-    { id: 5, name: 'Elisa Gallagher', age: 31, companyName: 'Portica', country: 'United Kingdom', city: 'London' },
-  ];
-
-  awaitingPersonList: Array<any> = [
-    { id: 6, name: 'George Vega', age: 28, companyName: 'Classical', country: 'Russia', city: 'Moscow' },
-    { id: 7, name: 'Mike Low', age: 22, companyName: 'Lou', country: 'USA', city: 'Los Angeles' },
-    { id: 8, name: 'John Derp', age: 36, companyName: 'Derping', country: 'USA', city: 'Chicago' },
-    { id: 9, name: 'Anastasia John', age: 21, companyName: 'Ajo', country: 'Brazil', city: 'Rio' },
-    { id: 10, name: 'John Maklowicz', age: 36, companyName: 'Mako', country: 'Poland', city: 'Bialystok' },
-  ];
 
   constructor(private userService: DataProvider) { }
 
   ngOnInit() {
     // this.service.createTableWithIds(this.tableHeaders, this.tableRowsWithId, this.dataType);
 
-    return this.userService.getCustomers().subscribe(
+    return this.userService.getUser().subscribe(
       result => {
         this.users = result;
+        console.log(result);
       }
     );
   }
 
-  updateList(id: number, property: string, event: any) {
-    this.personList[id][property] = event.target.textContent;
+  updateList(id: string, property: string, event: any) {
+    const user: User = this.getUserFromId(id);
+    user[property] = event.target.textContent;
   }
 
   remove(id: any) {
-    this.awaitingPersonList.push(this.personList[id]);
-    this.personList.splice(id, 1);
+    console.log('gonna delete' + id);
+    this.userService.deleteUser(id)
+      .subscribe(() => {
+          console.log('user ' + id + ' deleted');
+          this.users.splice(id, 1);
+        }
+      );
   }
 
   add() {
-    if (this.awaitingPersonList.length > 0) {
-      const person = this.awaitingPersonList[0];
-      this.personList.push(person);
-      this.awaitingPersonList.splice(0, 1);
-    }
+
   }
 
-  changeValue(id: number, property: string, event: any) {
+  changeValue(id: string, property: string, event: any) {
     this.editField = event.target.textContent;
+  }
+
+  save(id: string) {
+
+    const user: User = this.getUserFromId(id);
+    console.log(user);
+    this.userService.updateUser(id, user)
+      .subscribe(res => {
+          console.log('user ' + id + 'updated');
+        }, (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  getUserFromId (id: string) {
+
+    let result: User = null;
+    this.users.forEach(function(user) {
+      if (user._id === id) {
+        result = user;
+        return;
+      }
+    });
+    return result;
   }
 }

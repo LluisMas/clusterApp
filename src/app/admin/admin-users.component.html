@@ -1,14 +1,3 @@
-<!--
-<div class="d-flex" id="wrapper">
-  <app-admin></app-admin>
-  <div>
-    <div *ngFor="let cust of users">
-      <a [routerLink]="['/customers', cust.id]" style="color:black"><span class="badge badge-dark">{{cust.id}}</span> -> {{ cust.email }}</a>
-    </div>
-  </div>
-</div>
--->
-
 <div class="d-flex container-full" id="wrapper">
   <app-admin></app-admin>
 
@@ -22,45 +11,23 @@
       </span>
         <table class="table table-bordered table-responsive-md table-striped text-center container-full">
           <tr>
-            <th class="text-center">Person Name</th>
-            <th class="text-center">Age</th>
-            <th class="text-center">Company Name</th>
-            <th class="text-center">Country</th>
-            <th class="text-center">City</th>
-            <th class="text-center">Sort</th>
-            <th class="text-center">Remove</th>
+            <th class="text-center">Usuario</th>
+            <th class="text-center">ID</th>
+            <th class="text-center"> </th>
           </tr>
-          <tr *ngFor="let person of personList; let id = index">
+
+          <tr *ngFor="let user of users;">
             <td>
-              <span (keyup)="changeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)" contenteditable="true">{{person.name}}</span>
+              <span (keyup)="changeValue(user._id, 'email', $event)" (blur)="updateList(user._id, 'email', $event)" contenteditable="true">{{user.email}}</span>
             </td>
             <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'age', $event)" (blur)="updateList(id, 'age', $event)">{{person.age}}</span>
+              <span (keyup)="changeValue(user._id, '_id', $event)" (blur)="updateList(user._id, '_id', $event)" contenteditable="true">{{user._id}}</span>
             </td>
-            <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'companyName', $event)" (blur)="updateList(id, 'companyName', $event)">{{person.companyName}}</span>
-            </td>
-            <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'country', $event)" (blur)="updateList(id, 'country', $event)">{{person.country}}</span>
-            </td>
-            <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'city', $event)" (blur)="updateList(id, 'city', $event)">{{person.city}}</span>
-            </td>
-            <td>
-            <span class="table-up">
-              <a class="indigo-text">
-                <!--<mdb-icon fas icon="long-arrow-alt-up"></mdb-icon>-->
-              </a>
-            </span>
-              <span class="table-down">
-              <a class="indigo-text">
-                <!--<mdb-icon fas icon="long-arrow-alt-down"></mdb-icon>-->
-              </a>
-            </span>
-            </td>
+
             <td>
             <span class="table-remove">
-              <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(id)">Remove</button>
+              <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(user._id)">Eliminar</button>
+              <button type="button" class="btn btn-outline-primary" size="sm" (click)="save(user._id)">Guardar</button>
             </span>
             </td>
           </tr>

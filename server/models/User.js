@@ -6,6 +6,10 @@ const { Schema } = mongoose;
 
 const UsersSchema = new Schema({
   email: String,
+  dni: {
+    type: String,
+    default: "DNI"
+  },
   hash: String,
   salt: String,
 });

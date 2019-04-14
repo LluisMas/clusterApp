@@ -15,6 +15,9 @@ import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { DataProvider } from './user/data-provider.service';
 import { AdminUsersComponent } from './admin/admin-users.component';
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 const Routes = [
@@ -33,14 +36,17 @@ const Routes = [
     LoginComponent,
     HomeComponent,
     AdminComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    NgbModule,
+    CommonModule,
     RouterModule.forRoot(Routes)
-  ],
+],
   providers: [
     MainService,
     AuthService,

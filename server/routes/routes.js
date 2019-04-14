@@ -8,8 +8,13 @@ const axios = require('axios');
 const auth = require('../auth');
 const User = mongoose.model('User');
 const userController = require('../controllers/userController');
+const path = require('path');
 
 const API = 'https://jsonplaceholder.typicode.com';
+
+const multer = require('multer');
+
+let upload = multer();
 
 router.get('/posts', auth.required, (req, res) => {
   axios.get(`${API}/posts`).then(posts=>{
@@ -23,6 +28,10 @@ router.get('/users', auth.optional, userController.findAll);
 router.delete('/users/:id', userController.delete);
 
 router.put('/users/:id', userController.update);
+
+router.post('/users', userController.create);
+
+router.post('/users/file', upload.single('text'), userController.createFromFile);
 
 router.post('/init', (req, res) => {
   const user = new User();

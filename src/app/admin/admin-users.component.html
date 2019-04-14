@@ -1,3 +1,24 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Crear alumnos desde fichero</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="custom-file">
+        <input type="file" name="text" ng2FileSelect [uploader]="uploader" class="custom-file-input">
+        <label *ngIf="uploader.queue.length" class="custom-file-label">{{uploader.queue[0].file.name}}</label>
+        <label *ngIf="!uploader.queue.length" class="custom-file-label">Introduce un fichero</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" [disabled]="!uploader.getNotUploadedItems().length" > Importar</button>
+  </div>
+</ng-template>
+
 <div class="d-flex container-full" id="wrapper">
   <app-admin></app-admin>
 
@@ -6,7 +27,11 @@
       <div id="table" class="table-editable container-full">
       <span class="table-add float-right mb-3 mr-2">
         <a class="text-success">
-          <button type="button" class="btn btn-outline-primary" size="sm" (click)="add()">Add</button>
+          <button type="button" class="btn btn-outline-primary" size="sm" (click)="add()">Nuevo Usuario</button>
+        </a>
+        &nbsp;
+        <a class="text-success">
+          <button type="button" class="btn btn-outline-primary" size="sm" (click)="open(content)">Importar Desde Fichero</button>
         </a>
       </span>
         <table class="table table-bordered table-responsive-md table-striped text-center container-full">
@@ -21,12 +46,13 @@
               <span (keyup)="changeValue(user._id, 'email', $event)" (blur)="updateList(user._id, 'email', $event)" contenteditable="true">{{user.email}}</span>
             </td>
             <td>
-              <span (keyup)="changeValue(user._id, '_id', $event)" (blur)="updateList(user._id, '_id', $event)" contenteditable="true">{{user._id}}</span>
+              <span (keyup)="changeValue(user._id, 'dni', $event)" (blur)="updateList(user._id, 'dni', $event)" contenteditable="true">{{user.dni}}</span>
             </td>
 
             <td>
             <span class="table-remove">
               <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(user._id)">Eliminar</button>
+              &nbsp;
               <button type="button" class="btn btn-outline-primary" size="sm" (click)="save(user._id)">Guardar</button>
             </span>
             </td>

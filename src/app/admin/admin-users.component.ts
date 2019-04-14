@@ -1,8 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {User} from '../user/user';
-import {DataProvider} from '../user/data-provider.service';
-import {Observable} from 'rxjs';
-import {tsStructureIsReused} from '@angular/compiler-cli/src/transformers/util';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { User } from '../user/user';
+import { DataProvider } from '../user/data-provider.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { FormControl, FormGroup} from '@angular/forms';
+
+
+const URL = 'http://localhost:4600/routes/users/file';
 
 @Component({
   selector: 'app-admin-users',
@@ -10,19 +14,38 @@ import {tsStructureIsReused} from '@angular/compiler-cli/src/transformers/util';
   styleUrls: ['./admin-users.component.css']
 })
 export class AdminUsersComponent implements OnInit {
+  @ViewChild('myInput')
+  myInputVariable: ElementRef;
+
 
   users: User[];
   editField: string;
+  submitFile = new FormGroup({
+    file: new FormControl('')
+  });
 
-  constructor(private userService: DataProvider) { }
+  constructor(private userService: DataProvider, private modalService: NgbModal) { }
+
+  public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'text'});
 
   ngOnInit() {
-    // this.service.createTableWithIds(this.tableHeaders, this.tableRowsWithId, this.dataType);
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      const obj = JSON.parse(response);
+      this.submitFile.reset();
+      this.uploader.clearQueue();
+
+      for (const entry of obj['users']) {
+        this.users.push(entry);
+      }
+      alert(obj['success']);
+    };
 
     return this.userService.getUser().subscribe(
       result => {
         this.users = result;
-        console.log(result);
       }
     );
   }
@@ -33,7 +56,6 @@ export class AdminUsersComponent implements OnInit {
   }
 
   remove(id: any) {
-    console.log('gonna delete' + id);
     this.userService.deleteUser(id)
       .subscribe(() => {
           console.log('user ' + id + ' deleted');
@@ -43,7 +65,18 @@ export class AdminUsersComponent implements OnInit {
   }
 
   add() {
+    const user: User = new User();
+    user.dni = 'DNI';
+    user.email = 'alumno@email.com';
 
+    this.userService.createUser(user)
+      .subscribe(res => {
+          console.log('user created');
+        }, (err) => {
+          console.log(err);
+        }
+      );
+    this.users.push(user);
   }
 
   changeValue(id: string, property: string, event: any) {
@@ -53,10 +86,9 @@ export class AdminUsersComponent implements OnInit {
   save(id: string) {
 
     const user: User = this.getUserFromId(id);
-    console.log(user);
     this.userService.updateUser(id, user)
       .subscribe(res => {
-          console.log('user ' + id + 'updated');
+          console.log('user ' + id + ' updated');
         }, (err) => {
           console.log(err);
         }
@@ -73,5 +105,13 @@ export class AdminUsersComponent implements OnInit {
       }
     });
     return result;
+  }
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    .result.then((result) => {
+      this.uploader.uploadAll();
+    }, (reason) => {
+    });
   }
 }

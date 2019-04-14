@@ -29,4 +29,8 @@ export class DataProvider {
     const url = `${this.usersUrl}/${id}`;
     return this.http.put<User>(url, user, httpOptions);
   }
+
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(this.usersUrl, user);
+  }
 }

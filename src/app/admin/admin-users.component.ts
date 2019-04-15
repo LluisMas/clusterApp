@@ -58,8 +58,12 @@ export class AdminUsersComponent implements OnInit {
   remove(id: any) {
     this.userService.deleteUser(id)
       .subscribe(() => {
-          console.log('user ' + id + ' deleted');
-          this.users.splice(id, 1);
+          this.users.forEach((item, index) => {
+              if (item._id === id) {
+                this.users.splice(index, 1);
+                console.log('user ' + id + ' deleted');
+              }
+          });
         }
       );
   }

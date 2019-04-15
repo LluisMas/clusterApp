@@ -46,12 +46,12 @@
               <span (keyup)="changeValue(user._id, 'email', $event)" (blur)="updateList(user._id, 'email', $event)" contenteditable="true">{{user.email}}</span>
             </td>
             <td>
-              <span (keyup)="changeValue(user._id, 'dni', $event)" (blur)="updateList(user._id, 'dni', $event)" contenteditable="true">{{user.dni}}</span>
+              <span (keyup)="changeValue(user._id, 'dni', $event)" (blur)="updateList(user._id, 'dni', $event)" contenteditable="true">{{user._id}}</span>
             </td>
 
             <td>
             <span class="table-remove">
-              <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(user._id)">Eliminar</button>
+              <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(user._id)">{{user._id}}</button>
               &nbsp;
               <button type="button" class="btn btn-outline-primary" size="sm" (click)="save(user._id)">Guardar</button>
             </span>

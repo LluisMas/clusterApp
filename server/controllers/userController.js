@@ -63,32 +63,38 @@ exports.createFromFile = function(req, res) {
 
     for (let index = 0; index < lines.length; index++) {
 
-      var cleanLine = lines[index].trim().split(';');
+      let cleanLine = lines[index].trim().split(';');
 
       if(cleanLine.length === 2){
         const user = new User();
         user.email = cleanLine[0];
         user.dni = cleanLine[1];
         user.setPassword(cleanLine[1]);
-        let id = '';
-        user.save(function(err,newUser) {
-          id = newUser._id;
-          console.log(newUser._id);
-        });
-
-        var jsonUser = {};
-        jsonUser.email = cleanLine[0];
-        jsonUser.dni = cleanLine[1];
-        jsonUser._id = id;
-        users.push(jsonUser);
+        users.push(user);
       }
     }
 
-    console.log(users);
-    return res.send({
-      success: true,
-      users: users
-    });
+    let usersResult = [];
+
+    Promise.all(users.map(
+      user => user.save()
+    ))
+      .catch( console.error )
+      .then( result => {
+
+        result.forEach(user => {
+          let jsonUser = {};
+          jsonUser.email = user.email;
+          jsonUser.dni = user.dni;
+          jsonUser._id = user._id;
+          usersResult.push(jsonUser);
+        });
+
+        return res.send({
+          success: true,
+          users: usersResult
+        });
+      } );
   }
 };
 

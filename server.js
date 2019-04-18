@@ -27,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'dist/clusterApp')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
+app.use(passport.session());
 app.use(cors());
 
 app.use(expressWinston.errorLogger({
@@ -35,7 +36,24 @@ app.use(expressWinston.errorLogger({
   ]
 }));
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 const routes = require('./server/routes/routes');
+
+// Only Admin
+app.use('/routes/users*', function (req, res, next) {
+  const user = JSON.parse(req.headers.user);
+  console.log('USER', user);
+  if(!user || user.role !== 'Admin')
+    res.status(401).send();
+  else
+    next();
+});
+
 app.use('/routes', routes);
 
 app.use(expressWinston.errorLogger({

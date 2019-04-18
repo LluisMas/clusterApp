@@ -4,7 +4,7 @@ import { DataProvider } from '../user/data-provider.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { FormControl, FormGroup} from '@angular/forms';
-
+import {Role} from '../user/roles';
 
 const URL = 'http://localhost:4600/routes/users/file';
 
@@ -16,13 +16,18 @@ const URL = 'http://localhost:4600/routes/users/file';
 export class AdminUsersComponent implements OnInit {
   @ViewChild('myInput')
   myInputVariable: ElementRef;
-
+  currentUser: User;
 
   users: User[];
   editField: string;
   submitFile = new FormGroup({
     file: new FormControl('')
   });
+
+  roles: Role[] = [
+    {id: 1, name: 'Profesor'},
+    {id: 2, name: 'Estudiante'}
+  ];
 
   constructor(private userService: DataProvider, private modalService: NgbModal) { }
 
@@ -43,6 +48,9 @@ export class AdminUsersComponent implements OnInit {
       alert(obj['success']);
     };
 
+    console.log(localStorage.getItem('current_user'));
+    this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+
     return this.userService.getUser().subscribe(
       result => {
         this.users = result;
@@ -53,6 +61,15 @@ export class AdminUsersComponent implements OnInit {
   updateList(id: string, property: string, event: any) {
     const user: User = this.getUserFromId(id);
     user[property] = event.target.textContent;
+
+    console.log(property, event.target.value);
+  }
+
+  updateRoles(id: string, event: any) {
+    const user: User = this.getUserFromId(id);
+    user['role'] = this.roles[event.target.value - 1].name;
+
+    console.log(user);
   }
 
   remove(id: any) {
@@ -75,12 +92,11 @@ export class AdminUsersComponent implements OnInit {
 
     this.userService.createUser(user)
       .subscribe(res => {
-          console.log('user created');
+          this.users.push(res);
         }, (err) => {
           console.log(err);
         }
       );
-    this.users.push(user);
   }
 
   changeValue(id: string, property: string, event: any) {
@@ -90,6 +106,7 @@ export class AdminUsersComponent implements OnInit {
   save(id: string) {
 
     const user: User = this.getUserFromId(id);
+    console.log('updating ' + user);
     this.userService.updateUser(id, user)
       .subscribe(res => {
           console.log('user ' + id + ' updated');
@@ -117,5 +134,9 @@ export class AdminUsersComponent implements OnInit {
       this.uploader.uploadAll();
     }, (reason) => {
     });
+  }
+
+  filterRoles(name: any) {
+    return this.roles.filter((role) => role.name !== name);
   }
 }

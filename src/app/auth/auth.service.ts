@@ -20,6 +20,8 @@ export class AuthService {
         map(result => {
 
           localStorage.setItem('access_token', result.user.token);
+          console.log(result.user);
+          localStorage.setItem('current_user', JSON.stringify(result.user));
           this.isLoggedIn = result.user.token !== null;
           this.navbarService.updateLoginStatus(true);
           this.navbarService.updateNavAfterAuth();

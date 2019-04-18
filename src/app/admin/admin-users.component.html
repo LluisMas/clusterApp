@@ -37,24 +37,48 @@
         <table class="table table-bordered table-responsive-md table-striped text-center container-full">
           <tr>
             <th class="text-center">Usuario</th>
+            <th class="text-center">DNI</th>
             <th class="text-center">ID</th>
+            <th class="text-center">Rol</th>
             <th class="text-center"> </th>
           </tr>
 
           <tr *ngFor="let user of users;">
             <td>
-              <span (keyup)="changeValue(user._id, 'email', $event)" (blur)="updateList(user._id, 'email', $event)" contenteditable="true">{{user.email}}</span>
+              <span (keyup)="changeValue(user._id, 'email', $event)" (blur)="updateList(user._id, 'email', $event)" [attr.contenteditable]="currentUser._id !== user._id">{{user.email}}</span>
             </td>
             <td>
-              <span (keyup)="changeValue(user._id, 'dni', $event)" (blur)="updateList(user._id, 'dni', $event)" contenteditable="true">{{user._id}}</span>
+              <span (keyup)="changeValue(user._id, 'dni', $event)" (blur)="updateList(user._id, 'dni', $event)" [attr.contenteditable]="currentUser._id !== user._id">{{user.dni}}</span>
+            </td>
+            <td>
+              <span>{{user._id}}</span>
             </td>
 
             <td>
-            <span class="table-remove">
-              <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(user._id)">{{user._id}}</button>
-              &nbsp;
-              <button type="button" class="btn btn-outline-primary" size="sm" (click)="save(user._id)">Guardar</button>
-            </span>
+              <div *ngIf="currentUser._id !== user._id; else just_role">
+                <select class="form-control browser-default custom-select" (change)="updateRoles(user._id, $event)">
+                  <option [value]="0" selected>
+                    {{user.role}}
+                  </option>
+                  <option *ngFor="let role of filterRoles(user.role)" [value]="role.id">
+                    {{role.name}}
+                  </option>
+                </select>
+              </div>
+              <ng-template #just_role>
+                {{user.role}}
+              </ng-template>
+            </td>
+            <td>
+              <span *ngIf="currentUser._id !== user._id;then remove_buttons else current_user_info" class="table-remove"> </span>
+              <ng-template #remove_buttons>
+                <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(user._id)">Eliminar</button>
+                <button type="button" class="btn btn-outline-primary" size="sm" (click)="save(user._id)">Guardar</button>
+              </ng-template>
+              <ng-template #current_user_info>
+                Usuario actual
+              </ng-template>
+
             </td>
           </tr>
         </table>

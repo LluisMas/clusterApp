@@ -1,10 +1,13 @@
 const jwt = require('express-jwt');
+const jwt2 = require('jsonwebtoken');
+
 
 const getTokenFromHeaders = (req) => {
   const { headers: { authorization } } = req;
-  console.log("AUTH: ", authorization);
-  if(authorization)
+
+  if(authorization){
     return authorization;
+  }
 
   console.log("unauthorized");
   return null;

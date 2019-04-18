@@ -16,8 +16,9 @@ import { AdminComponent } from './admin/admin.component';
 import { DataProvider } from './user/data-provider.service';
 import { AdminUsersComponent } from './admin/admin-users.component';
 import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileSelectDirective } from 'ng2-file-upload';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 const Routes = [
@@ -45,6 +46,7 @@ const Routes = [
     FormsModule,
     NgbModule,
     CommonModule,
+    NgSelectModule,
     RouterModule.forRoot(Routes)
 ],
   providers: [

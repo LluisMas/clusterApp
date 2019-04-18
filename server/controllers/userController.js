@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-var fs = require('fs');
-
 
 exports.findAll = function(req, res) {
-  User.find({}, function(err, users) {
+  const id = JSON.parse(req.headers.user)._id;
+
+  User.find({ $or: [{role: {$ne : 'Admin'}}, {_id : id} ]}, function(err, users) {
     const userMap = [];
 
     users.forEach(function(user) {
@@ -29,10 +29,11 @@ exports.delete = function(req, res) {
 };
 
 exports.update = function(req, res) {
-  User.findOneAndUpdate(req.params.id, req.body, function (err, post) {
+  User.findOneAndUpdate({_id : req.params.id}, req.body, function (err, post) {
     if (err){
       return (err);
     }
+
     res.json(post);
   });
   console.log("updating " + req.params.id);
@@ -43,9 +44,12 @@ exports.create = function(req, res) {
   const user = new User();
   user.email = req.body.email;
   user.setPassword(req.body.dni);
-  user.save();
+  user.save(function (err, newUser) {
+    if (err) throw err;
 
-  res.status(200).send();
+    res.send(newUser);
+  });
+
   console.log("Created user");
 };
 

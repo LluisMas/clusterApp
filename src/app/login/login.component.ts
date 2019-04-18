@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.email, this.password)
       .pipe(first())
       .subscribe(
-        result => this.router.navigate(['posts']),
+        result => this.router.navigate(['home']),
         err => {
           console.log(err.error.errors);
           this.error = 'Could not authenticate';

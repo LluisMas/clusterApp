@@ -23,7 +23,6 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     this.links = this.navbarService.getLinks();
     this.navbarService.getLoginStatus().subscribe(status => this.isLoggedIn = status);
-    console.log(this.isLoggedIn);
   }
 
 

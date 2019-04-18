@@ -42,7 +42,8 @@
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.4.0",
     "winston": "latest",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "@ng-select/ng-select": "latest"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.8.0",

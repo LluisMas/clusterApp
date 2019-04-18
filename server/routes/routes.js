@@ -23,7 +23,7 @@ router.get('/posts', auth.required, (req, res) => {
 });
 
 
-router.get('/users', auth.optional, userController.findAll);
+router.get('/users', auth.required, userController.findAll);
 
 router.delete('/users/:id', userController.delete);
 
@@ -35,10 +35,17 @@ router.post('/users/file', upload.single('text'), userController.createFromFile)
 
 router.post('/init', (req, res) => {
   const user = new User();
-  user.email = "asda2";
+  user.email = "asd";
   user.setPassword("root");
-  user.save();
-  res.status(200).send();
+  user.save()
+    .catch( error =>{
+      console.log(error);
+      res.status(500).send();
+    } )
+    .then( result => {
+      console.log(result);
+      res.status(200).send();
+    } );
 });
 
 router.post('/auth', (req, res) => {
@@ -50,9 +57,11 @@ router.post('/auth', (req, res) => {
       return (err);
     }
 
+    console.log(info);
     if(username) {
       const user = username;
       user.token = username.generateJWT();
+      console.log(user);
       res.json({ user: user.toAuthJSON() });
     }else {
       res.status(401).json(info);

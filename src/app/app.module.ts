@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AdminSubjectsComponent } from './admin/admin-subjects.component';
 
 
 const Routes = [
@@ -28,6 +29,7 @@ const Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminComponent, },
   { path: 'admin/users', component: AdminUsersComponent },
+  { path: 'admin/subjects', component: AdminSubjectsComponent },
 ];
 
 @NgModule({
@@ -38,7 +40,8 @@ const Routes = [
     HomeComponent,
     AdminComponent,
     AdminUsersComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    AdminSubjectsComponent
   ],
   imports: [
     BrowserModule,

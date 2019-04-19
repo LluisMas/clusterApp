@@ -29,7 +29,7 @@ export class AdminUsersComponent implements OnInit {
     {id: 2, name: 'Estudiante'}
   ];
 
-  constructor(private userService: DataProvider, private modalService: NgbModal) { }
+  constructor(private dataService: DataProvider, private modalService: NgbModal) { }
 
   public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'text'});
 
@@ -51,7 +51,7 @@ export class AdminUsersComponent implements OnInit {
     console.log(localStorage.getItem('current_user'));
     this.currentUser = JSON.parse(localStorage.getItem('current_user'));
 
-    return this.userService.getUser().subscribe(
+    return this.dataService.getUser().subscribe(
       result => {
         this.users = result;
       }
@@ -61,8 +61,6 @@ export class AdminUsersComponent implements OnInit {
   updateList(id: string, property: string, event: any) {
     const user: User = this.getUserFromId(id);
     user[property] = event.target.textContent;
-
-    console.log(property, event.target.value);
   }
 
   updateRoles(id: string, event: any) {
@@ -73,7 +71,7 @@ export class AdminUsersComponent implements OnInit {
   }
 
   remove(id: any) {
-    this.userService.deleteUser(id)
+    this.dataService.deleteUser(id)
       .subscribe(() => {
           this.users.forEach((item, index) => {
               if (item._id === id) {
@@ -90,7 +88,7 @@ export class AdminUsersComponent implements OnInit {
     user.dni = 'DNI';
     user.email = 'alumno@email.com';
 
-    this.userService.createUser(user)
+    this.dataService.createUser(user)
       .subscribe(res => {
           this.users.push(res);
         }, (err) => {
@@ -107,7 +105,7 @@ export class AdminUsersComponent implements OnInit {
 
     const user: User = this.getUserFromId(id);
     console.log('updating ' + user);
-    this.userService.updateUser(id, user)
+    this.dataService.updateUser(id, user)
       .subscribe(res => {
           console.log('user ' + id + ' updated');
         }, (err) => {

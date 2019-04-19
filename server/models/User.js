@@ -52,4 +52,4 @@ UsersSchema.methods.toAuthJSON = function() {
   };
 };
 
-mongoose.model('User', UsersSchema);
+module.exports = mongoose.model('User', UsersSchema);

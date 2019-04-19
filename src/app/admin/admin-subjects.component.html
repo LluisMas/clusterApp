@@ -1,4 +1,37 @@
-<p>
+<div class="d-flex container-full" id="wrapper">
   <app-admin></app-admin>
-  admin-subjects works!
-</p>
+
+  <div class="card container-full">
+    <div class="card-body container-full">
+      <div id="table" class="table-editable container-full">
+        <table class="table table-bordered table-responsive-md table-striped text-center container-full">
+          <tr>
+            <th class="text-center">Asignatura</th>
+            <th class="text-center">Curso</th>
+            <th class="text-center">ID</th>
+            <th class="text-center"> </th>
+          </tr>
+
+          <tr *ngFor="let subject of subjects;">
+            <td>
+              <span (keyup)="changeValue(subject._id, 'name', $event)" (blur)="updateList(subject._id, 'name', $event)" contenteditable="true">{{subject.name}}</span>
+            </td>
+            <td>
+              <span (keyup)="changeValue(subject._id, 'year', $event)" (blur)="updateList(subject._id, 'year', $event)" contenteditable="true">{{subject.year}}</span>
+            </td>
+
+            <td>
+              <span>{{subject._id}}</span>
+            </td>
+
+            <td>
+                <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(subject._id)">Eliminar</button>
+                <button type="button" class="btn btn-outline-primary" size="sm" (click)="save(subject._id)">Guardar</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

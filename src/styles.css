@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~node_modules/bootstrap/dist/css/bootstrap.css';
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 div.well{
   height: 250px;
@@ -132,3 +133,6 @@ nav.stroke ul li a:hover:after {
   position: sticky;
   top: 60px;
 }
+
+.cdk-overlay-container { z-index: 9999; }
+

@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { User } from '../user/user';
 import { DataProvider } from '../user/data-provider.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import {FileUploader, FileUploaderOptions} from 'ng2-file-upload/ng2-file-upload';
 import { FormControl, FormGroup} from '@angular/forms';
 import {Role} from '../user/roles';
 
@@ -34,6 +34,14 @@ export class AdminUsersComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'text'});
 
   ngOnInit() {
+
+    const token = localStorage.getItem('access_token');
+    const user = localStorage.getItem('current_user');
+
+    const uo: FileUploaderOptions = {};
+    uo.headers = [{ name: 'Authorization', value : token }, { name: 'user', value : user}];
+    this.uploader.setOptions(uo);
+
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
     };
@@ -87,14 +95,9 @@ export class AdminUsersComponent implements OnInit {
     const user: User = new User();
     user.dni = 'DNI';
     user.email = 'alumno@email.com';
-
-    this.dataService.createUser(user)
-      .subscribe(res => {
-          this.users.push(res);
-        }, (err) => {
-          console.log(err);
-        }
-      );
+    user.name = 'NUEVO ALUMNO';
+    user.role = 'Estudiante';
+    this.users.push(user);
   }
 
   changeValue(id: string, property: string, event: any) {
@@ -104,14 +107,25 @@ export class AdminUsersComponent implements OnInit {
   save(id: string) {
 
     const user: User = this.getUserFromId(id);
-    console.log('updating ' + user);
-    this.dataService.updateUser(id, user)
-      .subscribe(res => {
-          console.log('user ' + id + ' updated');
-        }, (err) => {
-          console.log(err);
-        }
-      );
+
+    if (user._id) {
+      this.dataService.updateUser(id, user)
+        .subscribe(res => {
+            console.log('user ' + id + ' updated');
+          }, (err) => {
+            console.log(err);
+          }
+        );
+    } else {
+      this.dataService.createUser(user)
+        .subscribe(res => {
+            console.log('user created');
+          }, (err) => {
+            console.log(err);
+          }
+        );
+    }
+
   }
 
   getUserFromId (id: string) {

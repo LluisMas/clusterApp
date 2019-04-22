@@ -37,6 +37,7 @@
         <table class="table table-bordered table-responsive-md table-striped text-center container-full">
           <tr>
             <th class="text-center">Usuario</th>
+            <th class="text-center">Correo</th>
             <th class="text-center">DNI</th>
             <th class="text-center">ID</th>
             <th class="text-center">Rol</th>
@@ -44,6 +45,9 @@
           </tr>
 
           <tr *ngFor="let user of users;">
+            <td>
+              <span (keyup)="changeValue(user._id, 'name', $event)" (blur)="updateList(user._id, 'name', $event)" [attr.contenteditable]="currentUser._id !== user._id">{{user.name}}</span>
+            </td>
             <td>
               <span (keyup)="changeValue(user._id, 'email', $event)" (blur)="updateList(user._id, 'email', $event)" [attr.contenteditable]="currentUser._id !== user._id">{{user.email}}</span>
             </td>
@@ -73,6 +77,7 @@
               <span *ngIf="currentUser._id !== user._id;then remove_buttons else current_user_info" class="table-remove"> </span>
               <ng-template #remove_buttons>
                 <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(user._id)">Eliminar</button>
+                &nbsp;
                 <button type="button" class="btn btn-outline-primary" size="sm" (click)="save(user._id)">Guardar</button>
               </ng-template>
               <ng-template #current_user_info>

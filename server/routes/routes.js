@@ -30,6 +30,9 @@ router.post('/users', userController.create);
 router.post('/users/file', upload.single('text'), userController.createFromFile);
 
 router.get('/subjects', auth.required, subjectController.findAll);
+router.delete('/subjects/:id', subjectController.delete);
+router.put('/subjects/:id', subjectController.update);
+router.post('/subjects', subjectController.create);
 
 router.post('/init', (req, res) => {
   const user = new User();

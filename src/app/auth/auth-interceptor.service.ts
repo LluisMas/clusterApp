@@ -17,7 +17,6 @@ export class AuthInterceptorService implements HttpInterceptor {
     const user = localStorage.getItem('current_user');
 
     let newreq = req;
-
     if (token !== null) {
       newreq = req.clone({
         headers: req

@@ -7,8 +7,8 @@ const { Schema } = mongoose;
 const SubjectSchema = new Schema({
   name:      { type: String, required: true  },
   year:      { type: Number, required: true  },
-  professor: { type: UserSchema,   required: true  },
-  students:  { type: [Schema.Types.User], required: false }
+  professor: { type: UserSchema, required: false  },
+  students:  { type: Array, default: [], required: false }
 });
 
 SubjectSchema.parse = function() {

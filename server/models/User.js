@@ -3,11 +3,11 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const Role = require('./Roles');
 
-
 const { Schema } = mongoose;
 
 const UsersSchema = new Schema({
-  email: String,
+  email: { type: String, unique: true, dropDups: true},
+  name: { type: String},
   dni: {
     type: String,
     default: "DNI"
@@ -18,6 +18,7 @@ const UsersSchema = new Schema({
   },
   hash: String,
   salt: String,
+
 });
 
 UsersSchema.methods.setPassword = function(password) {
@@ -46,6 +47,7 @@ UsersSchema.methods.toAuthJSON = function() {
   return {
     _id: this._id,
     email: this.email,
+    name: this.name,
     dni: this.dni,
     token: this.generateJWT(),
     role: this.role

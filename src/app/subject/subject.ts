@@ -5,6 +5,6 @@ export class Subject {
   name: string;
   year: number;
   professor: User;
-  students: [User];
+  students: any[];
 }
 

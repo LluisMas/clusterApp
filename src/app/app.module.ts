@@ -9,17 +9,21 @@ import { MainService } from './main.service';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { DataProvider } from './user/data-provider.service';
 import { AdminUsersComponent } from './admin/admin-users.component';
 import { CommonModule } from '@angular/common';
-import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AdminSubjectsComponent } from './admin/admin-subjects.component';
+
+
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 
 
 const Routes = [
@@ -44,13 +48,18 @@ const Routes = [
     AdminSubjectsComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
     NgbModule,
     CommonModule,
     NgSelectModule,
-    RouterModule.forRoot(Routes)
+    ReactiveFormsModule,
+    RouterModule.forRoot(Routes),
+
+    // Material Modules
+    MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule
 ],
   providers: [
     MainService,

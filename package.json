@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "@ng-bootstrap/ng-bootstrap": "latest",
+    "@ng-select/ng-select": "latest",
     "axios": "latest",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
@@ -29,6 +30,7 @@
     "express-jwt": "latest",
     "express-winston": "^3.0.0",
     "fs": "0.0.1-security",
+    "hammerjs": "^2.0.8",
     "jquery": ">=3.0.0",
     "jsonwebtoken": "latest",
     "mongodb": "^3.1.13",
@@ -42,8 +44,7 @@
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.4.0",
     "winston": "latest",
-    "zone.js": "~0.8.26",
-    "@ng-select/ng-select": "latest"
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.8.0",

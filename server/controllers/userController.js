@@ -25,7 +25,7 @@ exports.delete = function(req, res) {
       else
         res.status(409).send();
     });
-  console.log("deleting " + req.params.id);
+  console.log("deleting user: " + req.params.id);
 };
 
 exports.update = function(req, res) {
@@ -36,21 +36,29 @@ exports.update = function(req, res) {
 
     res.json(post);
   });
-  console.log("updating " + req.params.id);
+  console.log("updating user: " + req.params.id);
   console.log(req.body);
 };
 
 exports.create = function(req, res) {
   const user = new User();
   user.email = req.body.email;
+  user.name = req.body.name;
   user.setPassword(req.body.dni);
-  user.save(function (err, newUser) {
-    if (err) throw err;
+  User.findOne({email: user.email}, function (err, result) {
+    if( err ) throw err;
+    if (!result) {
+      user.save(function (err, newUser) {
+        if (err) throw err;
 
-    res.send(newUser);
+        res.send(newUser);
+      });
+    } else {
+      res.send();
+    }
+
   });
-
-  console.log("Created user");
+  console.log("Created user: " + user.email);
 };
 
 exports.createFromFile = function(req, res) {
@@ -69,10 +77,11 @@ exports.createFromFile = function(req, res) {
 
       let cleanLine = lines[index].trim().split(';');
 
-      if(cleanLine.length === 2){
+      if(cleanLine.length === 3){
         const user = new User();
         user.email = cleanLine[0];
         user.dni = cleanLine[1];
+        user.name = cleanLine[2];
         user.setPassword(cleanLine[1]);
         users.push(user);
       }
@@ -81,17 +90,29 @@ exports.createFromFile = function(req, res) {
     let usersResult = [];
 
     Promise.all(users.map(
-      user => user.save()
+      user => {
+        User.findOne({email: user.email}, function (err, result) {
+          if( err ) throw err;
+
+          if (!result)
+            user.save();
+        });
+      }
     ))
       .catch( console.error )
       .then( result => {
 
         result.forEach(user => {
-          let jsonUser = {};
-          jsonUser.email = user.email;
-          jsonUser.dni = user.dni;
-          jsonUser._id = user._id;
-          usersResult.push(jsonUser);
+          if (user)
+          {
+            let jsonUser = {};
+            jsonUser.email = user.email;
+            jsonUser.dni = user.dni;
+            jsonUser._id = user._id;
+            jsonUser.role = user.role;
+            jsonUser.name = user.name;
+            usersResult.push(jsonUser);
+          }
         });
 
         return res.send({

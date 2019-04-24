@@ -58,7 +58,7 @@ export class AdminSubjectsComponent implements OnInit {
 
     this.userService.getUser().subscribe(
       result => {
-        this.users = result;
+        this.users = result.filter( function (user) { return user.role === 'Profesor'; });
       }
     );
   }
@@ -74,7 +74,7 @@ export class AdminSubjectsComponent implements OnInit {
   private _filter(name: string): User[] {
     const filterValue = name.toLowerCase();
     console.log(name);
-    return this.users.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.users.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0 && option.role === 'Profesor');
   }
 
   get f() { return this.registerForm.controls; }

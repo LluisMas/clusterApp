@@ -31,14 +31,6 @@ exports.update = function(req, res) {
   console.log(req.body);
 };
 
-async function verga (user) {
-  var result;
-
-
-
-  return result;
-}
-
 exports.create = function(req, res) {
   const name = req.body.name;
   const year = req.body.year;
@@ -47,14 +39,17 @@ exports.create = function(req, res) {
 
   const incorrectUsers = [];
   const correctUsers = [];
+  const sendUsers = [];
 
   Promise.all(students.map (
     async student => {
 
       const query = User.findOne({email: student});
       const res = await query.exec();
-      if (res)
-        correctUsers.push(res);
+      if (res){
+        correctUsers.push(res._id);
+        sendUsers.push(student);
+      }
       else
         incorrectUsers.push(student);
     }
@@ -73,8 +68,32 @@ exports.create = function(req, res) {
 
       res.send({
         success: true,
-        correct: correctUsers,
-        incorrect: incorrectUsers
+        correct: sendUsers,
+        incorrect: incorrectUsers,
+        subject: subject
       });
     });
+};
+
+exports.getStudentsOfSubject = function(req, res) {
+
+  console.log(req.params.id);
+  Subject.findById(req.params.id, function (err, subject) {
+    if (err) throw err;
+
+    const sendUsers = [];
+    Promise.all(subject.students.map (
+      async student => {
+        const query = User.findById(student);
+        const res = await query.exec();
+
+        if (res)
+          sendUsers.push(res);
+      }
+    ))
+      .catch( console.error )
+      .then( result => {
+        res.json(sendUsers);
+      });
+  })
 };

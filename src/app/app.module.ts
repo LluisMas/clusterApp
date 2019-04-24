@@ -23,7 +23,7 @@ import { AdminSubjectsComponent } from './admin/admin-subjects.component';
 
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import {MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule} from '@angular/material';
 
 
 const Routes = [
@@ -56,6 +56,7 @@ const Routes = [
     CommonModule,
     NgSelectModule,
     ReactiveFormsModule,
+    MatButtonModule,
     RouterModule.forRoot(Routes),
 
     // Material Modules

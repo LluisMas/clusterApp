@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Subject } from '../subject/subject';
 import { DataSubjectService } from '../subject/data-subject.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,10 +7,6 @@ import { User } from '../user/user';
 import { DataProvider } from '../user/data-provider.service';
 import {map, startWith} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {FileUploader, FileUploaderOptions} from 'ng2-file-upload';
-
-const URL = 'http://localhost:4600/routes/users/file';
-
 
 @Component({
   selector: 'app-admin-subjects',
@@ -30,6 +26,12 @@ export class AdminSubjectsComponent implements OnInit {
   myControl = new FormControl();
   filteredOptions: Observable<User[]>;
   currentProfessor: User = null;
+  currentStudents: any;
+
+  correct: any;
+  incorrect: any;
+
+  @ViewChild('responsePopup') private responsePopup;
 
   constructor(private dataService: DataSubjectService, private userService: DataProvider,
               private modalService: NgbModal, private formBuilder: FormBuilder) { }
@@ -101,8 +103,10 @@ export class AdminSubjectsComponent implements OnInit {
 
       this.dataService.createSubject(subject)
         .subscribe(res => {
-            console.log(res);
-            console.log('subject created');
+          this.openModal(this.responsePopup, 'modal-response');
+            this.subjects.push(res['subject']);
+            this.correct = res['correct'];
+            this.incorrect = res['incorrect'];
           }, (err) => {
             console.log(err);
           }
@@ -161,8 +165,8 @@ export class AdminSubjectsComponent implements OnInit {
     return result;
   }
 
-  open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.
+  openModal(content, id) {
+    this.modalService.open(content, {ariaLabelledBy: id}).result.
     then((result) => {
       this.registerForm.reset();
       this.submitted = false;
@@ -182,6 +186,15 @@ export class AdminSubjectsComponent implements OnInit {
 
   onFileSelected(event) {
     this.selectedFile = <File> event.target.files[0];
-    console.log(event.target.files[0]);
+  }
+
+  openStudentsModal(content, id: any) {
+    this.dataService.getStudentsSubject(id).subscribe(
+      result => {
+        this.currentStudents = result;
+        console.log(result);
+        this.openModal(content, 'modal-students');
+      }
+    );
   }
 }

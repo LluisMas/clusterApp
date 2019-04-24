@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
-const UserSchema = require('./User').schema;
-
-
 const { Schema } = mongoose;
 
 const SubjectSchema = new Schema({
   name:      { type: String, required: true  },
   year:      { type: Number, required: true  },
-  professor: { type: UserSchema, required: false  },
+  professor: { type: Schema.Types.ObjectId, required: false  },
   students:  { type: Array, default: [], required: false }
 });
 

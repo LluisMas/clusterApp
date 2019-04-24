@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Subject} from './subject';
+import {User} from '../user/user';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -32,5 +33,10 @@ export class DataSubjectService {
 
   createSubject(subject: Subject): Observable<Subject> {
     return this.http.post<Subject>(this.subjectsUrl, subject);
+  }
+
+  getStudentsSubject(id: any): Observable<User[]> {
+    const url = `${this.subjectsUrl}/${id}/students`;
+    return this.http.get<User[]>(url);
   }
 }

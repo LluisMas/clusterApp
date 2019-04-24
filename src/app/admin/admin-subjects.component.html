@@ -51,6 +51,50 @@
   </div>
 </ng-template>
 
+<ng-template #responsePopup let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-response">Resumen</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <h5 class="modal-header"> Correctos </h5>
+    <tr *ngFor="let entry of correct;">
+      <li>{{entry}}</li>
+    </tr>
+
+    <h5 class="modal-header"> Incorrectos (Usuario no existe) </h5>
+    <tr *ngFor="let entry of incorrect;">
+      <li>{{entry}}</li>
+    </tr>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" > Cerrar </button>
+  </div>
+</ng-template>
+
+<ng-template #studentsPopup let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-students">Alumnos</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <tr *ngFor="let entry of currentStudents;">
+      <li>{{entry.name}}</li>
+    </tr>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" > Cerrar </button>
+  </div>
+</ng-template>
+
+
 <div class="d-flex container-full" id="wrapper">
   <app-admin></app-admin>
 
@@ -60,7 +104,7 @@
       <span class="table-add float-right mb-3 mr-2">
         &nbsp;
         <a class="text-success">
-          <button type="button" class="btn btn-outline-primary" size="sm" (click)="open(content)">Nueva asignatura</button>
+          <button type="button" class="btn btn-outline-primary" size="sm" (click)="openModal(content, 'modal-basic-title')">Nueva asignatura</button>
         </a>
       </span>
 
@@ -70,6 +114,7 @@
             <th class="text-center">Asignatura</th>
             <th class="text-center">Curso</th>
             <th class="text-center">ID</th>
+            <th class="text-center">Alumnos</th>
             <th class="text-center"> </th>
           </tr>
 
@@ -83,6 +128,10 @@
 
             <td>
               <span>{{subject._id}}</span>
+            </td>
+
+            <td>
+              <button type="button" class="btn btn-outline-primary" size="sm" (click)="openStudentsModal(studentsPopup, subject._id)">Alumnos</button>
             </td>
 
             <td>

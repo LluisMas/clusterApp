@@ -9,6 +9,7 @@ const auth = require('../auth');
 const User = mongoose.model('User');
 const userController = require('../controllers/userController');
 const subjectController = require('../controllers/subjectController');
+const Roles = require('../models/Roles');
 
 const API = 'https://jsonplaceholder.typicode.com';
 
@@ -30,22 +31,33 @@ router.post('/users', userController.create);
 router.post('/users/file', upload.single('text'), userController.createFromFile);
 
 router.get('/subjects', auth.required, subjectController.findAll);
+router.get('/subjects/:id/students', subjectController.getStudentsOfSubject);
 router.delete('/subjects/:id', subjectController.delete);
 router.put('/subjects/:id', subjectController.update);
 router.post('/subjects', subjectController.create);
 
 router.post('/init', (req, res) => {
+
   const user = new User();
-  user.email = "asd";
+  user.email = "admin@admin";
+  user.name = 'admin';
   user.setPassword("root");
+  user.role = Roles.Admin;
+
+  let deleted = false;
+  User.remove({email: user.email})
+    .then((docs) => {
+      if(docs)
+        deleted = true;
+    });
+
   user.save()
     .catch( error =>{
       console.log(error);
       res.status(500).send();
     } )
     .then( result => {
-      console.log(result);
-      res.status(200).send();
+      res.status(200).json({user: result, deleted: deleted});
     } );
 });
 

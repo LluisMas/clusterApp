@@ -3,9 +3,9 @@ const Subject = mongoose.model('Subject');
 const User = mongoose.model('User');
 
 exports.findAll = function(req, res) {
-  Subject.find({}, function(err, subjects) {
-    res.json(subjects);
-  });
+  Subject.find({}).populate('professor').exec(function (err, subject) {
+    res.json(subject);
+  })
 };
 
 exports.delete = function(req, res) {

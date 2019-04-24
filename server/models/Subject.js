@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const SubjectSchema = new Schema({
   name:      { type: String, required: true  },
   year:      { type: Number, required: true  },
-  professor: { type: Schema.Types.ObjectId, required: false  },
+  professor: { type: Schema.Types.ObjectId, required: false, ref: 'User'  },
   students:  { type: Array, default: [], required: false }
 });
 

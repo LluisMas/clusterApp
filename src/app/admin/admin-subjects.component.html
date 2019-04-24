@@ -115,6 +115,7 @@
             <th class="text-center">Curso</th>
             <th class="text-center">ID</th>
             <th class="text-center">Alumnos</th>
+            <th class="text-center">Profesor</th>
             <th class="text-center"> </th>
           </tr>
 
@@ -132,6 +133,12 @@
 
             <td>
               <button type="button" class="btn btn-outline-primary" size="sm" (click)="openStudentsModal(studentsPopup, subject._id)">Alumnos</button>
+            </td>
+
+            <td>
+              <div *ngIf="subject.professor; then showName; else showElse"></div>
+              <ng-template #showName>{{subject.professor.name}}</ng-template>
+              <ng-template #showElse> - </ng-template>
             </td>
 
             <td>

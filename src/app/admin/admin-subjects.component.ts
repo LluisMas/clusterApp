@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subject } from '../subject/subject';
 import { DataSubjectService } from '../subject/data-subject.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../user/user';
 import { DataProvider } from '../user/data-provider.service';
-import {map, startWith} from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -53,6 +53,7 @@ export class AdminSubjectsComponent implements OnInit {
     this.dataService.getSubject().subscribe(
       result => {
         this.subjects = result;
+        console.log(result);
       }
     );
 
@@ -112,7 +113,18 @@ export class AdminSubjectsComponent implements OnInit {
           }
         );
     };
-    fileReader.readAsText(this.selectedFile);
+
+    if (this.selectedFile !== null) {
+      fileReader.readAsText(this.selectedFile);
+    } else {
+      this.dataService.createSubject(subject)
+        .subscribe(res => {
+          this.subjects.push(res['subject']);
+          }, (err) => {
+            console.log(err);
+          }
+        );
+    }
 
     this.modalService.dismissAll();
   }

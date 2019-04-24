@@ -20,7 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AdminSubjectsComponent } from './admin/admin-subjects.component';
-
+import { AdminAssignmentsComponent } from './admin/admin-assignments.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule} from '@angular/material';
@@ -34,6 +34,7 @@ const Routes = [
   { path: 'admin', component: AdminComponent, },
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/subjects', component: AdminSubjectsComponent },
+  { path: 'admin/assignments', component: AdminAssignmentsComponent },
 ];
 
 @NgModule({
@@ -45,7 +46,8 @@ const Routes = [
     AdminComponent,
     AdminUsersComponent,
     FileSelectDirective,
-    AdminSubjectsComponent
+    AdminSubjectsComponent,
+    AdminAssignmentsComponent
   ],
   imports: [
     BrowserAnimationsModule,

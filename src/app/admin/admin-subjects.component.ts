@@ -73,8 +73,8 @@ export class AdminSubjectsComponent implements OnInit {
 
   private _filter(name: string): User[] {
     const filterValue = name.toLowerCase();
-
-    return this.users.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0 && option.role === 'Profesor');
+    console.log(name);
+    return this.users.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   get f() { return this.registerForm.controls; }
@@ -192,7 +192,6 @@ export class AdminSubjectsComponent implements OnInit {
     this.dataService.getStudentsSubject(id).subscribe(
       result => {
         this.currentStudents = result;
-        console.log(result);
         this.openModal(content, 'modal-students');
       }
     );

@@ -79,10 +79,10 @@ exports.createFromFile = function(req, res) {
 
       if(cleanLine.length === 3){
         const user = new User();
-        user.email = cleanLine[0];
-        user.dni = cleanLine[1];
-        user.name = cleanLine[2];
-        user.setPassword(cleanLine[1]);
+        user.email = cleanLine[0].trim();
+        user.dni = cleanLine[1].trim();
+        user.name = cleanLine[2].trim();
+        user.setPassword(cleanLine[1].trim());
         users.push(user);
       }
     }

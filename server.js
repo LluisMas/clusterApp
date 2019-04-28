@@ -8,6 +8,7 @@ const passport = require('passport');
 require('./server/config/passport');
 require('./server/models/User');
 require('./server/models/Subject');
+require('./server/models/Assignment');
 const winston = require('winston'), expressWinston = require('express-winston');
 const mongoose = require('mongoose');
 var morgan = require('morgan');

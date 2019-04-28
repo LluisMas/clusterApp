@@ -7,8 +7,10 @@ router.use(bodyParser.json());
 const axios = require('axios');
 const auth = require('../auth');
 const User = mongoose.model('User');
+const Assignment = mongoose.model('Assignment');
 const userController = require('../controllers/userController');
 const subjectController = require('../controllers/subjectController');
+const assignmentController = require('../controllers/assignmentController');
 const Roles = require('../models/Roles');
 
 const API = 'https://jsonplaceholder.typicode.com';
@@ -36,6 +38,11 @@ router.delete('/subjects/:id', subjectController.delete);
 router.put('/subjects/:id', subjectController.update);
 router.post('/subjects', subjectController.create);
 
+router.get('/assignments', auth.required, assignmentController.findAll);
+router.delete('/assignments/:id', assignmentController.delete);
+router.put('/assignments/:id', assignmentController.update);
+router.post('/assignments', assignmentController.create);
+
 router.post('/init', (req, res) => {
 
   const user = new User();
@@ -52,6 +59,28 @@ router.post('/init', (req, res) => {
     });
 
   user.save()
+    .catch( error =>{
+      console.log(error);
+      res.status(500).send();
+    } )
+    .then( result => {
+      res.status(200).json({user: result, deleted: deleted});
+    } );
+});
+
+router.post('/initAssignment', (req, res) => {
+
+  const assignment = new Assignment();
+  assignment.name = 'vergactividad';
+
+  let deleted = false;
+  Assignment.remove({name: assignment.name})
+    .then((docs) => {
+      if(docs)
+        deleted = true;
+    });
+
+  assignment.save()
     .catch( error =>{
       console.log(error);
       res.status(500).send();

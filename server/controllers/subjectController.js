@@ -28,7 +28,6 @@ exports.update = function(req, res) {
     res.json(post);
   });
   console.log("updating user: " + req.params.id);
-  console.log(req.body);
 };
 
 exports.create = function(req, res) {

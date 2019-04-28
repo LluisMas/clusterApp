@@ -23,8 +23,7 @@ import { AdminSubjectsComponent } from './admin/admin-subjects.component';
 import { AdminAssignmentsComponent } from './admin/admin-assignments.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule} from '@angular/material';
-
+import { MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -62,7 +61,7 @@ const Routes = [
     RouterModule.forRoot(Routes),
 
     // Material Modules
-    MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule
+    MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule
 ],
   providers: [
     MainService,

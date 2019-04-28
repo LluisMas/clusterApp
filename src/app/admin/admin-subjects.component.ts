@@ -33,9 +33,6 @@ export class AdminSubjectsComponent implements OnInit {
 
   @ViewChild('responsePopup') private responsePopup;
 
-  constructor(private dataService: DataSubjectService, private userService: DataProvider,
-              private modalService: NgbModal, private formBuilder: FormBuilder) { }
-
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
@@ -53,7 +50,6 @@ export class AdminSubjectsComponent implements OnInit {
     this.dataService.getSubject().subscribe(
       result => {
         this.subjects = result;
-        console.log(result);
       }
     );
 
@@ -63,6 +59,9 @@ export class AdminSubjectsComponent implements OnInit {
       }
     );
   }
+
+  constructor(private dataService: DataSubjectService, private userService: DataProvider,
+              private modalService: NgbModal, private formBuilder: FormBuilder) { }
 
   private validateProfessor() {
     return this.currentProfessor;
@@ -74,7 +73,6 @@ export class AdminSubjectsComponent implements OnInit {
 
   private _filter(name: string): User[] {
     const filterValue = name.toLowerCase();
-    console.log(name);
     return this.users.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0 && option.role === 'Profesor');
   }
 

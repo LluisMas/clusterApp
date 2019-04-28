@@ -1,0 +1,120 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Nueva actividad</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" formControlName="name" class="form-control" autocomplete="foo" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Nombre requerido</div>
+        </div>
+
+
+        <mat-form-field>
+          <input class="form-control" matInput [matDatepicker]="startDatePicker" placeholder="Fecha de inicio" [formControl]="myControl" (dateChange)="getStartDate($event)">
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        &nbsp;&nbsp;
+        <mat-form-field>
+          <input class="form-control" matInput [matDatepicker]="endDatePicker" placeholder="Fecha de fin" [formControl]="myControl" (dateChange)="getEndDate($event)">
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+
+      <div class="form-group">
+        <mat-form-field class="example-full-width">
+          <input type="text" placeholder="Asignatura" aria-label="Asignatura" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete class="autocomplete-menu" #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='getSubject($event.option.value)'>
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      </div>
+
+
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-outline-dark">Crear</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<div class="d-flex container-full" id="wrapper">
+  <app-admin></app-admin>
+
+  <div class="card container-full">
+    <div class="card-body container-full">
+
+      <span class="table-add float-right mb-3 mr-2">
+        &nbsp;
+        <a class="text-success">
+          <button type="button" class="btn btn-outline-primary" size="sm" (click)="openModal(content, 'modal-basic-title')">Nueva actividad</button>
+        </a>
+      </span>
+
+
+      <div id="table" class="table-editable container-full">
+        <table class="table table-bordered table-responsive-md table-striped text-center container-full">
+          <tr>
+            <th class="text-center">Actividad</th>
+            <th class="text-center">Asignatura</th>
+            <th class="text-center">ID</th>
+            <th class="text-center">Fecha Inicio</th>
+            <th class="text-center">Fecha Fin</th>
+            <th class="text-center"> </th>
+          </tr>
+
+          <tr *ngFor="let assignment of assignments;">
+            <td class="align-middle">
+              <span (blur)="updateList(assignment._id, 'name', $event)" contenteditable="true">{{assignment.name}}</span>
+            </td>
+
+            <td class="align-middle">
+              <div *ngIf="assignment.subject; then showName; else showElse"></div>
+              <ng-template #showName>{{assignment.subject.name}}</ng-template>
+              <ng-template #showElse> - </ng-template>
+            </td>
+
+            <td class="align-middle">
+              <span>{{assignment._id}}</span>
+            </td>
+
+            <td class="align-middle">
+              <mat-form-field>
+                <input matInput [matDatepicker]="startDatePicker" [value]="assignment.startDate" (dateChange)="onChangeDate('startDate', $event, assignment._id)">
+                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker>
+              </mat-form-field>
+            </td>
+
+            <td class="align-middle">
+              <mat-form-field>
+                <input matInput [matDatepicker]="endDatePicker" [value]="assignment.endDate" (dateChange)="onChangeDate('endDate', $event, assignment._id)">
+                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #endDatePicker></mat-datepicker>
+              </mat-form-field>
+            </td>
+
+            <td class="align-middle">
+              <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(assignment._id)">Eliminar</button>
+              &nbsp;
+              <button type="button" class="btn btn-outline-primary" size="sm" (click)="save(assignment._id)">Guardar</button>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

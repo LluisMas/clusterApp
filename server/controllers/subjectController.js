@@ -74,6 +74,13 @@ exports.create = function(req, res) {
       subject.students = correctUsers;
       subject.save();
 
+      res.send({
+        success: true,
+        correct: sendUsers,
+        incorrect: incorrectUsers,
+        subject: subject
+      });
+
       correctUsers.forEach(function (user) {
 
         let found = false;
@@ -86,12 +93,6 @@ exports.create = function(req, res) {
           user.subjects.push(subject);
           user.save();
         }
-      });
-      res.send({
-        success: true,
-        correct: sendUsers,
-        incorrect: incorrectUsers,
-        subject: subject
       });
     });
 };

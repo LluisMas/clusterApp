@@ -4,7 +4,7 @@ const User = mongoose.model('User');
 exports.findAll = function(req, res) {
   const id = JSON.parse(req.headers.user)._id;
 
-  User.find({ $or: [{role: {$ne : 'Admin'}}, {_id : id} ]}, function(err, users) {
+  User.find({ $or: [{role: {$ne : 'Admin'}}, {_id : id} ]}).populate('subjects').exec(function(err, users) {
     const userMap = [];
 
     users.forEach(function(user) {

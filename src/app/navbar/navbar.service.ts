@@ -1,6 +1,7 @@
 import {Injectable, OnInit} from '@angular/core';
 import { Subject } from 'rxjs';
 import {User} from '../user/user';
+import {lifecycleHooksMethods} from 'codelyzer/noLifeCycleCallRule';
 
 
 @Injectable({
@@ -24,9 +25,12 @@ export class NavbarService {
       return;
     }
 
+    const self = this;
     user.subjects.forEach(function (subject) {
-      this.addItem({text: subject.name, path: 'subject/' + subject._id}).bind(this);
+      self.addItem({text: subject.name, path: 'subject/' + subject._id});
     });
+
+    console.log(this.links);
   }
 
   hide() { this.visible = false; }

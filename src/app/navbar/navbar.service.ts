@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import { Subject } from 'rxjs';
+import {User} from '../user/user';
 
 
 @Injectable({
@@ -15,13 +16,22 @@ export class NavbarService {
   constructor() {
     this.isLoggedIn.next(localStorage.getItem('access_token') !== null);
     this.visible = true;
+
+    const user: User = JSON.parse(localStorage.getItem('current_user'));
+
+    console.log('USER: ', user);
+    if (!user) {
+      return;
+    }
+
+    user.subjects.forEach(function (subject) {
+      this.addItem({text: subject.name, path: 'subject/' + subject._id}).bind(this);
+    });
   }
 
   hide() { this.visible = false; }
 
   show() { this.visible = true; }
-
-  toggle() { this.visible = !this.visible; }
 
   getLinks() {
     return this.links;

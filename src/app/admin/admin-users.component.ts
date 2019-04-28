@@ -61,6 +61,7 @@ export class AdminUsersComponent implements OnInit {
 
     return this.dataService.getUser().subscribe(
       result => {
+        console.log(result);
         this.users = result;
       }
     );

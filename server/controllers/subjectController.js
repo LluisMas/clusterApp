@@ -11,8 +11,19 @@ exports.findAll = function(req, res) {
 exports.delete = function(req, res) {
   Subject.remove({_id: req.params.id})
     .then((docs) => {
-      if(docs)
+      if(docs) {
         res.status(200).send();
+        User.find({subjects: req.params.id}, function (err, users) {
+          if (err) return err;
+
+          users.forEach(function (user) {
+            user.subjects = user.subjects.filter(function (sub) {
+              return String(sub._id) !== req.params.id;
+            });
+            user.save();
+          });
+        });
+      }
       else
         res.status(409).send();
     });
@@ -46,7 +57,7 @@ exports.create = function(req, res) {
       const query = User.findOne({email: student});
       const res = await query.exec();
       if (res){
-        correctUsers.push(res._id);
+        correctUsers.push(res);
         sendUsers.push(student);
       }
       else
@@ -55,8 +66,6 @@ exports.create = function(req, res) {
   ))
     .catch( console.error)
     .then( result => {
-      console.log('correct: ' + correctUsers);
-      console.log('incorrect: ' + incorrectUsers);
 
       const subject = new Subject();
       subject.name = name;
@@ -65,6 +74,19 @@ exports.create = function(req, res) {
       subject.students = correctUsers;
       subject.save();
 
+      correctUsers.forEach(function (user) {
+
+        let found = false;
+        user.subjects.forEach(function (sub) {
+          if (sub._id === subject._id)
+            found = true;
+        });
+
+        if (!found) {
+          user.subjects.push(subject);
+          user.save();
+        }
+      });
       res.send({
         success: true,
         correct: sendUsers,
@@ -76,7 +98,6 @@ exports.create = function(req, res) {
 
 exports.getStudentsOfSubject = function(req, res) {
 
-  console.log(req.params.id);
   Subject.findById(req.params.id, function (err, subject) {
     if (err) throw err;
 

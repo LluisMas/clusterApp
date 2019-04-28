@@ -6,8 +6,11 @@ const Role = require('./Roles');
 const { Schema } = mongoose;
 
 const UsersSchema = new Schema({
-  email: { type: String, unique: true, dropDups: true},
-  name: { type: String},
+  email: { type: String, unique: true, dropDups: true },
+  name: { type: String },
+  subjects: [{
+    type: Schema.Types.ObjectId, required: false, ref: 'Subject'
+  }],
   dni: {
     type: String,
     default: "DNI"
@@ -50,7 +53,8 @@ UsersSchema.methods.toAuthJSON = function() {
     name: this.name,
     dni: this.dni,
     token: this.generateJWT(),
-    role: this.role
+    role: this.role,
+    subjects: this.subjects
   };
 };
 

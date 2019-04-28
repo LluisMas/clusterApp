@@ -4,4 +4,5 @@ export class User {
   dni: string;
   role: string;
   name: string;
+  subjects: any[];
 }

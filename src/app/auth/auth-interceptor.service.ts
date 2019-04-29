@@ -26,16 +26,17 @@ export class AuthInterceptorService implements HttpInterceptor {
       });
     }
 
-    return next.handle(newreq).do((event: HttpEvent<any>) => {
-      if (event instanceof HttpResponse) {
-      }
-    }, (err: any) => {
-      if (err instanceof HttpErrorResponse) {
-
-        if (err.status === 401) {
-          this.router.navigate(['login']);
+      return next.handle(newreq).do((event: HttpEvent<any>) => {
+        if (event instanceof HttpResponse) {
+          localStorage.setItem('current_user', event.headers.get('user'));
         }
-      }
+      }, (err: any) => {
+        if (err instanceof HttpErrorResponse) {
+
+          if (err.status === 401) {
+            this.router.navigate(['login']);
+          }
+        }
     });
   }
 }

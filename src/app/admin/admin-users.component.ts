@@ -56,12 +56,10 @@ export class AdminUsersComponent implements OnInit {
       alert(obj['success']);
     };
 
-    console.log(localStorage.getItem('current_user'));
     this.currentUser = JSON.parse(localStorage.getItem('current_user'));
 
     return this.dataService.getUser().subscribe(
       result => {
-        console.log(result);
         this.users = result;
       }
     );
@@ -75,8 +73,6 @@ export class AdminUsersComponent implements OnInit {
   updateRoles(id: string, event: any) {
     const user: User = this.getUserFromId(id);
     user['role'] = this.roles[event.target.value - 1].name;
-
-    console.log(user);
   }
 
   remove(id: any) {

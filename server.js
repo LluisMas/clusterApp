@@ -11,6 +11,8 @@ require('./server/models/Subject');
 require('./server/models/Assignment');
 const winston = require('winston'), expressWinston = require('express-winston');
 const mongoose = require('mongoose');
+const User = mongoose.model('User');
+
 var morgan = require('morgan');
 
 app.use(morgan('combined'));
@@ -41,6 +43,7 @@ app.use(expressWinston.errorLogger({
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Expose-Headers", "user");
   next();
 });
 
@@ -56,6 +59,20 @@ app.use('/routes/users*', function (req, res, next) {
     next();
 });
 
+
+app.use('/routes', function(req, res, next) {
+  if (req.headers.user) {
+    const reqUser = JSON.parse(req.headers.user);
+
+    User.findOne({_id: reqUser._id}, function (err, user) {
+      res.setHeader('user', JSON.stringify(user));
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
 app.use('/routes', routes);
 
 app.use(expressWinston.errorLogger({
@@ -65,7 +82,7 @@ app.use(expressWinston.errorLogger({
 }));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/clusterApp/index.html'))
+  res.sendFile(path.join(__dirname, 'dist/clusterApp/index.html'));
 });
 
 app.use(function (err, req, res, next) {
@@ -73,8 +90,8 @@ app.use(function (err, req, res, next) {
     console.log("REDIRECT");
     res.status(err.status).send({message:err.message});
   }
-  else{
-    next();
+  else {
+      next();
   }
 });
 

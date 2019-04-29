@@ -5,7 +5,7 @@ const jwt2 = require('jsonwebtoken');
 const getTokenFromHeaders = (req) => {
   const { headers: { authorization } } = req;
 
-  if(authorization){
+  if (authorization){
     return authorization;
   }
 

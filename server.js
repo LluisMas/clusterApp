@@ -64,7 +64,7 @@ app.use('/routes', function(req, res, next) {
   if (req.headers.user) {
     const reqUser = JSON.parse(req.headers.user);
 
-    User.findOne({_id: reqUser._id}, function (err, user) {
+    User.findOne({_id: reqUser._id}).populate('subjects').exec( function (err, user) {
       res.setHeader('user', JSON.stringify(user));
       next();
     });

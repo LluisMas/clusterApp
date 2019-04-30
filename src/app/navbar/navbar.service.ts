@@ -9,7 +9,7 @@ import { User } from '../user/user';
 export class NavbarService {
 
 
-  private links = new Array<{ text: string, path: string }>();
+  private links = new Array<{ text: string, path: string, param: string }>();
   private isLoggedIn = new Subject<boolean>();
   visible: boolean;
 
@@ -24,7 +24,7 @@ export class NavbarService {
 
     const self = this;
     user.subjects.forEach(function (subject) {
-      self.addItem({text: subject.name, path: 'subject/' + subject._id});
+      self.addItem({text: subject.name, path: '/subjects', param: subject._id});
     });
   }
 
@@ -47,7 +47,7 @@ export class NavbarService {
 
     if (!status) {
       this.clearAllItems();
-      this.addItem({ text: 'Login', path: 'login' });
+      this.addItem({ text: 'Login', path: 'login', param: '' });
     }
   }
 
@@ -55,8 +55,8 @@ export class NavbarService {
     this.removeItem({ text: 'Login' });
   }
 
-  addItem({ text, path }) {
-    this.links.push({ text: text, path: path });
+  addItem({ text, path, param }) {
+    this.links.push({ text: text, path: path, param: param });
   }
 
   removeItem({ text }) {

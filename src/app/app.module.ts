@@ -24,13 +24,16 @@ import { AdminAssignmentsComponent } from './admin/admin-assignments.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { SubjectDetailComponent } from './subject/subject-detail/subject-detail.component';
+import { SubjectSidebarComponent } from './subject/subject-sidebar/subject-sidebar.component';
 
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'posts', component: MainComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin', component: AdminComponent, },
+  { path: 'admin', component: AdminComponent },
+  { path: 'subjects/:id', component: SubjectDetailComponent },
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/subjects', component: AdminSubjectsComponent },
   { path: 'admin/assignments', component: AdminAssignmentsComponent },
@@ -46,7 +49,9 @@ const Routes = [
     AdminUsersComponent,
     FileSelectDirective,
     AdminSubjectsComponent,
-    AdminAssignmentsComponent
+    AdminAssignmentsComponent,
+    SubjectDetailComponent,
+    SubjectSidebarComponent
   ],
   imports: [
     BrowserAnimationsModule,

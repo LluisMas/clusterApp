@@ -49,7 +49,7 @@ export class AdminAssignmentsComponent implements OnInit {
       }
     );
 
-    this.subjectService.getSubject().subscribe(
+    this.subjectService.getSubjects().subscribe(
       result => {
         this.subjects = result;
       }

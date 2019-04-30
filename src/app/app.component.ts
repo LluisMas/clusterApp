@@ -16,7 +16,7 @@ export class AppComponent implements OnInit{
     this.navbarService = navbarService;
   }
 
-  links: Array<{ text: string, path: string }>;
+  links: Array<{ text: string, path: string, param: string}>;
   isLoggedIn = false;
   navbarService: any;
 

@@ -47,7 +47,7 @@ export class AdminSubjectsComponent implements OnInit {
       profesor: ['', this.validateProfessor()]
     });
 
-    this.dataService.getSubject().subscribe(
+    this.dataService.getSubjects().subscribe(
       result => {
         this.subjects = result;
       }

@@ -134,5 +134,10 @@ nav.stroke ul li a:hover:after {
   top: 60px;
 }
 
+#sidebar {
+  height: 100%;
+  background: yellow;
+}
+
 .cdk-overlay-container { z-index: 9999; }
 

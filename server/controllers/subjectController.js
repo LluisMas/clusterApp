@@ -8,6 +8,12 @@ exports.findAll = function(req, res) {
   })
 };
 
+exports.find = function(req, res) {
+  Subject.findOne({_id: req.params.id}).populate('professor').exec(function (err, subject) {
+    res.json(subject);
+  })
+};
+
 exports.delete = function(req, res) {
   Subject.remove({_id: req.params.id})
     .then((docs) => {

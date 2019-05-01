@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Subject = mongoose.model('Subject');
 const Assignment = mongoose.model('Assignment');
+const Roles = require('../models/Roles');
 
 exports.init = function(req, res) {
 

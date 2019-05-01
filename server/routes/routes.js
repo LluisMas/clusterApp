@@ -10,7 +10,6 @@ const userController = require('../controllers/userController');
 const subjectController = require('../controllers/subjectController');
 const assignmentController = require('../controllers/assignmentController');
 const utilsController = require('../controllers/utilsController');
-const Roles = require('../models/Roles');
 
 const API = 'https://jsonplaceholder.typicode.com';
 

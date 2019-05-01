@@ -153,8 +153,9 @@ export class AdminAssignmentsComponent implements OnInit {
 
     this.assignmentService.createAssignment(assignment)
       .subscribe(res => {
-          if (res && res['assignment']) {
-            this.subjects.push(res['assignment']);
+          if (res) {
+            res['subject'] = assignment.subject;
+            this.assignments.push(res);
           }
 
         }, (err) => {

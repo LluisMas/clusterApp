@@ -33,6 +33,7 @@ router.post('/users/file', upload.single('text'), userController.createFromFile)
 router.get('/subjects', auth.required, subjectController.findAll);
 router.get('/subjects/:id', subjectController.find);
 router.get('/subjects/:id/students', subjectController.getStudentsOfSubject);
+router.get('/subjects/:id/assignments', subjectController.getAssignmentsOfSubject);
 router.delete('/subjects/:id', subjectController.delete);
 router.put('/subjects/:id', subjectController.update);
 router.post('/subjects', subjectController.create);

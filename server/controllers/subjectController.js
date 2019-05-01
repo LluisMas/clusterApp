@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Subject = mongoose.model('Subject');
 const User = mongoose.model('User');
+const Assignment = mongoose.model('Assignment');
 
 exports.findAll = function(req, res) {
   Subject.find({}).populate('professor').exec(function (err, subject) {
@@ -124,3 +125,13 @@ exports.getStudentsOfSubject = function(req, res) {
       });
   })
 };
+
+exports.getAssignmentsOfSubject = function(req, res) {
+
+  Assignment.find({subject: req.params.id}, function (err, assignment) {
+    if (err) throw err;
+
+    res.json(assignment);
+  });
+};
+

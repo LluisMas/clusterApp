@@ -43,10 +43,20 @@ div.well{
   width: 100%;
 }
 
+.container-95 {
+  margin-left: 10px;
+  width: 95%;
+}
+
+
 .divider{
   width:5px;
   height:auto;
   display:inline-block;
+}
+
+.full-heigh {
+  height: 100%;
 }
 
 

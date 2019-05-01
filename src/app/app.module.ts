@@ -23,7 +23,12 @@ import { AdminSubjectsComponent } from './admin/admin-subjects.component';
 import { AdminAssignmentsComponent } from './admin/admin-assignments.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import {
+  MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule,
+  MatTableModule
+  } from '@angular/material';
+
+
 import { SubjectDetailComponent } from './subject/subject-detail/subject-detail.component';
 import { SubjectSidebarComponent } from './subject/subject-sidebar/subject-sidebar.component';
 
@@ -66,7 +71,7 @@ const Routes = [
     RouterModule.forRoot(Routes),
 
     // Material Modules
-    MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule
+    MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatTableModule
 ],
   providers: [
     MainService,

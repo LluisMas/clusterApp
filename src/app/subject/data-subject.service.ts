@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Subject} from './subject';
 import {User} from '../user/user';
-import {http} from 'winston';
+import {Assignment} from '../assignment/assignment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -44,5 +44,10 @@ export class DataSubjectService {
   getStudentsSubject(id: any): Observable<User[]> {
     const url = `${this.subjectsUrl}/${id}/students`;
     return this.http.get<User[]>(url);
+  }
+
+  getAssigmentsSubject(id: any): Observable<Assignment[]> {
+    const url = `${this.subjectsUrl}/${id}/assignments`;
+    return this.http.get<Assignment[]>(url);
   }
 }

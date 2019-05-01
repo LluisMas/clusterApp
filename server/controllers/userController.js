@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
+exports.find = function(req, res) {
+  console.log(req.params.id);
+  User.findOne({_id: req.params.id}).populate('subjects').exec(function (err, user) {
+    res.json(user);
+  })
+};
+
 exports.findAll = function(req, res) {
   const id = JSON.parse(req.headers.user)._id;
 

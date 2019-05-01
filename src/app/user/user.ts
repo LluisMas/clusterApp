@@ -5,4 +5,8 @@ export class User {
   role: string;
   name: string;
   subjects: any[];
+
+  constructor (values: object = {}) {
+    Object.assign(this as any, values);
+  }
 }

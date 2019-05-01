@@ -49,15 +49,15 @@ app.use((req, res, next) => {
 
 const routes = require('./server/routes/routes');
 
-// Only Admin
-app.use('/routes/users*', function (req, res, next) {
-  const user = JSON.parse(req.headers.user);
-  console.log('USER', user);
-  if(!user || user.role !== 'Admin')
-    res.status(401).send();
-  else
-    next();
-});
+// // Only Admin
+// app.use('/routes/users*', function (req, res, next) {
+//   const user = JSON.parse(req.headers.user);
+//   console.log('USER', user);
+//   if(!user || ( user.role !== 'Admin' && user.role !== 'Profesor'))
+//     res.status(401).send();
+//   else
+//     next();
+// });
 
 
 app.use('/routes', function(req, res, next) {

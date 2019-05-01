@@ -32,10 +32,7 @@ export class SubjectDetailComponent implements OnInit {
         });
 
         this.dataSource = new MatTableDataSource(this.assignments);
-        console.log(this.assignments);
       });
-
-
   }
 
 }

@@ -25,6 +25,7 @@ router.get('/posts', auth.required, (req, res) => {
 
 
 router.get('/users', auth.required, userController.findAll);
+router.get('/users/:id', userController.find);
 router.delete('/users/:id', userController.delete);
 router.put('/users/:id', userController.update);
 router.post('/users', userController.create);
@@ -37,6 +38,7 @@ router.get('/subjects/:id/assignments', subjectController.getAssignmentsOfSubjec
 router.delete('/subjects/:id', subjectController.delete);
 router.put('/subjects/:id', subjectController.update);
 router.post('/subjects', subjectController.create);
+router.post('/subjects/:id/addstudent', subjectController.addStudent);
 
 router.get('/assignments', auth.required, assignmentController.findAll);
 router.delete('/assignments/:id', assignmentController.delete);

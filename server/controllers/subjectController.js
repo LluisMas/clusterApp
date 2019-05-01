@@ -88,6 +88,7 @@ exports.create = function(req, res) {
         subject: subject
       });
 
+      console.log('Profesor: ', professor);
       correctUsers.forEach(function (user) {
 
         let found = false;
@@ -101,6 +102,21 @@ exports.create = function(req, res) {
           user.save();
         }
       });
+
+      let found = false;
+      professor.subjects.forEach(function (sub) {
+        if (sub._id === subject._id)
+          found = true;
+      });
+
+      if (!found) {
+        professor.subjects.push(subject);
+        User.findOneAndUpdate({_id : professor._id}, professor, function (err, post) {
+          if (err){
+            return (err);
+          }
+        });
+      }
     });
 };
 
@@ -135,3 +151,32 @@ exports.getAssignmentsOfSubject = function(req, res) {
   });
 };
 
+exports.addStudent = function(req, res) {
+  let found = false;
+  req.body.subjects.forEach(function (subject) {
+      if(subject._id === req.params.id)
+        found = true;
+  });
+
+  if (found) {
+    res.status(409).send();
+    return;
+  }
+
+  console.log('Param: ', req.params);
+  console.log('Body: ', req.body);
+  Subject.findOne({_id: req.params.id}, function (err, subject) {
+    if (err) throw err;
+
+    subject.students.push(req.body);
+    subject.save();
+    res.json(req.body);
+  });
+
+  User.findOne({_id: req.body._id}, function (err, user) {
+    if (err) throw err;
+
+    user.subjects.push(req.params.id);
+    user.save();
+  });
+};

@@ -165,18 +165,19 @@ exports.addStudent = function(req, res) {
 
   console.log('Param: ', req.params);
   console.log('Body: ', req.body);
+
   Subject.findOne({_id: req.params.id}, function (err, subject) {
     if (err) throw err;
 
     subject.students.push(req.body);
     subject.save();
     res.json(req.body);
-  });
 
-  User.findOne({_id: req.body._id}, function (err, user) {
-    if (err) throw err;
+    User.findOne({_id: req.body._id}, function (err, user) {
+      if (err) throw err;
 
-    user.subjects.push(req.params.id);
-    user.save();
+      user.subjects.push(subject);
+      user.save();
+    });
   });
 };

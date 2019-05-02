@@ -46,7 +46,6 @@ export class SubjectStudentsComponent implements OnInit {
           self.students.push(new User(student));
         });
 
-        console.log(this.students);
         let temp = this.students.filter(function(student) {return student !== null; });
         this.dataSource = new MatTableDataSource(temp);
       });

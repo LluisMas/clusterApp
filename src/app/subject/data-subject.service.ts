@@ -32,6 +32,11 @@ export class DataSubjectService {
     return this.http.delete<Subject>(url, httpOptions);
   }
 
+  deleteUserFromSubject (subjectId: any, userId: any): Observable<User> {
+    const url = `${this.subjectsUrl}/${subjectId}/delete/${userId}`;
+    return this.http.delete<User>(url, httpOptions);
+  }
+
   updateSubject (id: any, subject: Subject): Observable<Subject> {
     const url = `${this.subjectsUrl}/${id}`;
     return this.http.put<Subject>(url, subject, httpOptions);

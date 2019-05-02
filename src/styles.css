@@ -48,6 +48,11 @@ div.well{
   width: 95%;
 }
 
+.container-80 {
+  margin-left: 10px;
+  width: 80%;
+}
+
 
 .divider{
   width:5px;

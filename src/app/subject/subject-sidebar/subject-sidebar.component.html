@@ -2,6 +2,8 @@
 
   <div class="h-100 bg-light border-right sidebar full-heigh"  id="sidebar-wrapper">
     <div class="h-100 list-group list-group-flush sidebar-item full-heigh">
+
+      <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/subjects', id]"> Inicio </a>
       <div *ngIf="currentUser.role != 'Estudiante'; then showName;"></div>
       <ng-template #showName>
         <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/subjects', id, 'edit']"> Modificar </a>

@@ -4,15 +4,23 @@ const User = mongoose.model('User');
 const Assignment = mongoose.model('Assignment');
 
 exports.findAll = function(req, res) {
-  Subject.find({}).populate('professor').exec(function (err, subject) {
-    res.json(subject);
-  })
+  Subject.find({})
+    .populate('professor')
+    .populate('students')
+    .exec(function (err, subject) {
+      console.log(subject);
+      res.json(subject);
+    })
 };
 
 exports.find = function(req, res) {
-  Subject.findOne({_id: req.params.id}).populate('professor').exec(function (err, subject) {
-    res.json(subject);
-  })
+  Subject.findOne({_id: req.params.id})
+    .populate('professor')
+    .populate('students')
+    .exec(function (err, subject) {
+      console.log(subject);
+      res.json(subject);
+    })
 };
 
 exports.delete = function(req, res) {
@@ -35,6 +43,33 @@ exports.delete = function(req, res) {
         res.status(409).send();
     });
   console.log("deleting subject: " + req.params.id);
+};
+
+exports.deleteUserFromSubject = function(req, res) {
+
+  const subjectId = req.params.subjectid;
+  const userid = req.params.userid;
+
+
+  Subject.findOne({_id: subjectId}, function (err, subject) {
+    if (err) return err;
+
+    subject.students = subject.students.filter(function (student) {
+      return String(student._id) !== userid;
+    });
+    subject.save();
+  });
+
+  User.findOne({_id: userid}, function (err, user) {
+    if (err) return err;
+
+    user.subjects = user.subjects.filter(function (subject) {
+      return String(subject._id) !== subjectId;
+    });
+    user.save();
+  });
+
+  res.status(200).send();
 };
 
 exports.update = function(req, res) {

@@ -10,7 +10,7 @@
       <div class="form-group">
 
         <mat-form-field class="example-full-width">
-          <input type="text" placeholder="Asignatura" aria-label="Asignatura" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <input type="text" placeholder="Alumno" aria-label="Alumno" matInput [formControl]="myControl" [matAutocomplete]="auto">
           <mat-autocomplete class="autocomplete-menu" #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='getStudent($event.option.value)'>
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{option.name}}
@@ -26,24 +26,68 @@
   </div>
 </ng-template>
 
+<ng-template #nuevoalumno let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-new-student">Añadir alumno nuevo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newStudentForm" (ngSubmit)="onSubmitAddNewUser()">
+      <div class="form-group">
+
+        <mat-card-content>
+          <mat-form-field class="container-80">
+            <input type=" text" placeholder="Nombre" aria-label="Nombre" matInput formControlName="name">
+            <mat-error *ngIf="hasError('name', 'required')">Nombre requerido</mat-error>
+          </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-content>
+          <mat-form-field class="container-80">
+            <input type="text" placeholder="Correo" aria-label="Coore" matInput formControlName="email">
+            <mat-error *ngIf="hasError('email', 'required')">Correo requerido</mat-error>
+            <mat-error *ngIf="hasError('email', 'email')">Correo invalido</mat-error>
+          </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-content>
+          <mat-form-field class="container-80">
+            <input type="text" placeholder="DNI" aria-label="DNI" matInput formControlName="dni">
+            <mat-error *ngIf="hasError('dni', 'required')">DNI requerido</mat-error>
+          </mat-form-field>
+        </mat-card-content>
+      </div>
+
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-outline-dark">Añadir</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
 <div class="d-flex container-full" id="wrapper">
   <app-subject-sidebar></app-subject-sidebar>
   <div class="mt-3 ml-3 container-full">
     <h4>{{subject.name}} - Alumnos</h4>
 
-    <span class="table-add float-right mb-3 mr-2">
+    <div *ngIf="currentUser.role != 'Estudiante'; then professorButtons;"></div>
+    <ng-template #professorButtons>
+          <span class="table-add float-right mb-3 mr-2">
         <a class="text-success">
           <button type="button" class="btn btn-outline-primary mr-lg-5" size="sm" (click)="openModal(content, 'modal-basic-title')">Añadir Alumno Existente</button>
         </a>
 
       <a class="text-success">
-          <button type="button" class="btn btn-outline-primary mr-lg-5" size="sm" (click)="openModal(content, 'modal-basic-title')">Añadir Alumno Nuevo</button>
+          <button type="button" class="btn btn-outline-primary mr-lg-5" size="sm" (click)="openModal(nuevoalumno, 'modal-new-student')">Añadir Alumno Nuevo</button>
         </a>
 
       <a class="text-success">
           <button type="button" class="btn btn-outline-primary mr-lg-5" size="sm" (click)="openModal(content, 'modal-basic-title')">Añadir Alumno Fichero</button>
         </a>
-      </span>
+    </span>
+    </ng-template>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 container-95 ">
 
       <ng-container matColumnDef="name">
@@ -66,7 +110,15 @@
         <td mat-cell *matCellDef="let element"> {{element.role}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="action" *ngIf="currentUser.role != 'Estudiante';" >
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-stroked-button color="warn" (click)="remove(element._id)" >Eliminar</button>
+        </td>
+      </ng-container>
+
       <div *ngIf="currentUser.role != 'Estudiante'; then professor; else student;"></div>
+
       <ng-template #professor>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

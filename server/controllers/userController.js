@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const Subject = mongoose.model('Subject');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.find = function(req, res) {
   console.log(req.params.id);
@@ -25,13 +27,27 @@ exports.findAll = function(req, res) {
 };
 
 exports.delete = function(req, res) {
-  User.remove({_id: req.params.id})
-    .then((docs) => {
-      if(docs)
-        res.status(200).send();
-      else
-        res.status(409).send();
+
+  User.find({_id: req.params.id}, function (err, users) {
+
+    users.forEach(function (user) {
+      user.subjects.forEach( function (subject) {
+        console.log(subject);
+        Subject.find({_id: subject}, function (sub) {
+          console.log(sub);
+        });
+      });
     });
+
+    User.remove({_id: req.params.id})
+      .then((docs) => {
+        if(docs)
+          res.status(200).send();
+        else
+          res.status(409).send();
+      });
+  });
+
   console.log("deleting user: " + req.params.id);
 };
 
@@ -50,6 +66,12 @@ exports.create = function(req, res) {
   const user = new User();
   user.email = req.body.email;
   user.name = req.body.name;
+  user.dni = req.body.dni;
+  if (req.body.subjects)
+    user.subjects = req.body.subjects;
+
+  console.log(user.subjects);
+
   user.setPassword(req.body.dni);
   User.findOne({email: user.email}, function (err, result) {
     if( err ) throw err;
@@ -58,6 +80,14 @@ exports.create = function(req, res) {
         if (err) throw err;
 
         res.send(newUser);
+
+        if (req.body.subjects)
+        {
+          Subject.findOne({_id: user.subjects[0]}, function (err, subject) {
+            subject.students.push(user);
+            subject.save();
+          });
+        }
       });
     } else {
       res.send();

@@ -19,6 +19,8 @@ export class AdminUsersComponent implements OnInit {
   currentUser: User;
 
   users: User[];
+
+  result: User;
   editField: string;
   submitFile = new FormGroup({
     file: new FormControl('')
@@ -58,7 +60,7 @@ export class AdminUsersComponent implements OnInit {
 
     this.currentUser = JSON.parse(localStorage.getItem('current_user'));
 
-    return this.dataService.getUser().subscribe(
+    return this.dataService.getUsers().subscribe(
       result => {
         this.users = result;
       }
@@ -137,12 +139,21 @@ export class AdminUsersComponent implements OnInit {
     return result;
   }
 
-  open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+  open(content, id) {
+    this.modalService.open(content, {ariaLabelledBy: id})
     .result.then((result) => {
       this.uploader.uploadAll();
     }, (reason) => {
     });
+  }
+
+  openStudentsModal(content, id: any) {
+    this.dataService.getUser(id).subscribe(
+      result => {
+        this.result = result;
+        this.open(content, 'modal-students');
+      }
+    );
   }
 
   filterRoles(name: any) {

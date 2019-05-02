@@ -53,7 +53,7 @@ export class AdminSubjectsComponent implements OnInit {
       }
     );
 
-    this.userService.getUser().subscribe(
+    this.userService.getUsers().subscribe(
       result => {
         this.users = result.filter( function (user) { return user.role === 'Profesor'; });
       }

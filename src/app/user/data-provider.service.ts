@@ -16,8 +16,13 @@ export class DataProvider {
 
   constructor( private http: HttpClient ) { }
 
-  getUser (): Observable<User[]> {
+  getUsers (): Observable<User[]> {
     return this.http.get<User[]>(this.usersUrl);
+  }
+
+  getUser (id: any): Observable<User> {
+    const url = `${this.usersUrl}/${id}`;
+    return this.http.get<User>(url);
   }
 
   deleteUser (id: any): Observable<User> {

@@ -19,6 +19,25 @@
   </div>
 </ng-template>
 
+<ng-template #subjectsPopUp let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-students">Alumnos</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <tr *ngFor="let entry of result.subjects;">
+      <li>{{entry.name}}</li>
+    </tr>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" > Cerrar </button>
+  </div>
+</ng-template>
+
 <div class="d-flex container-full" id="wrapper">
   <app-admin></app-admin>
 
@@ -31,7 +50,7 @@
         </a>
         &nbsp;
         <a class="text-success">
-          <button type="button" class="btn btn-outline-primary" size="sm" (click)="open(content)">Importar Desde Fichero</button>
+          <button type="button" class="btn btn-outline-primary" size="sm" (click)="open(content, 'modal-basic-title')">Importar Desde Fichero</button>
         </a>
       </span>
         <table class="table table-bordered table-responsive-md table-striped text-center container-full">
@@ -41,6 +60,7 @@
             <th class="text-center">DNI</th>
             <th class="text-center">ID</th>
             <th class="text-center">Rol</th>
+            <th class="text-center">Asignaturas</th>
             <th class="text-center"> </th>
           </tr>
 
@@ -73,6 +93,11 @@
                 {{user.role}}
               </ng-template>
             </td>
+
+            <td>
+              <button type="button" class="btn btn-outline-primary" size="sm" (click)="openStudentsModal(subjectsPopUp, user._id)">Asignaturas</button>
+            </td>
+
             <td>
               <span *ngIf="currentUser._id !== user._id;then remove_buttons else current_user_info" class="table-remove"> </span>
               <ng-template #remove_buttons>

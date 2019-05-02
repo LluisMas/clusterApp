@@ -36,6 +36,7 @@ router.get('/subjects/:id', subjectController.find);
 router.get('/subjects/:id/students', subjectController.getStudentsOfSubject);
 router.get('/subjects/:id/assignments', subjectController.getAssignmentsOfSubject);
 router.delete('/subjects/:id', subjectController.delete);
+router.delete('/subjects/:subjectid/delete/:userid', subjectController.deleteUserFromSubject);
 router.put('/subjects/:id', subjectController.update);
 router.post('/subjects', subjectController.create);
 router.post('/subjects/:id/addstudent', subjectController.addStudent);

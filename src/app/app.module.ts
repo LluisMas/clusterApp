@@ -25,7 +25,7 @@ import { AdminAssignmentsComponent } from './admin/admin-assignments.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule,
-  MatTableModule
+  MatTableModule, MatCardModule
   } from '@angular/material';
 
 
@@ -74,7 +74,8 @@ const Routes = [
     RouterModule.forRoot(Routes),
 
     // Material Modules
-    MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatTableModule
+    MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatTableModule,
+    MatCardModule
 ],
   providers: [
     MainService,

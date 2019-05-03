@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DataSubjectService} from '../data-subject.service';
 import {Subject} from '../subject';
@@ -32,6 +32,10 @@ export class SubjectStudentsComponent implements OnInit {
   currentStudent: User;
 
   newStudentForm: FormGroup;
+  selectedFile: File = null;
+  newUsers: User[];
+
+  @ViewChild('responsePopup') private responsePopup;
 
   constructor( private route: ActivatedRoute, private subjectService: DataSubjectService,
                private modalService: NgbModal, private formBuilder: FormBuilder, private userService: DataProvider) { }
@@ -83,9 +87,8 @@ export class SubjectStudentsComponent implements OnInit {
   remove(id: any) {
     this.subjectService.deleteUserFromSubject(this.subject._id, id)
       .subscribe(() => {
-
-        const temp = this.students.filter(function(student) {return student !== null && student._id !== id; });
-        this.dataSource = new MatTableDataSource(temp);
+        this.students = this.students.filter(function (student) { return String(student._id) !== String(id); });
+        this.dataSource = new MatTableDataSource(this.students);
       });
   }
 
@@ -99,7 +102,9 @@ export class SubjectStudentsComponent implements OnInit {
     this.subjectService.addStudentToSubject(this.subject._id, this.currentStudent)
       .subscribe(res => {
         this.students.push(res);
+        this.dataSource.data = this.students;
       });
+
     this.modalService.dismissAll();
   }
 
@@ -113,7 +118,11 @@ export class SubjectStudentsComponent implements OnInit {
     user.subjects = [];
     user.subjects.push(this.subject);
 
-    this.userService.createUser(user).subscribe(result => this.students.push(result));
+    this.userService.createUser(user).subscribe(result => {
+      this.students.push(result);
+      this.dataSource.data = this.students;
+    });
+
     this.modalService.dismissAll();
   }
 
@@ -141,5 +150,48 @@ export class SubjectStudentsComponent implements OnInit {
 
   getStudent(value: any) {
     this.currentStudent = value ? value : null;
+  }
+
+  onSubmitCreateFromFile() {
+    this.submitted = true;
+
+    const usersToSend: Array<User> = [];
+
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      fileReader.result.split('\n').forEach((line) => {
+
+        const cleanLine = line.trim().split(';');
+
+        if (cleanLine.length === 3) {
+          const user = new User();
+          user.email = cleanLine[0].trim();
+          user.dni = cleanLine[1].trim();
+          user.name = cleanLine[2].trim();
+          usersToSend.push(user);
+          this.students.push(user);
+        }
+      });
+
+      this.subjectService.addStudentToSubjectFromFile(this.subject._id, usersToSend)
+        .subscribe(res => {
+            this.openModal(this.responsePopup, 'modal-response');
+            this.dataSource = new MatTableDataSource(this.students);
+            this.newUsers = usersToSend;
+          }, (err) => {
+            console.log(err);
+          }
+        );
+    };
+
+    if (this.selectedFile !== null) {
+      fileReader.readAsText(this.selectedFile);
+    }
+
+    this.modalService.dismissAll();
+  }
+
+  onFileSelected(event) {
+    this.selectedFile = <File> event.target.files[0];
   }
 }

@@ -60,4 +60,9 @@ export class DataSubjectService {
     const url = `${this.subjectsUrl}/${subjectId}/addstudent`;
     return this.http.post<User>(url, student);
   }
+
+  addStudentToSubjectFromFile(id: any, users: User[]): Observable<Subject> {
+    const url = `${this.subjectsUrl}/${id}/file`;
+    return this.http.post<Subject>(url, users);
+  }
 }

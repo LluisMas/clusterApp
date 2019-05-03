@@ -216,3 +216,48 @@ exports.addStudent = function(req, res) {
     });
   });
 };
+
+exports.createFromFile = function(req, res) {
+  console.log(req.params);
+  console.log(req.body);
+
+  Subject.findOne({_id: req.params.id}, function (err, subject) {
+    if (err) throw err;
+
+    Promise.all(req.body.map (
+      async fileUser => {
+
+        const query = User.findOne({email: fileUser.email});
+        const user = await query.exec();
+
+        if (!user) {
+          let newUser = new User();
+          newUser.email = fileUser.email;
+          newUser.dni  = fileUser.dni;
+          newUser.name = fileUser.name;
+          newUser.setPassword(fileUser.dni);
+          newUser.subjects = [subject];
+          newUser.save();
+
+          subject.students.push(newUser);
+        } else {
+
+          let found = false;
+          user.subjects.forEach(function (sub) {
+            if (sub._id === subject._id)
+              found = true;
+          });
+
+          if (!found) {
+            subject.students.push(user);
+            user.subjects.push(subject);
+            user.save();
+          }
+        }
+    }))
+      .catch( console.error )
+      .then( result => subject.save());
+  });
+
+  res.send();
+};

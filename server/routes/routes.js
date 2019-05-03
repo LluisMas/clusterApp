@@ -40,6 +40,7 @@ router.delete('/subjects/:subjectid/delete/:userid', subjectController.deleteUse
 router.put('/subjects/:id', subjectController.update);
 router.post('/subjects', subjectController.create);
 router.post('/subjects/:id/addstudent', subjectController.addStudent);
+router.post('/subjects/:id/file', upload.single('text'), subjectController.createFromFile);
 
 router.get('/assignments', auth.required, assignmentController.findAll);
 router.delete('/assignments/:id', assignmentController.delete);

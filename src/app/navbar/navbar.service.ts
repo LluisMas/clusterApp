@@ -26,8 +26,6 @@ export class NavbarService {
     user.subjects.forEach(function (subject) {
       self.addItem({text: subject.name, path: '/subjects', param: subject._id});
     });
-
-    console.log(user);
   }
 
   hide() { this.visible = false; }

@@ -21,6 +21,7 @@ import { FileSelectDirective } from 'ng2-file-upload';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AdminSubjectsComponent } from './admin/admin-subjects.component';
 import { AdminAssignmentsComponent } from './admin/admin-assignments.component';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
@@ -32,6 +33,7 @@ import {
 import { SubjectDetailComponent } from './subject/subject-detail/subject-detail.component';
 import { SubjectSidebarComponent } from './subject/subject-sidebar/subject-sidebar.component';
 import { SubjectStudentsComponent } from './subject/subject-students/subject-students.component';
+import { NewAssignmentComponent } from './subject/new-assignment/new-assignment.component';
 
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -41,6 +43,7 @@ const Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'subjects/:id', component: SubjectDetailComponent },
   { path: 'subjects/:id/students', component: SubjectStudentsComponent },
+  { path: 'subjects/:id/newAssignment', component: NewAssignmentComponent },
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/subjects', component: AdminSubjectsComponent },
   { path: 'admin/assignments', component: AdminAssignmentsComponent },
@@ -59,7 +62,8 @@ const Routes = [
     AdminAssignmentsComponent,
     SubjectDetailComponent,
     SubjectSidebarComponent,
-    SubjectStudentsComponent
+    SubjectStudentsComponent,
+    NewAssignmentComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -71,6 +75,7 @@ const Routes = [
     NgSelectModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatMomentDateModule,
     RouterModule.forRoot(Routes),
 
     // Material Modules

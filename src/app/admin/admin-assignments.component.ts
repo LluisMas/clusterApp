@@ -157,7 +157,6 @@ export class AdminAssignmentsComponent implements OnInit {
             res['subject'] = assignment.subject;
             this.assignments.push(res);
           }
-
         }, (err) => {
           console.log(err);
         }

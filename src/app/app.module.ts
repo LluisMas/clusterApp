@@ -21,6 +21,7 @@ import { FileSelectDirective } from 'ng2-file-upload';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AdminSubjectsComponent } from './admin/admin-subjects.component';
 import { AdminAssignmentsComponent } from './admin/admin-assignments.component';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
@@ -32,6 +33,9 @@ import {
 import { SubjectDetailComponent } from './subject/subject-detail/subject-detail.component';
 import { SubjectSidebarComponent } from './subject/subject-sidebar/subject-sidebar.component';
 import { SubjectStudentsComponent } from './subject/subject-students/subject-students.component';
+import { NewAssignmentComponent } from './subject/new-assignment/new-assignment.component';
+import { AssignmentDetailComponent } from './assignment/assignment-detail/assignment-detail.component';
+import { AssignmentSidebarComponent } from './assignment/assignment-sidebar/assignment-sidebar.component';
 
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -39,8 +43,13 @@ const Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminComponent },
+
   { path: 'subjects/:id', component: SubjectDetailComponent },
   { path: 'subjects/:id/students', component: SubjectStudentsComponent },
+  { path: 'subjects/:id/newAssignment', component: NewAssignmentComponent },
+
+  { path: 'assignments/:id', component: AssignmentDetailComponent },
+
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/subjects', component: AdminSubjectsComponent },
   { path: 'admin/assignments', component: AdminAssignmentsComponent },
@@ -59,7 +68,10 @@ const Routes = [
     AdminAssignmentsComponent,
     SubjectDetailComponent,
     SubjectSidebarComponent,
-    SubjectStudentsComponent
+    SubjectStudentsComponent,
+    NewAssignmentComponent,
+    AssignmentDetailComponent,
+    AssignmentSidebarComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -71,6 +83,7 @@ const Routes = [
     NgSelectModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatMomentDateModule,
     RouterModule.forRoot(Routes),
 
     // Material Modules

@@ -9,7 +9,7 @@ import {LoginComponent} from './login/login.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router, navbarService: NavbarService) {
     this.router.config.unshift({ path: 'login', component: LoginComponent });
     this.isLoggedIn = localStorage.getItem('access_token') !== null;

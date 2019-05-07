@@ -11,18 +11,32 @@
       </li>
 
       <li *ngFor="let link of links">
-        <a class="nav-link" [routerLink]="['/subjects', link.param]">{{ link.text }}</a>
-      </li>
-    </ul>
+      <a class="nav-link" [routerLink]="['/subjects', link.param]">{{ link.text }}</a>
+    </li>
+  </ul>
 
-    <ul class="navbar-nav ml-auto">
-        <li *ngIf="isLoggedIn">
-          <a class="nav-link" routerLink="logout" (click)="logout()">Logout</a>
-        </li>
-      <li *ngIf="!isLoggedIn">
-        <a class="nav-link" routerLink="logout" (click)="login()">Login</a>
-      </li>
-    </ul>
+
+  <li *ngIf="isLoggedIn" class="navbar-nav nav-item" ngbDropdown>
+    <a class="nav-link dropdown-toggle " id="adminDropdown" role="button"
+       aria-haspopup="true" aria-expanded="false" ngbDropdownToggle> <span class="fa fa-user mr-2"></span>{{user.name}}</a>
+    <div class="dropdown-menu" aria-labelledby="adminDropdown" ngbDropdownMenu>
+      <a class="dropdown-item" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"
+         [routerLink]="['/admin']"><span class="fa fa-tablet ml"></span> Administración </a>
+
+      <div class="dropdown-divider"></div>
+
+      <a class="dropdown-item btn-primary" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">
+        <button mat-button color="warn" routerLink="logout" (click)="logout()">Cerrar sesion </button>
+      </a>
+
+    </div>
+  </li>
+
+  <ul *ngIf="!isLoggedIn" class="navbar-nav ml-auto">
+    <li>
+      <a class="nav-link" routerLink="logout" (click)="login()">Login</a>
+    </li>
+  </ul>
 
 </nav>
 

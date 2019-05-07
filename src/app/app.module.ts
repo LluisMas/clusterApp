@@ -21,7 +21,9 @@ import { FileSelectDirective } from 'ng2-file-upload';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AdminSubjectsComponent } from './admin/admin-subjects.component';
 import { AdminAssignmentsComponent } from './admin/admin-assignments.component';
-import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
@@ -84,6 +86,7 @@ const Routes = [
     ReactiveFormsModule,
     MatButtonModule,
     MatMomentDateModule,
+    AngularFontAwesomeModule,
     RouterModule.forRoot(Routes),
 
     // Material Modules

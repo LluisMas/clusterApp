@@ -19,10 +19,12 @@ export class AppComponent implements OnInit {
   links: Array<{ text: string, path: string, param: string}>;
   isLoggedIn = false;
   navbarService: any;
+  user: any;
 
   ngOnInit() {
     this.links = this.navbarService.getLinks();
     this.navbarService.getLoginStatus().subscribe(status => this.isLoggedIn = status);
+    this.user = JSON.parse(localStorage.getItem('current_user'));
   }
 
 

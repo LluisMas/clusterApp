@@ -8,7 +8,6 @@ exports.findAll = function(req, res) {
     .populate('professor')
     .populate('students')
     .exec(function (err, subject) {
-      console.log(subject);
       res.json(subject);
     })
 };
@@ -18,7 +17,6 @@ exports.find = function(req, res) {
     .populate('professor')
     .populate('students')
     .exec(function (err, subject) {
-      console.log(subject);
       res.json(subject);
     })
 };

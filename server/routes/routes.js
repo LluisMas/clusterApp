@@ -43,6 +43,7 @@ router.post('/subjects/:id/addstudent', subjectController.addStudent);
 router.post('/subjects/:id/file', upload.single('text'), subjectController.createFromFile);
 
 router.get('/assignments', auth.required, assignmentController.findAll);
+router.get('/assignments/:id', assignmentController.find);
 router.delete('/assignments/:id', assignmentController.delete);
 router.put('/assignments/:id', assignmentController.update);
 router.post('/assignments', assignmentController.create);

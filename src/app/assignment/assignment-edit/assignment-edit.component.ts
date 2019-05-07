@@ -1,35 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import {Assignment} from '../assignment';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DataSubjectService} from '../data-subject.service';
-import {Subject} from '../subject';
+import {DataAssignmentService} from '../data-assignment.service';
+import {Subject} from '../../subject/subject';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {MY_FORMATS} from '../../subject/new-assignment/new-assignment.component';
 
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import {default as _rollupMoment, Moment} from 'moment';
-import {Assignment} from '../../assignment/assignment';
-import {DataAssignmentService} from '../../assignment/data-assignment.service';
 
 const moment = _rollupMoment || _moment;
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
-
 @Component({
-  selector: 'app-new-assignment',
-  templateUrl: './new-assignment.component.html',
-  styleUrls: ['./new-assignment.component.css'],
+  selector: 'app-assignment-edit',
+  templateUrl: './assignment-edit.component.html',
+  styleUrls: ['./assignment-edit.component.css'],
   providers: [
     // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
     // application's root module. We provide it at the component level here, due to limitations of
@@ -38,29 +26,32 @@ export const MY_FORMATS = {
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
 })
-export class NewAssignmentComponent implements OnInit {
+export class AssignmentEditComponent implements OnInit {
 
+  assignment = new Assignment();
   subject = new Subject();
 
   newAssignmentForm: FormGroup;
   submitted: boolean;
 
-  constructor( private route: ActivatedRoute, private subjectService: DataSubjectService, private assignmentService: DataAssignmentService,
-               private router: Router) { }
+  constructor( private route: ActivatedRoute, private assignmentService: DataAssignmentService, private router: Router) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.subjectService.getSubject(id).subscribe(subject => this.subject = subject);
+    this.assignmentService.getAssignment(id).subscribe(assignment => {
+      this.assignment = assignment;
+      this.subject = assignment.subject;
+
+      this.newAssignmentForm.controls['name'].setValue(assignment.name);
+      this.newAssignmentForm.controls['startDate'].setValue(assignment.startDate);
+      this.newAssignmentForm.controls['endDate'].setValue(assignment.endDate);
+    });
 
     this.newAssignmentForm = new FormGroup({
-      name : new FormControl('', [Validators.required]),
+      name : new FormControl(this.assignment.name, [Validators.required]),
       startDate : new FormControl(moment()),
       endDate   : new FormControl(moment())
     });
-  }
-
-  hasError(controlName: string, errorName: string) {
-    return this.newAssignmentForm.controls[controlName].hasError(errorName);
   }
 
   onSubmit() {
@@ -76,10 +67,10 @@ export class NewAssignmentComponent implements OnInit {
     assignment.startDate = this.newAssignmentForm.get('startDate').value._d;
     assignment.endDate = this.newAssignmentForm.get('endDate').value._d;
 
-    this.assignmentService.createAssignment(assignment)
+    this.assignmentService.updateAssignment(this.assignment._id, assignment)
       .subscribe(res => {
           if (res) {
-            this.router.navigate([`subjects/${this.subject._id}`]);
+            this.router.navigate([`assignments/${this.assignment._id}`]);
           }
         }, (err) => {
           console.log(err);
@@ -87,4 +78,7 @@ export class NewAssignmentComponent implements OnInit {
       );
   }
 
+  hasError(controlName: string, errorName: string) {
+    return this.newAssignmentForm.controls[controlName].hasError(errorName);
+  }
 }

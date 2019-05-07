@@ -7,6 +7,14 @@ exports.findAll = function(req, res) {
   })
 };
 
+exports.find = function(req, res) {
+  Assignment.findOne({_id: req.params.id})
+    .populate('subject')
+    .exec(function (err, assignment) {
+      res.json(assignment);
+    });
+};
+
 exports.delete = function(req, res) {
   Assignment.remove({_id: req.params.id})
     .then((docs) => {

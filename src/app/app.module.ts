@@ -38,6 +38,7 @@ import { SubjectStudentsComponent } from './subject/subject-students/subject-stu
 import { NewAssignmentComponent } from './subject/new-assignment/new-assignment.component';
 import { AssignmentDetailComponent } from './assignment/assignment-detail/assignment-detail.component';
 import { AssignmentSidebarComponent } from './assignment/assignment-sidebar/assignment-sidebar.component';
+import { AssignmentEditComponent } from './assignment/assignment-edit/assignment-edit.component';
 
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -51,6 +52,7 @@ const Routes = [
   { path: 'subjects/:id/newAssignment', component: NewAssignmentComponent },
 
   { path: 'assignments/:id', component: AssignmentDetailComponent },
+  { path: 'assignments/:id/edit', component: AssignmentEditComponent },
 
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/subjects', component: AdminSubjectsComponent },
@@ -73,7 +75,8 @@ const Routes = [
     SubjectStudentsComponent,
     NewAssignmentComponent,
     AssignmentDetailComponent,
-    AssignmentSidebarComponent
+    AssignmentSidebarComponent,
+    AssignmentEditComponent
   ],
   imports: [
     BrowserAnimationsModule,

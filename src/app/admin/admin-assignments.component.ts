@@ -43,7 +43,7 @@ export class AdminAssignmentsComponent implements OnInit {
         map(name => name ? this._filter(name) : this.subjects.slice())
       );
 
-    this.assignmentService.getAssignment().subscribe(
+    this.assignmentService.getAssignments().subscribe(
       result => {
         this.assignments = result;
       }

@@ -61,6 +61,7 @@ const routes = require('./server/routes/routes');
 
 
 app.use('/routes', function(req, res, next) {
+  console.log(req.body);
   if (req.headers.user) {
     const reqUser = JSON.parse(req.headers.user);
 
@@ -94,6 +95,16 @@ app.use(function (err, req, res, next) {
       next();
   }
 });
+
+let clusterChecker = setInterval(function(){ checkCluster() }, 10 * 1000);
+
+function checkCluster() {
+  // Check cluster stuff
+}
+
+function stopCheckers() {
+  clearInterval(clusterChecker);
+}
 
 app.listen(port, (req, res) => {
   console.log(`working on port ${port}`);

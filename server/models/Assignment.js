@@ -2,10 +2,14 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const AssignmentSchema = new Schema({
-  name:      { type: String, required: true  },
-  startDate: { type: Date, default: Date.now(),required: true  },
-  endDate:   { type: Date, default: Date.now(),required: true  },
-  subject:   { type: Schema.Types.ObjectId, required: false, ref: 'Subject' },
+  name:                 { type: String, required: true  },
+  startDate:            { type: Date, default: Date.now(),required: true  },
+  endDate:              { type: Date, default: Date.now(),required: true  },
+  subject:              { type: Schema.Types.ObjectId, required: false, ref: 'Subject' },
+  parallelenvironment:  { type: String, required: false },
+  compilecommand:       { type: String, required: false },
+  runcommand:           { type: String, required: false },
+  cpuamount:            { type: [Number], required: false }
 });
 
 AssignmentSchema.parse = function() {
@@ -14,7 +18,10 @@ AssignmentSchema.parse = function() {
     name: this.name,
     startDate: this.startDate,
     endDate: this.endDate,
-    subject: this.subject
+    subject: this.subject,
+    parallelenvironment: this.parallelenvironment,
+    compilecommand: this.compilecommand,
+    runcommand: this.runcommand
   }
 };
 

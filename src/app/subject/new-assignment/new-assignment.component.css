@@ -1,6 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400');
 
 .container-80 {
   margin-left: 10px;
   width: 80%;
 }
 
+.config-section {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+  margin-top: 10px;
+}
+
+#parallelenvironmentlabel {
+  margin-top: 10px;
+}

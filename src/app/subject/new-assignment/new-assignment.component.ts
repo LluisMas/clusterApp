@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DataSubjectService} from '../data-subject.service';
 import {Subject} from '../subject';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 
@@ -45,17 +45,25 @@ export class NewAssignmentComponent implements OnInit {
   newAssignmentForm: FormGroup;
   submitted: boolean;
 
+  cpuamount: FormControl;
+
   constructor( private route: ActivatedRoute, private subjectService: DataSubjectService, private assignmentService: DataAssignmentService,
                private router: Router) { }
 
   ngOnInit() {
+    this.cpuamount = new FormControl('', [cpuAmountValidator]);
+
     const id = this.route.snapshot.paramMap.get('id');
     this.subjectService.getSubject(id).subscribe(subject => this.subject = subject);
 
     this.newAssignmentForm = new FormGroup({
       name : new FormControl('', [Validators.required]),
       startDate : new FormControl(moment()),
-      endDate   : new FormControl(moment())
+      endDate   : new FormControl(moment()),
+      compilecommand   : new FormControl('', [Validators.required]),
+      runcommand   : new FormControl('', [Validators.required]),
+      parallelenvironment   : new FormControl('', [Validators.required]),
+      cpuamount   : this.cpuamount
     });
   }
 
@@ -76,6 +84,20 @@ export class NewAssignmentComponent implements OnInit {
     assignment.startDate = this.newAssignmentForm.get('startDate').value._d;
     assignment.endDate = this.newAssignmentForm.get('endDate').value._d;
 
+    assignment.parallelenvironment = this.newAssignmentForm.get('parallelenvironment').value;
+    assignment.compilecommand = this.newAssignmentForm.get('compilecommand').value;
+    assignment.runcommand = this.newAssignmentForm.get('runcommand').value;
+
+    const values = this.newAssignmentForm.get('cpuamount').value.split(',');
+
+    assignment.cpuamount = [];
+    values.forEach(function (value) {
+      const number = Number(value.trim());
+      if (number) {
+        assignment.cpuamount.push(number);
+      }
+    });
+
     this.assignmentService.createAssignment(assignment)
       .subscribe(res => {
           if (res) {
@@ -86,5 +108,34 @@ export class NewAssignmentComponent implements OnInit {
         }
       );
   }
+}
 
+function cpuAmountValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  if (control.value === undefined) {
+    return { 'required': true };
+  }
+
+  const values = control.value.split(',');
+
+  let toReturn = null;
+  values.forEach(function (value) {
+
+    if (!Number(value.trim())) {
+      toReturn = { 'invalidValues': true };
+      return;
+    }
+
+    const number = Number(value.trim());
+
+    if (number <= 0) {
+      toReturn = { 'minValue' : true};
+      return;
+    }
+
+    if (number > 32) {
+      toReturn = { 'maxValue' : true};
+      return;
+    }
+  });
+  return toReturn;
 }

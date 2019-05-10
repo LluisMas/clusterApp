@@ -49,6 +49,11 @@ exports.create = function(req, res) {
 
   assignment.subject = req.body.subject;
 
+  assignment.parallelenvironment = req.body.parallelenvironment;
+  assignment.compilecommand = req.body.compilecommand;
+  assignment.runcommand = req.body.runcommand;
+  assignment.cpuamount = req.body.cpuamount;
+
   assignment.save(function (err, newAssig) {
     if (err) throw err;
 

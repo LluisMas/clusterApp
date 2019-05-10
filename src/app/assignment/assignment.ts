@@ -6,6 +6,10 @@ export class Assignment {
   startDate: Date;
   endDate: Date;
   subject: Subject;
+  parallelenvironment: string;
+  cpuamount: number[];
+  compilecommand: string;
+  runcommand: string;
 
   constructor (values: object = {}) {
     Object.assign(this as any, values);

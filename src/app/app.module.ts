@@ -28,7 +28,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule,
-  MatTableModule, MatCardModule
+  MatTableModule, MatCardModule, MatRadioModule
   } from '@angular/material';
 
 
@@ -94,7 +94,7 @@ const Routes = [
 
     // Material Modules
     MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatTableModule,
-    MatCardModule
+    MatCardModule, MatRadioModule
 ],
   providers: [
     MainService,

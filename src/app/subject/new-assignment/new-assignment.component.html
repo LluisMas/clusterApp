@@ -38,6 +38,7 @@
         <span class="h3 config-section" style="color: darkgrey; ">Configuración de la actividad</span> <br/>
 
         <label id="parallelenvironmentlabel" class="container-80">Entorno paralelo: </label> <br/>
+        <mat-error *ngIf=" submitted && hasError('parallelenvironment', 'required')">Elige un entorno paralelo</mat-error>
         <mat-radio-group class="container-80" aria-labelledby="parallelenvironmentlabel" formControlName="parallelenvironment">
           <mat-radio-button value="openmp">openmp</mat-radio-button>
           <mat-radio-button value="mpi">mpi</mat-radio-button>

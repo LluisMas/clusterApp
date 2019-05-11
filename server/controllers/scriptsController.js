@@ -9,3 +9,8 @@ exports.submitJob = function(req, res) {
     res.send(data + 'Current dir: ' + __filename);
   });
 };
+
+exports.initAssignment = function (assignment) {
+  const { spawn } = require('child_process');
+  spawn('python', ['server/scripts/initAssignment.py', assignment._id]);
+};

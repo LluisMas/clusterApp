@@ -61,7 +61,6 @@ const routes = require('./server/routes/routes');
 
 
 app.use('/routes', function(req, res, next) {
-  console.log(req.body);
   if (req.headers.user) {
     const reqUser = JSON.parse(req.headers.user);
 

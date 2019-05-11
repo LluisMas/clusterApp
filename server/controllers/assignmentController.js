@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Assignment = mongoose.model('Assignment');
+const scriptsController = require('../controllers/scriptsController');
 
 exports.findAll = function(req, res) {
   Assignment.find({}).populate('subject').exec(function (err, assignment) {
@@ -57,6 +58,7 @@ exports.create = function(req, res) {
   assignment.save(function (err, newAssig) {
     if (err) throw err;
 
+    scriptsController.initAssignment(newAssig);
     res.send(newAssig);
   });
 

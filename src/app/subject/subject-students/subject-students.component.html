@@ -115,12 +115,12 @@
 
 <div class="d-flex container-full" id="wrapper">
   <app-subject-sidebar></app-subject-sidebar>
-  <div class="mt-3 ml-3 container-full">
+  <div class="mt-3 ml-3 container-80">
     <h4>{{subject.name}} - Alumnos</h4>
 
     <div *ngIf="currentUser.role != 'Estudiante'; then professorButtons;"></div>
     <ng-template #professorButtons>
-          <span class="table-add float-right mb-3 mr-2">
+          <span class="table-add float-right mb-3 mr-lg-n5">
         <a class="text-success">
           <button type="button" class="btn btn-outline-primary mr-lg-5" size="sm" (click)="openModal(content, 'modal-basic-title')">Añadir Alumno Existente</button>
         </a>
@@ -134,7 +134,7 @@
         </a>
     </span>
     </ng-template>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 container-95 ">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 container-full">
 
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Estudiante </th>

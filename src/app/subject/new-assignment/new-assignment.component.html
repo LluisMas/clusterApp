@@ -1,7 +1,7 @@
 <div class="d-flex container-full" id="wrapper">
   <app-subject-sidebar></app-subject-sidebar>
 
-  <div class="mt-3 ml-3 ">
+  <div class="mt-3 ml-3">
     <h2>{{subject.name}} - Nueva actividad</h2>
 
     <form [formGroup]="newAssignmentForm" (ngSubmit)="onSubmit()">
@@ -11,7 +11,7 @@
 
         <mat-card-content>
           <mat-form-field class="container-80">
-            <input type=" text" placeholder="Nombre" aria-label="Nombre" matInput formControlName="name">
+            <input type="text" placeholder="Nombre" aria-label="Nombre" matInput formControlName="name">
             <mat-error *ngIf="hasError('name', 'required')">Nombre requerido</mat-error>
           </mat-form-field>
         </mat-card-content>

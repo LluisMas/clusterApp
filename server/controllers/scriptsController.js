@@ -12,5 +12,10 @@ exports.submitJob = function(req, res) {
 
 exports.initAssignment = function (assignment) {
   const { spawn } = require('child_process');
-  spawn('python', ['server/scripts/initAssignment.py', assignment._id]);
+  spawn('python', ['server/scripts/initAssignment.py', assignment]);
+};
+
+exports.removeAssignment = function (assignment) {
+  const { spawn } = require('child_process');
+  spawn('python', ['server/scripts/removeAssignment.py', assignment]);
 };

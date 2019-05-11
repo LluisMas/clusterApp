@@ -17,5 +17,3 @@ if __name__== "__main__":
     user = 'user'
     server = 'server'
     out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', user + '@' + server, 'mkdir', sys.argv[1]])
-
-    print out, sys.argv[1]

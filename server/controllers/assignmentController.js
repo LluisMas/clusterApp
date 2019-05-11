@@ -19,6 +19,7 @@ exports.find = function(req, res) {
 exports.delete = function(req, res) {
   Assignment.remove({_id: req.params.id})
     .then((docs) => {
+      scriptsController.removeAssignment(req.params.id);
       if(docs)
         res.status(200).send();
       else
@@ -58,7 +59,7 @@ exports.create = function(req, res) {
   assignment.save(function (err, newAssig) {
     if (err) throw err;
 
-    scriptsController.initAssignment(newAssig);
+    scriptsController.initAssignment(newAssig._id);
     res.send(newAssig);
   });
 

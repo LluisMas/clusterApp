@@ -5,7 +5,6 @@ if __name__== "__main__":
 
     # To set the connection up:
     # - change user and server values to whatever
-    # - Connect one first time to accept the server to known hosts (will be needed just once)
     # - Run the following commands to generate and add a keypair in order to securely connect:
     # - ssh-keygen
     # - ssh-copy-id user@server

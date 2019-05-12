@@ -9,6 +9,7 @@ require('./server/config/passport');
 require('./server/models/User');
 require('./server/models/Subject');
 require('./server/models/Assignment');
+require('./server/models/Submission');
 const winston = require('winston'), expressWinston = require('express-winston');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');

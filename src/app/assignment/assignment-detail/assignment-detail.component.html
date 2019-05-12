@@ -1,3 +1,24 @@
+<ng-template #newSubmission let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Nueva Entrega</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="custom-file">
+        <input type="file" name="text" ng2FileSelect [uploader]="uploader" class="custom-file-input">
+        <label *ngIf="uploader.queue.length" class="custom-file-label">{{uploader.queue[0].file.name}}</label>
+        <label *ngIf="!uploader.queue.length" class="custom-file-label">Introduce un fichero</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" [disabled]="!uploader.getNotUploadedItems().length" > Enviar</button>
+  </div>
+</ng-template>
+
 <div class="d-flex container-full" id="wrapper">
   <app-assignment-sidebar></app-assignment-sidebar>
 
@@ -13,9 +34,11 @@
 
     <div class="row container-95 mt-3 ml-lg-n2">
     <div class="table-responsive col-md-6 container-full">
-    <h2 class="sub-header">Latest Incidents</h2>
+    <h2 class="sub-header container-full">Latest Incidents
+      <button type="button" class="align-right" size="sm" (click)="open(newSubmission, 'modal-basic-title')" mat-raised-button> <span class="fa fa-upload ml"></span> Nueva Entrega</button>
+    </h2>
 
-    <table mat-table [dataSource]="dataSource" class="table mat-elevation-z3">
+    <table mat-table [dataSource]="dataSource" class="table mat-elevation-z3 mt-1">
 
       <!-- Position Column -->
       <ng-container matColumnDef="position">
@@ -66,5 +89,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     </div>
+</div>
 </div>
 </div>

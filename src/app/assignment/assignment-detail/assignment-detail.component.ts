@@ -3,12 +3,16 @@
   import {Assignment} from '../assignment';
   import {ActivatedRoute} from '@angular/router';
   import {Subject} from '../../subject/subject';
+  import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+  import {FileUploader, FileUploaderOptions} from 'ng2-file-upload';
 
   export interface PeriodicElement {
     name: string;
     position: number;
     weight: number;
   }
+
+  const URL = 'http://localhost:4600/routes/submission/file';
 
   const ELEMENT_DATA: PeriodicElement[] = [
     {position: 1, name: 'Hydrogen', weight: 1.0079},
@@ -36,7 +40,9 @@ export class AssignmentDetailComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight'];
   dataSource = ELEMENT_DATA;
 
-  constructor( private route: ActivatedRoute, private assignmentService: DataAssignmentService) { }
+  constructor( private route: ActivatedRoute, private assignmentService: DataAssignmentService, private modalService: NgbModal) { }
+
+  public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'text'});
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -44,6 +50,32 @@ export class AssignmentDetailComponent implements OnInit {
       this.assignment = assignment;
       this.subject = assignment.subject;
     });
+
+    const token = localStorage.getItem('access_token');
+    const user = localStorage.getItem('current_user');
+
+    const uo: FileUploaderOptions = {};
+    uo.headers = [{ name: 'Authorization', value : token }, { name: 'user', value : user}];
+    uo.additionalParameter = [{'verga': 'verga'}];
+    this.uploader.setOptions(uo);
+
+
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.uploader.clearQueue();
+      alert('ok');
+    };
   }
 
+  open(content, id) {
+    this.modalService.open(content, {ariaLabelledBy: id})
+      .result.then((result) => {
+      this.uploader.options.headers.push({name: 'Assignment', value: this.assignment._id});
+      this.uploader.options.headers.push({name: 'Name', value: 'asd'});
+      this.uploader.uploadAll();
+    }, (reason) => {
+    });
+  }
 }

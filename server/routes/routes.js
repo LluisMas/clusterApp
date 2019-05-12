@@ -8,12 +8,14 @@ const subjectController = require('../controllers/subjectController');
 const assignmentController = require('../controllers/assignmentController');
 const utilsController = require('../controllers/utilsController');
 const scriptsController = require('../controllers/scriptsController');
+const submissionController = require('../controllers/submissionController');
 const authController = require('../controllers/authController');
 
 const multer = require('multer');
 
 let upload = multer();
 
+// Users
 router.get('/users', auth.required, userController.findAll);
 router.get('/users/:id', auth.required, userController.find);
 router.delete('/users/:id', auth.required, userController.delete);
@@ -21,6 +23,7 @@ router.put('/users/:id', auth.required, userController.update);
 router.post('/users', auth.required, userController.create);
 router.post('/users/file', auth.required, upload.single('text'), userController.createFromFile);
 
+// Subjects
 router.get('/subjects', auth.required, subjectController.findAll);
 router.get('/subjects/:id', auth.required, subjectController.find);
 router.get('/subjects/:id/students', auth.required, subjectController.getStudentsOfSubject);
@@ -32,18 +35,25 @@ router.post('/subjects', auth.required, subjectController.create);
 router.post('/subjects/:id/addstudent', auth.required, subjectController.addStudent);
 router.post('/subjects/:id/file', auth.required, upload.single('text'), subjectController.createFromFile);
 
+// Assignments
 router.get('/assignments', auth.required, assignmentController.findAll);
 router.get('/assignments/:id', auth.required, assignmentController.find);
 router.delete('/assignments/:id', auth.required, assignmentController.delete);
 router.put('/assignments/:id', auth.required, assignmentController.update);
 router.post('/assignments', auth.required, assignmentController.create);
 
+//Submissions
+router.post('/submission/file', auth.required, upload.single('text'), submissionController.uploadFile);
+
+// Utils
 router.post('/init', utilsController.init);
 router.post('/initAssignment', utilsController.initAssignment);
 router.post('/cleanSubjects', utilsController.cleanSubjects);
 
+// Scripts
 router.post('/scripts/submitJob', scriptsController.submitJob);
 
+// Auth
 router.post('/auth', authController.authenticate);
 
 module.exports = router;

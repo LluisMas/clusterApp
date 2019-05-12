@@ -47,7 +47,7 @@ export class AssignmentDetailComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.assignmentService.getAssignment(id).subscribe(assignment => {
-      this.assignment = assignment;
+      this.assignment = new Assignment(assignment);
       this.subject = assignment.subject;
     });
 

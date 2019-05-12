@@ -35,7 +35,7 @@
     <div class="row container-95 mt-3 ml-lg-n2">
     <div class="table-responsive col-md-6 container-full">
     <h2 class="sub-header container-full">Latest Incidents
-      <button type="button" class="align-right" size="sm" (click)="open(newSubmission, 'modal-basic-title')" mat-raised-button> <span class="fa fa-upload ml"></span> Nueva Entrega</button>
+      <button *ngIf="this.assignment.getState()[0] === 'En curso'" type="button" class="align-right" size="sm" (click)="open(newSubmission, 'modal-basic-title')" mat-raised-button> <span class="fa fa-upload ml"></span> Nueva Entrega</button>
     </h2>
 
     <table mat-table [dataSource]="dataSource" class="table mat-elevation-z3 mt-1">

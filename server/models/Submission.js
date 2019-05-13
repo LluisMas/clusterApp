@@ -8,6 +8,7 @@ const SubmissionSchema = new Schema({
   status:     { type: Status, required: true, default: Status.Queue },
   author:     { type: Schema.Types.ObjectId, required: false, ref: 'User' },
   assignment: { type: Schema.Types.ObjectId, required: false, ref: 'Assignment' },
+  file: Buffer, contentType: String
 });
 
 SubmissionSchema.parse = function() {
@@ -17,7 +18,8 @@ SubmissionSchema.parse = function() {
     submitted: this.submitted,
     status: this.status,
     assignment: this.assignment,
-    author: this.author
+    author: this.author,
+    file: this.file
   }
 };
 

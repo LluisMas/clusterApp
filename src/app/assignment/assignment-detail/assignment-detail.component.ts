@@ -63,16 +63,15 @@ export class AssignmentDetailComponent implements OnInit {
 
     const uo: FileUploaderOptions = {};
     uo.headers = [{ name: 'Authorization', value : token }, { name: 'user', value : user}];
-    uo.additionalParameter = [{'verga': 'verga'}];
     this.uploader.setOptions(uo);
 
 
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
     };
-    this.uploader.onCompleteItem = () => {
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.uploader.clearQueue();
-      alert('ok');
+      this.uploader.setOptions(uo);
     };
   }
 
@@ -81,7 +80,7 @@ export class AssignmentDetailComponent implements OnInit {
       .result.then((result) => {
       this.uploader.options.headers.push({name: 'Assignment', value: this.assignment._id});
       this.uploader.options.headers.push({name: 'Name', value: this.newSubmissionForm.get('name').value});
-
+      this.newSubmissionForm.reset();
       this.uploader.uploadAll();
     }, (reason) => {
     });

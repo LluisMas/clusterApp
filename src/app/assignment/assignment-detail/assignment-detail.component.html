@@ -6,7 +6,13 @@
     </button>
   </div>
   <div class="modal-body">
-    <form>
+    <form [formGroup]="newSubmissionForm">
+      <mat-card-content>
+        <mat-form-field class="container-80">
+          <input type="text" placeholder="(Opcional) Nombre" aria-label="(Opcional)   Nombre" matInput formControlName="name">
+        </mat-form-field>
+      </mat-card-content>
+
       <div class="custom-file">
         <input type="file" name="text" ng2FileSelect [uploader]="uploader" class="custom-file-input">
         <label *ngIf="uploader.queue.length" class="custom-file-label">{{uploader.queue[0].file.name}}</label>

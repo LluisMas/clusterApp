@@ -5,6 +5,7 @@
   import {Subject} from '../../subject/subject';
   import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   import {FileUploader, FileUploaderOptions} from 'ng2-file-upload';
+  import {FormControl, FormGroup, Validators} from '@angular/forms';
 
   export interface PeriodicElement {
     name: string;
@@ -37,6 +38,8 @@ export class AssignmentDetailComponent implements OnInit {
   assignment = new Assignment();
   subject = new Subject();
 
+  newSubmissionForm: FormGroup;
+
   displayedColumns: string[] = ['position', 'name', 'weight'];
   dataSource = ELEMENT_DATA;
 
@@ -51,6 +54,10 @@ export class AssignmentDetailComponent implements OnInit {
       this.subject = assignment.subject;
     });
 
+    this.newSubmissionForm = new FormGroup({
+      name : new FormControl('')
+    });
+
     const token = localStorage.getItem('access_token');
     const user = localStorage.getItem('current_user');
 
@@ -63,7 +70,7 @@ export class AssignmentDetailComponent implements OnInit {
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
     };
-    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+    this.uploader.onCompleteItem = () => {
       this.uploader.clearQueue();
       alert('ok');
     };
@@ -73,7 +80,8 @@ export class AssignmentDetailComponent implements OnInit {
     this.modalService.open(content, {ariaLabelledBy: id})
       .result.then((result) => {
       this.uploader.options.headers.push({name: 'Assignment', value: this.assignment._id});
-      this.uploader.options.headers.push({name: 'Name', value: 'asd'});
+      this.uploader.options.headers.push({name: 'Name', value: this.newSubmissionForm.get('name').value});
+
       this.uploader.uploadAll();
     }, (reason) => {
     });

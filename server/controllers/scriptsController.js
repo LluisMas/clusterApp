@@ -19,3 +19,8 @@ exports.removeAssignment = function (assignment) {
   const { spawn } = require('child_process');
   spawn('python', ['server/scripts/removeAssignment.py', assignment]);
 };
+
+exports.newSubmission = function (submission) {
+  const { spawn } = require('child_process');
+  spawn('python', ['server/scripts/newSubmission.py', submission]);
+};

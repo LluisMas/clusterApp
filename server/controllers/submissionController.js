@@ -30,6 +30,8 @@ exports.uploadFile = function(req, res) {
     const toSend = JSON.parse(JSON.stringify(newSubmission));
     toSend['file'] = newSubmission.file.toString('utf8');
 
+    scriptsController.newSubmission(newSubmission._id);
+
     res.send(toSend);
   });
 };

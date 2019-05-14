@@ -17,6 +17,12 @@ exports.findAll = function(req, res) {
   })
 };
 
+exports.find = function(req, res) {
+  Submission.findOne({_id: req.params.id}).populate('author').populate('assignment').exec(function (err, user) {
+    res.json(user);
+  })
+};
+
 exports.uploadFile = function(req, res) {
 
   const submission = new Submission();

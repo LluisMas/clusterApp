@@ -4,7 +4,6 @@ const Subject = mongoose.model('Subject');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.find = function(req, res) {
-  console.log(req.params.id);
   User.findOne({_id: req.params.id}).populate('subjects').exec(function (err, user) {
     res.json(user);
   })

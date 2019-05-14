@@ -6,6 +6,4 @@ if __name__== "__main__":
         print('no arguments passed')
         sys.exit()
 
-    user = 'user'
-    server = 'server'
-    out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', user + '@' + server, 'rm', '-rf', sys.argv[1]])
+    out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', config.CLUSTER['user'], + '@' + config.CLUSTER['host'], 'rm', '-rf', sys.argv[1]])

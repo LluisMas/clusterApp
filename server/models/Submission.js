@@ -5,10 +5,11 @@ const Status = require('./SubmissionStatus');
 const SubmissionSchema = new Schema({
   name:       { type: String },
   submitted:  { type: Date, default: Date.now(),required: true  },
-  status:     { type: Status, required: true, default: Status.Queue },
+  status:     { type: Status, required: true, default: Status.NotStarted },
   author:     { type: Schema.Types.ObjectId, required: false, ref: 'User' },
   assignment: { type: Schema.Types.ObjectId, required: false, ref: 'Assignment' },
-  file: Buffer, contentType: String
+  file: Buffer, contentType: String,
+  jobId:      { type: Number, default: -1}
 });
 
 SubmissionSchema.parse = function() {
@@ -19,7 +20,8 @@ SubmissionSchema.parse = function() {
     status: this.status,
     assignment: this.assignment,
     author: this.author,
-    file: this.file
+    file: this.file,
+    jobId: this.jobId
   }
 };
 

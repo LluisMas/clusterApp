@@ -43,6 +43,7 @@ router.put('/assignments/:id', auth.required, assignmentController.update);
 router.post('/assignments', auth.required, assignmentController.create);
 
 //Submissions
+router.get('/submission/:id', auth.required, submissionController.find);
 router.post('/submission/file', auth.required, upload.single('text'), submissionController.uploadFile);
 router.get('/submission', auth.required, submissionController.findAll);
 

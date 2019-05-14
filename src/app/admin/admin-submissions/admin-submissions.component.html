@@ -1,3 +1,36 @@
 <div class="d-flex container-full" id="wrapper">
   <app-admin></app-admin>
+  <div class="card container-full">
+    <div class="card-body container-full">
+      <div id="table" class="table-editable container-full">
+        <table class="table table-bordered table-responsive-md table-striped text-center container-full">
+          <tr>
+            <th class="text-center">Nombre</th>
+            <th class="text-center">Fecha</th>
+            <th class="text-center">ID</th>
+            <th class="text-center">Estado</th>
+            <th class="text-center">Alumno</th>
+            <th class="text-center">Asignatura</th>
+            <th class="text-center">Job ID</th>
+
+            <th class="text-center"> </th>
+          </tr>
+
+          <tr *ngFor="let submission of submissions;">
+            <td><span>{{submission.name}}</span></td>
+            <td><span>{{submission.submitted | date : 'dd/MM/yy'}}</span></td>
+            <td><span>{{submission._id}}</span></td>
+            <td><span>{{submission.status}}</span></td>
+            <td><span>{{submission.author.name}}</span></td>
+            <td><span>{{submission.assignment.name}}</span></td>
+            <td><span>{{submission.jobId}}</span></td>
+
+            <td>
+              <button type="button" class="btn btn-outline-danger" size="sm" (click)="remove(submission._id)">Eliminar</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

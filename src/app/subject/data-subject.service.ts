@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Subject} from './subject';
-import {User} from '../user/user';
-import {Assignment} from '../assignment/assignment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Subject } from './subject';
+import { User } from '../user/user';
+import { Assignment } from '../assignment/assignment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

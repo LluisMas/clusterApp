@@ -23,11 +23,23 @@ exports.find = function(req, res) {
   })
 };
 
+exports.delete = function(req, res) {
+  Submission.remove({_id: req.params.id})
+    .then((docs) => {
+      if(docs)
+        res.status(200).send();
+      else
+        res.status(409).send();
+    });
+  console.log("deleting submission: " + req.params.id);
+};
+
 exports.uploadFile = function(req, res) {
+  const id = JSON.parse(req.headers.user)._id;
 
   const submission = new Submission();
   submission.name = req.headers.name;
-  submission.author = req.headers.user._id;
+  submission.author = id;
   submission.assignment = req.headers.assignment;
   submission.file  = req.file.buffer;
   submission.originalName = req.file.originalname;

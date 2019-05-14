@@ -1,4 +1,4 @@
-import {User} from '../user/user';
+import { User } from '../user/user';
 
 export class Subject {
   _id: string;

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Assignment = mongoose.model('Assignment');
+const Submission = mongoose.model('Submission');
 const scriptsController = require('../controllers/scriptsController');
 
 exports.findAll = function(req, res) {
@@ -14,6 +15,15 @@ exports.find = function(req, res) {
     .exec(function (err, assignment) {
       res.json(assignment);
     });
+};
+
+exports.getSubmissionsOfAssignment = function(req, res) {
+
+  Submission.find({assignment: req.params.id}).populate('author').populate('assignment').exec(function (err, submissions) {
+    if (err) throw err;
+
+    res.json(submissions);
+  });
 };
 
 exports.delete = function(req, res) {

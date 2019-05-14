@@ -38,6 +38,7 @@ router.post('/subjects/:id/file', auth.required, upload.single('text'), subjectC
 // Assignments
 router.get('/assignments', auth.required, assignmentController.findAll);
 router.get('/assignments/:id', auth.required, assignmentController.find);
+router.get('/assignments/:id/submissions', auth.required, assignmentController.getSubmissionsOfAssignment);
 router.delete('/assignments/:id', auth.required, assignmentController.delete);
 router.put('/assignments/:id', auth.required, assignmentController.update);
 router.post('/assignments', auth.required, assignmentController.create);

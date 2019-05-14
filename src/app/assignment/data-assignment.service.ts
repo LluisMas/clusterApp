@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Assignment} from './assignment';
+import {Submission} from '../submission/submission';
 
 
 const httpOptions = {
@@ -38,5 +39,10 @@ export class DataAssignmentService {
 
   createAssignment (subject: Assignment): Observable<Assignment> {
     return this.http.post<Assignment>(this.assignmentUrl, subject);
+  }
+
+  getSubmissionAssignment(id: any): Observable<Submission[]> {
+    const url = `${this.assignmentUrl}/${id}/submissions`;
+    return this.http.get<Submission[]>(url);
   }
 }

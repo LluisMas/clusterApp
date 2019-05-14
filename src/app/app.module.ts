@@ -40,6 +40,7 @@ import { AssignmentDetailComponent } from './assignment/assignment-detail/assign
 import { AssignmentSidebarComponent } from './assignment/assignment-sidebar/assignment-sidebar.component';
 import { AssignmentEditComponent } from './assignment/assignment-edit/assignment-edit.component';
 import { AdminSubmissionsComponent } from './admin/admin-submissions/admin-submissions.component';
+import { SubmissionListComponent } from './assignment/submission-list/submission-list.component';
 
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -54,6 +55,7 @@ const Routes = [
 
   { path: 'assignments/:id', component: AssignmentDetailComponent },
   { path: 'assignments/:id/edit', component: AssignmentEditComponent },
+  { path: 'assignments/:id/submissions', component: SubmissionListComponent },
 
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/subjects', component: AdminSubjectsComponent },
@@ -79,7 +81,8 @@ const Routes = [
     AssignmentDetailComponent,
     AssignmentSidebarComponent,
     AssignmentEditComponent,
-    AdminSubmissionsComponent
+    AdminSubmissionsComponent,
+    SubmissionListComponent
   ],
   imports: [
     BrowserAnimationsModule,

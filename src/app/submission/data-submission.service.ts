@@ -20,6 +20,11 @@ export class DataSubmissionService {
     return this.http.get<Submission[]>(this.submissionUrl);
   }
 
+  getSubmission (id: any): Observable<Submission> {
+    const url = `${this.submissionUrl}/${id}`;
+    return this.http.get<Submission>(url);
+  }
+
   deleteSubmission (id: any): Observable<Submission> {
     const url = `${this.submissionUrl}/${id}`;
     return this.http.delete<Submission>(url, httpOptions);

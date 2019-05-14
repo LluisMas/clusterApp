@@ -14,13 +14,13 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { DataProvider } from './user/data-provider.service';
-import { AdminUsersComponent } from './admin/admin-users.component';
+import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { AdminSubjectsComponent } from './admin/admin-subjects.component';
-import { AdminAssignmentsComponent } from './admin/admin-assignments.component';
+import { AdminSubjectsComponent } from './admin/admin-subjects/admin-subjects.component';
+import { AdminAssignmentsComponent } from './admin/admin-assignments/admin-assignments.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 

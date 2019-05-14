@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subject } from '../subject/subject';
-import { DataSubjectService } from '../subject/data-subject.service';
+import { Subject } from '../../subject/subject';
+import { DataSubjectService } from '../../subject/data-subject.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '../user/user';
-import { DataProvider } from '../user/data-provider.service';
+import { User } from '../../user/user';
+import { DataProvider } from '../../user/data-provider.service';
 import { map, startWith } from 'rxjs/operators';
 import {Observable} from 'rxjs';
 

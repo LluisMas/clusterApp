@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {DataAssignmentService} from '../assignment/data-assignment.service';
-import { Assignment } from '../assignment/assignment';
+import {DataAssignmentService} from '../../assignment/data-assignment.service';
+import { Assignment } from '../../assignment/assignment';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {DataSubjectService} from '../subject/data-subject.service';
-import {Subject} from '../subject/subject';
+import {DataSubjectService} from '../../subject/data-subject.service';
+import {Subject} from '../../subject/subject';
 import {map, startWith} from 'rxjs/operators';
-import {User} from '../user/user';
+import {User} from '../../user/user';
 import {Observable} from 'rxjs';
 
 

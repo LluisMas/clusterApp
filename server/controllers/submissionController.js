@@ -30,6 +30,8 @@ exports.uploadFile = function(req, res) {
   submission.author = req.headers.user._id;
   submission.assignment = req.headers.assignment;
   submission.file  = req.file.buffer;
+  submission.originalName = req.file.originalname;
+
   submission.save(function (err, newSubmission) {
     if (err) throw err;
 

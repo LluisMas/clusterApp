@@ -39,6 +39,7 @@ import { NewAssignmentComponent } from './subject/new-assignment/new-assignment.
 import { AssignmentDetailComponent } from './assignment/assignment-detail/assignment-detail.component';
 import { AssignmentSidebarComponent } from './assignment/assignment-sidebar/assignment-sidebar.component';
 import { AssignmentEditComponent } from './assignment/assignment-edit/assignment-edit.component';
+import { AdminSubmissionsComponent } from './admin/admin-submissions/admin-submissions.component';
 
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -57,6 +58,7 @@ const Routes = [
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/subjects', component: AdminSubjectsComponent },
   { path: 'admin/assignments', component: AdminAssignmentsComponent },
+  { path: 'admin/submissions', component: AdminSubmissionsComponent },
 ];
 
 @NgModule({
@@ -76,7 +78,8 @@ const Routes = [
     NewAssignmentComponent,
     AssignmentDetailComponent,
     AssignmentSidebarComponent,
-    AssignmentEditComponent
+    AssignmentEditComponent,
+    AdminSubmissionsComponent
   ],
   imports: [
     BrowserAnimationsModule,

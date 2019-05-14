@@ -1,10 +1,10 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { User } from '../../user/user';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { DataProvider } from '../../user/data-provider.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {FileUploader, FileUploaderOptions} from 'ng2-file-upload/ng2-file-upload';
+import { FileUploader, FileUploaderOptions} from 'ng2-file-upload/ng2-file-upload';
 import { FormControl, FormGroup} from '@angular/forms';
-import {Role} from '../../user/roles';
+import { Role } from '../../user/roles';
+import { User } from '../../user/user';
 
 const URL = 'http://localhost:4600/routes/users/file';
 

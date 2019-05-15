@@ -23,6 +23,15 @@ exports.find = function(req, res) {
   })
 };
 
+exports.getSubmissionsOfAssignmentFromuUser = function(req, res) {
+  Submission.find({$and: [{assignment: req.params.assignmentid}, {author: req.params.userid}]})
+    .populate('author').populate('assignment').exec(function (err, submissions) {
+    if (err) throw err;
+
+    res.json(submissions);
+  });
+};
+
 exports.delete = function(req, res) {
   Submission.remove({_id: req.params.id})
     .then((docs) => {

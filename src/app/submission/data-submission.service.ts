@@ -29,4 +29,9 @@ export class DataSubmissionService {
     const url = `${this.submissionUrl}/${id}`;
     return this.http.delete<Submission>(url, httpOptions);
   }
+
+  getSubmissionsOfAssignmentFromuUser(assignmentid: any, userid: any): Observable<Submission[]> {
+    const url = `${this.submissionUrl}/${assignmentid}/author/${userid}`;
+    return this.http.get<Submission[]>(url);
+  }
 }

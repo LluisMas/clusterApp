@@ -27,14 +27,18 @@ exports.getSubmissionsOfAssignment = function(req, res) {
 };
 
 exports.delete = function(req, res) {
-  Assignment.remove({_id: req.params.id})
+  Submission.remove({assignment: req.params.id})
     .then((docs) => {
-      scriptsController.removeAssignment(req.params.id);
-      if(docs)
-        res.status(200).send();
-      else
-        res.status(409).send();
+      Assignment.remove({_id: req.params.id})
+        .then((docs) => {
+          scriptsController.removeAssignment(req.params.id);
+          if(docs)
+            res.status(200).send();
+          else
+            res.status(409).send();
+        });
     });
+
   console.log("deleting assignment: " + req.params.id);
 };
 

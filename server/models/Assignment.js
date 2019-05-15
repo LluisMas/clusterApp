@@ -25,4 +25,9 @@ AssignmentSchema.parse = function() {
   }
 };
 
+AssignmentSchema.pre('remove', function (next) {
+  console.log('[Assignment] removing: ');
+  next();
+});
+
 module.exports = mongoose.model('Assignment', AssignmentSchema);

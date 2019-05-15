@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Subject = mongoose.model('Subject');
 const User = mongoose.model('User');
 const Assignment = mongoose.model('Assignment');
+const Submission = mongoose.model('Submission');
 
 exports.findAll = function(req, res) {
   Subject.find({})
@@ -22,24 +23,38 @@ exports.find = function(req, res) {
 };
 
 exports.delete = function(req, res) {
-  Subject.remove({_id: req.params.id})
-    .then((docs) => {
-      if(docs) {
-        res.status(200).send();
-        User.find({subjects: req.params.id}, function (err, users) {
-          if (err) return err;
+  Assignment.find({subject: req.params.id}, function (err, assignments) {
 
-          users.forEach(function (user) {
-            user.subjects = user.subjects.filter(function (sub) {
-              return String(sub._id) !== req.params.id;
-            });
-            user.save();
-          });
-        });
-      }
-      else
-        res.status(409).send();
+    assignments.forEach(function (assignment) {
+      const id = assignment._id;
+      Submission.find({assignment: id}, function (err, submissions) {
+        submissions.forEach(function (submission) {
+          submission.remove();
+        })
+      });
+      assignment.remove();
     });
+
+    Subject.deleteOne({_id: req.params.id})
+      .then((docs) => {
+        if(docs) {
+          res.status(200).send();
+          User.find({subjects: req.params.id}, function (err, users) {
+            if (err) return err;
+
+            users.forEach(function (user) {
+              user.subjects = user.subjects.filter(function (sub) {
+                return String(sub._id) !== req.params.id;
+              });
+              user.save();
+            });
+          });
+        }
+        else
+          res.status(409).send();
+      });
+  });
+
   console.log("deleting subject: " + req.params.id);
 };
 
@@ -121,7 +136,6 @@ exports.create = function(req, res) {
         subject: subject
       });
 
-      console.log('Profesor: ', professor);
       correctUsers.forEach(function (user) {
 
         let found = false;
@@ -196,9 +210,6 @@ exports.addStudent = function(req, res) {
     return;
   }
 
-  console.log('Param: ', req.params);
-  console.log('Body: ', req.body);
-
   Subject.findOne({_id: req.params.id}, function (err, subject) {
     if (err) throw err;
 
@@ -216,9 +227,6 @@ exports.addStudent = function(req, res) {
 };
 
 exports.createFromFile = function(req, res) {
-  console.log(req.params);
-  console.log(req.body);
-
   Subject.findOne({_id: req.params.id}, function (err, subject) {
     if (err) throw err;
 

@@ -6,6 +6,8 @@
   import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   import {FileUploader, FileUploaderOptions} from 'ng2-file-upload';
   import {FormControl, FormGroup, Validators} from '@angular/forms';
+  import {Submission} from '../../submission/submission';
+  import {DataSubmissionService} from '../../submission/data-submission.service';
 
   export interface PeriodicElement {
     name: string;
@@ -37,21 +39,29 @@ export class AssignmentDetailComponent implements OnInit {
 
   assignment = new Assignment();
   subject = new Subject();
+  submissions: Submission[];
 
   newSubmissionForm: FormGroup;
 
   displayedColumns: string[] = ['position', 'name', 'weight'];
   dataSource = ELEMENT_DATA;
 
-  constructor( private route: ActivatedRoute, private assignmentService: DataAssignmentService, private modalService: NgbModal) { }
+  constructor( private route: ActivatedRoute, private assignmentService: DataAssignmentService, private modalService: NgbModal,
+               private submissionService: DataSubmissionService) { }
 
   public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'text'});
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    const user = JSON.parse(localStorage.getItem('current_user'));
+
     this.assignmentService.getAssignment(id).subscribe(assignment => {
       this.assignment = new Assignment(assignment);
       this.subject = assignment.subject;
+    });
+
+    this.submissionService.getSubmissionsOfAssignmentFromuUser(id, user._id).subscribe(submissions => {
+      this.submissions = submissions;
     });
 
     this.newSubmissionForm = new FormGroup({

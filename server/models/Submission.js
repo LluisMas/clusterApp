@@ -27,4 +27,8 @@ SubmissionSchema.parse = function() {
   }
 };
 
+SubmissionSchema.pre('remove', function (next) {
+  console.log('[Submission] removing: ' + this._id);
+  next();
+});
 module.exports = mongoose.model('Submission', SubmissionSchema);

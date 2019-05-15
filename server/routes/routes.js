@@ -48,6 +48,7 @@ router.get('/submission/:id', auth.required, submissionController.find);
 router.delete('/submission/:id', auth.required, submissionController.delete);
 router.post('/submission/file', auth.required, upload.single('text'), submissionController.uploadFile);
 router.get('/submission', auth.required, submissionController.findAll);
+router.get('/submission/:assignmentid/author/:userid', auth.required, submissionController.getSubmissionsOfAssignmentFromuUser);
 
 // Utils
 router.post('/init', utilsController.init);

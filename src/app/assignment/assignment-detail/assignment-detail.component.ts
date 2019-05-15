@@ -8,6 +8,7 @@
   import {FormControl, FormGroup, Validators} from '@angular/forms';
   import {Submission} from '../../submission/submission';
   import {DataSubmissionService} from '../../submission/data-submission.service';
+  import {MatTableDataSource} from '@angular/material';
 
   export interface PeriodicElement {
     name: string;
@@ -44,6 +45,9 @@ export class AssignmentDetailComponent implements OnInit {
   newSubmissionForm: FormGroup;
 
   displayedColumns: string[] = ['position', 'name', 'weight'];
+  displayedColumnsSubmissions: string[] = ['date', 'name', 'jobId', 'status'];
+  dataSourceSubmissions: MatTableDataSource<Submission>;
+
   dataSource = ELEMENT_DATA;
 
   constructor( private route: ActivatedRoute, private assignmentService: DataAssignmentService, private modalService: NgbModal,
@@ -62,6 +66,7 @@ export class AssignmentDetailComponent implements OnInit {
 
     this.submissionService.getSubmissionsOfAssignmentFromuUser(id, user._id).subscribe(submissions => {
       this.submissions = submissions;
+      this.dataSourceSubmissions = new MatTableDataSource(submissions);
     });
 
     this.newSubmissionForm = new FormGroup({

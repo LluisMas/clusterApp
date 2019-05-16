@@ -73,7 +73,8 @@ exports.create = function(req, res) {
   assignment.save(function (err, newAssig) {
     if (err) throw err;
 
-    scriptsController.initAssignment(newAssig._id);
+    const path = assignment.subject._id + '/' + newAssig._id;
+    scriptsController.initAssignment(path);
     res.send(newAssig);
   });
 

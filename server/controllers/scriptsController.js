@@ -12,13 +12,38 @@ exports.submitJob = function(req, res) {
 
 exports.initAssignment = function (assignment) {
   const { spawn } = require('child_process');
-  spawn('python', ['server/scripts/initAssignment.py', assignment]);
+  const pyProg = spawn('python', ['server/scripts/init.py', 'Assignment', assignment]);
+
+  pyProg.stdout.on('data', function(data) {
+    console.log('Data:' +  data);
+  });
+  pyProg.stderr.on('data', function(data) {
+    console.log('Data:' +  data);
+  });
+};
+
+exports.initSubject = function (subject) {
+  const { spawn } = require('child_process');
+  const pyProg = spawn('python', ['server/scripts/init.py', 'Subject', subject]);
+
+  pyProg.stdout.on('data', function(data) {
+    console.log('Data:' +  data);
+  });
+  pyProg.stderr.on('data', function(data) {
+    console.log('Data:' +  data);
+  });
 };
 
 exports.removeAssignment = function (assignment) {
   const { spawn } = require('child_process');
-  spawn('python', ['server/scripts/removeAssignment.py', assignment]);
+  spawn('python', ['server/scripts/destroy.py', 'Assignment', assignment]);
 };
+
+exports.removeSubject = function (subject) {
+  const { spawn } = require('child_process');
+  spawn('python', ['server/scripts/destroy.py', 'Subject', subject]);
+};
+
 
 exports.newSubmission = function (submission) {
   const { spawn } = require('child_process');

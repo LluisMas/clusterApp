@@ -3,6 +3,7 @@ const Subject = mongoose.model('Subject');
 const User = mongoose.model('User');
 const Assignment = mongoose.model('Assignment');
 const Submission = mongoose.model('Submission');
+const scriptsController = require('../controllers/scriptsController');
 
 exports.findAll = function(req, res) {
   Subject.find({})
@@ -38,6 +39,7 @@ exports.delete = function(req, res) {
     Subject.deleteOne({_id: req.params.id})
       .then((docs) => {
         if(docs) {
+          scriptsController.removeSubject(req.params.id);
           res.status(200).send();
           User.find({subjects: req.params.id}, function (err, users) {
             if (err) return err;

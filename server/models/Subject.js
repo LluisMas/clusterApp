@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const scriptsController = require('../controllers/scriptsController');
 
 const SubjectSchema = new Schema({
   name:      { type: String, required: true  },
@@ -17,5 +18,9 @@ SubjectSchema.parse = function() {
     students: this.students
   }
 };
+
+SubjectSchema.post('save', function (subject) {
+  scriptsController.initSubject(subject._id);
+});
 
 module.exports = mongoose.model('Subject', SubjectSchema);

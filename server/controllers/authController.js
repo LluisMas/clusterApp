@@ -8,12 +8,11 @@ exports.authenticate = function(req, res) {
       return (err);
     }
 
-    console.log(username);
     if(username) {
       const user = username;
       user.token = username.generateJWT();
       res.json({ user: user.toAuthJSON() });
-    }else {
+    } else {
       res.status(401).json(info);
     }
   })(req, res);

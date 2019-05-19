@@ -42,6 +42,7 @@ router.get('/assignments/:id/submissions', auth.required, assignmentController.g
 router.delete('/assignments/:id', auth.required, assignmentController.delete);
 router.put('/assignments/:id', auth.required, assignmentController.update);
 router.post('/assignments', auth.required, assignmentController.create);
+router.post('/assignments/uploadData', upload.single('datafile'), assignmentController.uploadData);
 
 //Submissions
 router.get('/submission/:id', auth.required, submissionController.find);

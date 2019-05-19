@@ -35,6 +35,19 @@
 
       <div class="mt-3">
 
+        <span class="h3 config-section" style="color: darkgrey; ">Ficheros adicionales</span> <br/>
+
+        <span class="mt-3 mb-1 container-80" style="color: darkgrey;"> Formatos aceptados: .tar, .tar.gz, tar.z, .tgz, .zip </span>
+        <div class="custom-file container-80">
+          <input type="file" name="datafile" ng2FileSelect [uploader]="uploader" accept=".tar, .tar.gz, tar.z, .tgz, .zip" class="custom-file-input">
+          <label *ngIf="uploader.queue.length" class="custom-file-label">{{uploader.queue[0].file.name}}</label>
+          <label *ngIf="!uploader.queue.length" class="custom-file-label">Introduce un fichero</label>
+        </div>
+
+      </div>
+
+      <div class="mt-3">
+
         <span class="h3 config-section" style="color: darkgrey; ">Configuración de la actividad</span> <br/>
 
         <label id="parallelenvironmentlabel" class="container-80">Entorno paralelo: </label> <br/>

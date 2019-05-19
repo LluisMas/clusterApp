@@ -1,14 +1,14 @@
   import { Component, OnInit } from '@angular/core';
-  import {DataAssignmentService} from '../data-assignment.service';
-  import {Assignment} from '../assignment';
-  import {ActivatedRoute} from '@angular/router';
-  import {Subject} from '../../subject/subject';
-  import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-  import {FileUploader, FileUploaderOptions} from 'ng2-file-upload';
-  import {FormControl, FormGroup, Validators} from '@angular/forms';
-  import {Submission} from '../../submission/submission';
-  import {DataSubmissionService} from '../../submission/data-submission.service';
-  import {MatTableDataSource} from '@angular/material';
+  import { DataAssignmentService } from '../data-assignment.service';
+  import { Assignment } from '../assignment';
+  import { ActivatedRoute } from '@angular/router';
+  import { Subject } from '../../subject/subject';
+  import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+  import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+  import { FormControl, FormGroup } from '@angular/forms';
+  import { Submission } from '../../submission/submission';
+  import { DataSubmissionService } from '../../submission/data-submission.service';
+  import { MatTableDataSource } from '@angular/material';
 
   export interface PeriodicElement {
     name: string;
@@ -74,8 +74,13 @@ export class AssignmentDetailComponent implements OnInit {
     });
 
     this.uploader.onAfterAddingFile = (file) => {
+      if (this.uploader.queue.length > 1) {
+        this.uploader.removeFromQueue(this.uploader.queue[0]);
+      }
+
       file.withCredentials = false;
     };
+
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.uploader.clearQueue();
     };

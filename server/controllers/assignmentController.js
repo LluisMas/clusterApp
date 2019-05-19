@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Assignment = mongoose.model('Assignment');
 const Submission = mongoose.model('Submission');
 const scriptsController = require('../controllers/scriptsController');
+const fs = require('fs');
+
 
 exports.findAll = function(req, res) {
   Assignment.find({}).populate('subject').exec(function (err, assignment) {
@@ -73,10 +75,26 @@ exports.create = function(req, res) {
   assignment.save(function (err, newAssig) {
     if (err) throw err;
 
-    const path = assignment.subject._id + '/' + newAssig._id;
-    scriptsController.initAssignment(path);
     res.send(newAssig);
   });
 
   console.log("Created assignment: " + assignment.name);
+};
+
+exports.uploadData = function(req, res) {
+  const id = req.headers.assignment;
+  var ext = req.file.originalname.split('.');
+  ext.splice(0, 1);
+  ext = ext.join('.');
+
+  fs.writeFile('uploads/' + id + '.' + ext, req.file.buffer, function (err) {
+    if (err) {
+      return console.log(err);
+    }
+
+    Assignment.findOne({_id: id}, function (err, assignment) {
+        scriptsController.initAssignment(assignment.subject, assignment._id, ext);
+      });
+  });
+  res.send();
 };

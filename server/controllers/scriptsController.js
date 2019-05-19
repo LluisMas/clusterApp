@@ -10,9 +10,9 @@ exports.submitJob = function(req, res) {
   });
 };
 
-exports.initAssignment = function (assignment) {
+exports.initAssignment = function (subject, assingment, ext) {
   const { spawn } = require('child_process');
-  const pyProg = spawn('python', ['server/scripts/init.py', 'Assignment', assignment]);
+  const pyProg = spawn('python', ['server/scripts/init.py', 'Assignment', subject, assingment, ext]);
 
   pyProg.stdout.on('data', function(data) {
     console.log('Data:' +  data);

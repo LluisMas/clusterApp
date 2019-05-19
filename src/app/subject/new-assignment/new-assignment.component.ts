@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {DataSubjectService} from '../data-subject.service';
-import {Subject} from '../subject';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataSubjectService } from '../data-subject.service';
+import { Subject } from '../subject';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import * as _moment from 'moment';
-// tslint:disable-next-line:no-duplicate-imports
 import {default as _rollupMoment, Moment} from 'moment';
-import {Assignment} from '../../assignment/assignment';
-import {DataAssignmentService} from '../../assignment/data-assignment.service';
+import { Assignment } from '../../assignment/assignment';
+import { DataAssignmentService } from '../../assignment/data-assignment.service';
+import { FileLikeObject, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 
+const URL = 'http://localhost:4600/routes/assignments/uploadData';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
@@ -31,9 +32,6 @@ export const MY_FORMATS = {
   templateUrl: './new-assignment.component.html',
   styleUrls: ['./new-assignment.component.css'],
   providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
@@ -44,6 +42,7 @@ export class NewAssignmentComponent implements OnInit {
 
   newAssignmentForm: FormGroup;
   submitted: boolean;
+  public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'datafile'});
 
   cpuamount: FormControl;
 
@@ -65,6 +64,14 @@ export class NewAssignmentComponent implements OnInit {
       parallelenvironment   : new FormControl('', [Validators.required]),
       cpuamount   : this.cpuamount
     });
+
+    this.uploader.onAfterAddingFile = (file) => {
+      if (this.uploader.queue.length > 1) {
+        this.uploader.removeFromQueue(this.uploader.queue[0]);
+      }
+
+      file.withCredentials = false;
+    };
   }
 
   hasError(controlName: string, errorName: string) {
@@ -86,8 +93,8 @@ export class NewAssignmentComponent implements OnInit {
 
     assignment.parallelenvironment = this.newAssignmentForm.get('parallelenvironment').value;
     assignment.compilecommand = this.newAssignmentForm.get('compilecommand').value;
-    assignment.runcommand = this.newAssignmentForm.get('runcommand').value;
 
+    assignment.runcommand = this.newAssignmentForm.get('runcommand').value;
     const values = this.newAssignmentForm.get('cpuamount').value.split(',');
 
     assignment.cpuamount = [];
@@ -101,6 +108,18 @@ export class NewAssignmentComponent implements OnInit {
     this.assignmentService.createAssignment(assignment)
       .subscribe(res => {
           if (res) {
+            const token = localStorage.getItem('access_token');
+            const user = localStorage.getItem('current_user');
+
+            const uo: FileUploaderOptions = {};
+            uo.headers = [
+              { name: 'Authorization', value : token },
+              { name: 'user', value : user},
+              {name: 'Assignment', value: res._id},
+            ];
+            this.uploader.setOptions(uo);
+
+            this.uploader.uploadAll();
             this.router.navigate([`subjects/${this.subject._id}`]);
           }
         }, (err) => {

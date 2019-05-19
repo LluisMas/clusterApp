@@ -8,7 +8,7 @@ const AssignmentSchema = new Schema({
   subject:              { type: Schema.Types.ObjectId, required: false, ref: 'Subject' },
   parallelenvironment:  { type: String, required: false },
   compilecommand:       { type: String, required: false },
-  runcommand:           { type: String, required: false },
+  runcommand:           { type: [], required: false },
   cpuamount:            { type: [Number], required: false }
 });
 

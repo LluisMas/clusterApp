@@ -10,7 +10,7 @@ export class Assignment {
   parallelenvironment: string;
   cpuamount: number[];
   compilecommand: string;
-  runcommand: string;
+  runcommand: any[];
   file: FileItem;
 
   constructor (values: object = {}) {

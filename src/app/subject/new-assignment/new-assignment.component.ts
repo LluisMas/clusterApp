@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataSubjectService } from '../data-subject.service';
 import { Subject } from '../subject';
@@ -10,7 +10,8 @@ import * as _moment from 'moment';
 import {default as _rollupMoment, Moment} from 'moment';
 import { Assignment } from '../../assignment/assignment';
 import { DataAssignmentService } from '../../assignment/data-assignment.service';
-import { FileLikeObject, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const URL = 'http://localhost:4600/routes/assignments/uploadData';
 const moment = _rollupMoment || _moment;
@@ -43,11 +44,18 @@ export class NewAssignmentComponent implements OnInit {
   newAssignmentForm: FormGroup;
   submitted: boolean;
   public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'datafile'});
-
   cpuamount: FormControl;
 
+  newCommandform: FormGroup;
+  newCommandSubmitted: boolean;
+
+  items = [];
+  currentItem = 0;
+
+  @ViewChild('commandDetails') private detailsPopup;
+
   constructor( private route: ActivatedRoute, private subjectService: DataSubjectService, private assignmentService: DataAssignmentService,
-               private router: Router) { }
+               private router: Router, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.cpuamount = new FormControl('', [cpuAmountValidator]);
@@ -56,13 +64,17 @@ export class NewAssignmentComponent implements OnInit {
     this.subjectService.getSubject(id).subscribe(subject => this.subject = subject);
 
     this.newAssignmentForm = new FormGroup({
-      name : new FormControl('', [Validators.required]),
-      startDate : new FormControl(moment()),
-      endDate   : new FormControl(moment()),
-      compilecommand   : new FormControl('', [Validators.required]),
-      runcommand   : new FormControl('', [Validators.required]),
-      parallelenvironment   : new FormControl('', [Validators.required]),
-      cpuamount   : this.cpuamount
+      name                : new FormControl('', [Validators.required]),
+      startDate           : new FormControl(moment()),
+      endDate             : new FormControl(moment()),
+      compilecommand      : new FormControl('', [Validators.required]),
+      parallelenvironment : new FormControl('', [Validators.required]),
+      cpuamount           : this.cpuamount
+    });
+
+    this.newCommandform = new FormGroup({
+      expectedresult  : new FormControl('', [Validators.required]),
+      runcommand      : new FormControl('', [Validators.required])
     });
 
     this.uploader.onAfterAddingFile = (file) => {
@@ -74,8 +86,8 @@ export class NewAssignmentComponent implements OnInit {
     };
   }
 
-  hasError(controlName: string, errorName: string) {
-    return this.newAssignmentForm.controls[controlName].hasError(errorName);
+  hasError(controlName: string, errorName: string, form = this.newAssignmentForm) {
+    return form.controls[controlName].hasError(errorName);
   }
 
   onSubmit() {
@@ -94,7 +106,11 @@ export class NewAssignmentComponent implements OnInit {
     assignment.parallelenvironment = this.newAssignmentForm.get('parallelenvironment').value;
     assignment.compilecommand = this.newAssignmentForm.get('compilecommand').value;
 
-    assignment.runcommand = this.newAssignmentForm.get('runcommand').value;
+    this.items.forEach(function (item) {
+      delete item.id;
+    });
+
+    assignment.runcommand = this.items;
     const values = this.newAssignmentForm.get('cpuamount').value.split(',');
 
     assignment.cpuamount = [];
@@ -115,22 +131,51 @@ export class NewAssignmentComponent implements OnInit {
             uo.headers = [
               { name: 'Authorization', value : token },
               { name: 'user', value : user},
-              {name: 'Assignment', value: res._id},
+              { name: 'Assignment', value: res._id},
             ];
             this.uploader.setOptions(uo);
 
             this.uploader.uploadAll();
             this.router.navigate([`subjects/${this.subject._id}`]);
+            this.newAssignmentForm.reset();
           }
         }, (err) => {
           console.log(err);
         }
       );
   }
+
+  onSubmitNewCommand() {
+    this.newCommandSubmitted = true;
+
+    const command = this.newCommandform.get('runcommand').value;
+    const expected = this.newCommandform.get('expectedresult').value;
+    const index = this.items.length;
+
+    this.items.push({id: index, command: command, expected: expected});
+
+    this.modalService.dismissAll();
+  }
+
+  openDetails(id: any) {
+    this.currentItem = id;
+    this.openModal(this.detailsPopup, 'modal-command-details');
+  }
+
+  openModal(content, id) {
+    this.modalService.open(content, {ariaLabelledBy: id}).result.
+    then((result) => {
+      this.newCommandSubmitted = false;
+      this.newCommandform.reset();
+    }, (reason) => {
+      this.newCommandSubmitted = false;
+      this.newCommandform.reset();
+    });
+  }
 }
 
 function cpuAmountValidator(control: AbstractControl): { [key: string]: boolean } | null {
-  if (control.value === undefined) {
+  if (control.value === undefined || control.value === null) {
     return { 'required': true };
   }
 

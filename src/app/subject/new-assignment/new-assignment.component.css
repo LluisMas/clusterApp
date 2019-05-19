@@ -17,3 +17,11 @@
 #parallelenvironmentlabel {
   margin-top: 10px;
 }
+
+#runcommandslabel {
+  margin-top: 10px;
+}
+
+#exec-details {
+  background-color: #428bca;
+}

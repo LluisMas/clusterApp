@@ -47,5 +47,12 @@ exports.removeSubject = function (subject) {
 
 exports.newSubmission = function (submission) {
   const { spawn } = require('child_process');
-  spawn('python', ['server/scripts/newSubmission.py', submission]);
+  const pyProg = spawn('python', ['server/scripts/newSubmission.py', submission]);
+
+  pyProg.stdout.on('data', function(data) {
+    console.log('Data:' +  data);
+  });
+  pyProg.stderr.on('data', function(data) {
+    console.log('Data:' +  data);
+  });
 };

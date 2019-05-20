@@ -28,8 +28,6 @@ def initAssignment():
     elif ext == 'tar.gz' or ext == 'tar.z' or ext == 'tgz':
         out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', config.CLUSTER['user'] + '@' + config.CLUSTER['host'], 'tar', 'xzvf', clusterFile, '-C', path + '/data'])
 
-d
-
 if __name__== "__main__":
 
     # To set the connection up:

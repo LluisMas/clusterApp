@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Subject = mongoose.model('Subject');
 const Assignment = mongoose.model('Assignment');
+const Submission = mongoose.model('Submission');
 const Roles = require('../models/Roles');
 
 exports.init = function(req, res) {
@@ -49,6 +50,21 @@ exports.initAssignment = function (req, res) {
       res.status(200).json({user: result, deleted: deleted});
     } );
 };
+
+exports.initSubmission = function (req, res) {
+  const submission = new Submission();
+  submission.name = 'verga';
+  submission.status = 3;
+  submission.author = '5ccafcd5316dd6539529ff08';
+  submission.assignment = '5ce278dd0152af750a8a2e6f';
+  submission.file = '';
+  submission.executionTime = 100;
+
+  submission.save();
+
+  res.send();
+};
+
 
 exports.cleanSubjects = function (req, res) {
   User.find({}, function(err, users) {

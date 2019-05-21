@@ -56,6 +56,7 @@ router.get('/submission/:assignmentid/author/:userid/successful', auth.required,
 router.post('/init', utilsController.init);
 router.post('/initAssignment', utilsController.initAssignment);
 router.post('/cleanSubjects', utilsController.cleanSubjects);
+router.post('/initSubmission', utilsController.initSubmission);
 
 // Scripts
 router.post('/scripts/submitJob', scriptsController.submitJob);

@@ -50,6 +50,7 @@ router.delete('/submission/:id', auth.required, submissionController.delete);
 router.post('/submission/file', auth.required, upload.single('text'), submissionController.uploadFile);
 router.get('/submission', auth.required, submissionController.findAll);
 router.get('/submission/:assignmentid/author/:userid', auth.required, submissionController.getSubmissionsOfAssignmentFromuUser);
+router.get('/submission/:assignmentid/author/:userid/successful', auth.required, submissionController.getSuccessfulSubmissionsOfAssignmentFromuUser);
 
 // Utils
 router.post('/init', utilsController.init);

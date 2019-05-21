@@ -11,4 +11,5 @@ export class Submission {
   file: string;
   jobId: number;
   originalName: string;
+  executionTime: number;
 }

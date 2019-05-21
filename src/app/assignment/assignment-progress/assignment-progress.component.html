@@ -1,0 +1,18 @@
+<div class="d-flex container-full" id="wrapper">
+  <app-assignment-sidebar></app-assignment-sidebar>
+  <div class="container-80 mt-3">
+    <div class="flex-item">
+      <div style="display: block;">
+        <canvas baseChart
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                [plugins]="lineChartPlugins">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>

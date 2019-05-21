@@ -34,4 +34,9 @@ export class DataSubmissionService {
     const url = `${this.submissionUrl}/${assignmentid}/author/${userid}`;
     return this.http.get<Submission[]>(url);
   }
+
+  getSuccessfulSubmissionsOfAssignmentFromuUser(assignmentid: any, userid: any): Observable<Submission[]> {
+    const url = `${this.submissionUrl}/${assignmentid}/author/${userid}/successful`;
+    return this.http.get<Submission[]>(url);
+  }
 }

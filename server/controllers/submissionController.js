@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Submission = mongoose.model('Submission');
 const scriptsController = require('../controllers/scriptsController');
+const Status = require('../models/SubmissionStatus');
 
 exports.findAll = function(req, res) {
   Submission.find({}).populate('author').populate('assignment').exec(function (err, submissions) {
@@ -25,6 +26,15 @@ exports.find = function(req, res) {
 
 exports.getSubmissionsOfAssignmentFromuUser = function(req, res) {
   Submission.find({$and: [{assignment: req.params.assignmentid}, {author: req.params.userid}]})
+    .populate('author').populate('assignment').exec(function (err, submissions) {
+    if (err) throw err;
+
+    res.json(submissions);
+  });
+};
+
+exports.getSuccessfulSubmissionsOfAssignmentFromuUser = function(req, res) {
+  Submission.find({$and: [{assignment: req.params.assignmentid}, {author: req.params.userid}, {status: Status.Correct}]})
     .populate('author').populate('assignment').exec(function (err, submissions) {
     if (err) throw err;
 

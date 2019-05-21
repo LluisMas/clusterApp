@@ -3,14 +3,15 @@ const { Schema } = mongoose;
 const Status = require('./SubmissionStatus');
 
 const SubmissionSchema = new Schema({
-  name:         { type: String },
-  submitted:    { type: Date, default: Date.now(),required: true  },
-  status:       { type: Status, required: true, default: Status.NotStarted },
-  author:       { type: Schema.Types.ObjectId, required: false, ref: 'User' },
-  assignment:   { type: Schema.Types.ObjectId, required: false, ref: 'Assignment' },
-  file:           Buffer, contentType: String,
-  jobId:        { type: Number, default: -1},
-  originalName: { type: String, default: ''}
+  name:           { type: String },
+  submitted:      { type: Date, default: Date.now(),required: true  },
+  status:         { type: Status, required: true, default: Status.NotStarted },
+  author:         { type: Schema.Types.ObjectId, required: false, ref: 'User' },
+  assignment:     { type: Schema.Types.ObjectId, required: false, ref: 'Assignment' },
+  file:             Buffer, contentType: String,
+  jobId:          { type: Number, default: -1},
+  originalName:   { type: String, default: ''},
+  executionTime:  { type: Number, default: -1}
 });
 
 SubmissionSchema.parse = function() {
@@ -23,7 +24,8 @@ SubmissionSchema.parse = function() {
     author: this.author,
     file: this.file,
     jobId: this.jobId,
-    origin: this.originalName
+    origin: this.originalName,
+    executionTime: this.executionTime
   }
 };
 
@@ -31,4 +33,5 @@ SubmissionSchema.pre('remove', function (next) {
   console.log('[Submission] removing: ' + this._id);
   next();
 });
+
 module.exports = mongoose.model('Submission', SubmissionSchema);

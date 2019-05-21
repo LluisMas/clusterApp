@@ -23,15 +23,6 @@ import { AdminSubjectsComponent } from './admin/admin-subjects/admin-subjects.co
 import { AdminAssignmentsComponent } from './admin/admin-assignments/admin-assignments.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-
-
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {
-  MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule,
-  MatTableModule, MatCardModule, MatRadioModule
-  } from '@angular/material';
-
-
 import { SubjectDetailComponent } from './subject/subject-detail/subject-detail.component';
 import { SubjectSidebarComponent } from './subject/subject-sidebar/subject-sidebar.component';
 import { SubjectStudentsComponent } from './subject/subject-students/subject-students.component';
@@ -41,6 +32,16 @@ import { AssignmentSidebarComponent } from './assignment/assignment-sidebar/assi
 import { AssignmentEditComponent } from './assignment/assignment-edit/assignment-edit.component';
 import { AdminSubmissionsComponent } from './admin/admin-submissions/admin-submissions.component';
 import { SubmissionListComponent } from './assignment/submission-list/submission-list.component';
+import { AssignmentProgressComponent } from './assignment/assignment-progress/assignment-progress.component';
+import { ChartsModule } from 'ng2-charts';
+
+
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {
+  MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule,
+  MatTableModule, MatCardModule, MatRadioModule
+  } from '@angular/material';
+
 
 const Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -56,6 +57,7 @@ const Routes = [
   { path: 'assignments/:id', component: AssignmentDetailComponent },
   { path: 'assignments/:id/edit', component: AssignmentEditComponent },
   { path: 'assignments/:id/submissions', component: SubmissionListComponent },
+  { path: 'assignments/:id/progress', component: AssignmentProgressComponent },
 
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/subjects', component: AdminSubjectsComponent },
@@ -82,7 +84,8 @@ const Routes = [
     AssignmentSidebarComponent,
     AssignmentEditComponent,
     AdminSubmissionsComponent,
-    SubmissionListComponent
+    SubmissionListComponent,
+    AssignmentProgressComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -96,6 +99,7 @@ const Routes = [
     MatButtonModule,
     MatMomentDateModule,
     AngularFontAwesomeModule,
+    ChartsModule,
     RouterModule.forRoot(Routes),
 
     // Material Modules

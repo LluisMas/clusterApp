@@ -10,7 +10,7 @@
       <div class="form-group">
 
         <label id="runcommandslabel" class="container-80">Parámetros para las diferentes ejecuciones, cada comando se ejecutará tantas veces como diferentes procesadores
-          se haya configurado. Para indicar el número de procesadores en el parametro, usad $NHOSTS</label> <br/>
+          se haya configurado. Para indicar el número de procesadores en el parametro, usad $NSLOTS</label> <br/>
         <mat-card-content>
           <mat-form-field class="container-80">
             <input type="text" placeholder="Comando para la ejecución" aria-label="Comando para la ejecución" matInput formControlName="runcommand">
@@ -105,9 +105,7 @@
         <mat-error *ngIf=" submitted && hasError('parallelenvironment', 'required')">Elige un entorno paralelo</mat-error>
         <mat-radio-group class="container-80" aria-labelledby="parallelenvironmentlabel" formControlName="parallelenvironment">
           <mat-radio-button value="openmp">openmp</mat-radio-button>
-          <mat-radio-button value="mpi">mpi</mat-radio-button>
           <mat-radio-button value="mpich">mpich</mat-radio-button>
-          <mat-radio-button value="ompigige">ompigige</mat-radio-button>
         </mat-radio-group>
 
         <mat-card-content>
@@ -117,6 +115,7 @@
             <mat-error *ngIf="hasError('cpuamount', 'invalidValues')">Formato incorrecto</mat-error>
             <mat-error *ngIf="hasError('cpuamount', 'minValue')">Minimo 1 procesador</mat-error>
             <mat-error *ngIf="hasError('cpuamount', 'maxValue')">Maximo 32 procesadores</mat-error>
+            <mat-error *ngIf="hasError('cpuamount', 'repeated')">Valores repetidos</mat-error>
           </mat-form-field>
         </mat-card-content>
 

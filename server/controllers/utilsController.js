@@ -58,7 +58,7 @@ exports.initSubmission = function (req, res) {
   submission.author = '5ccafcd5316dd6539529ff08';
   submission.assignment = '5ce278dd0152af750a8a2e6f';
   submission.file = '';
-  submission.executionTime = 100;
+  submission.executionTime = 40;
 
   submission.save();
 

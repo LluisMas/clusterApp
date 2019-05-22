@@ -180,6 +180,7 @@ function cpuAmountValidator(control: AbstractControl): { [key: string]: boolean 
   }
 
   const values = control.value.split(',');
+  const dict = {};
 
   let toReturn = null;
   values.forEach(function (value) {
@@ -190,6 +191,12 @@ function cpuAmountValidator(control: AbstractControl): { [key: string]: boolean 
     }
 
     const number = Number(value.trim());
+    if (dict[number]) {
+      toReturn = { 'repeated' : true};
+      return;
+    }
+
+    dict[number] = true;
 
     if (number <= 0) {
       toReturn = { 'minValue' : true};

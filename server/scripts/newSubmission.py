@@ -29,8 +29,9 @@ def create_submission_file(subject_id, assignment, submission):
     f.write("\n## Comandos: " + str(run_commands))
     f.write("\n## CPU: " + str(cpu))
 
-    f.write("\n\nMPICH_MACHINES=$TMPDIR/mpich_machines")
-    f.write("\ncat $PE_HOSTFILE | awk '{print $1\":\"$2}' > $MPICH_MACHINES\n")
+    if penv == "mpich":
+        f.write("\n\nMPICH_MACHINES=$TMPDIR/mpich_machines")
+        f.write("\ncat $PE_HOSTFILE | awk '{print $1\":\"$2}' > $MPICH_MACHINES\n")
 
     for i in range(len(run_commands)):
         for j in range(len(cpu)):
@@ -43,8 +44,8 @@ def create_submission_file(subject_id, assignment, submission):
             f.write("\ntt=$((($(date +%s%N) - $ts)/1000000))")
             f.write("\necho %d %d $tt >> %s_times.txt\n" % (i, j, submission_id))
 
-
-    f.write("\n\nrm -rf $MPICH_MACHINES")
+    if penv == "mpich":
+        f.write("\n\nrm -rf $MPICH_MACHINES")
 
     f.close()
     return file_name
@@ -90,7 +91,7 @@ if __name__== "__main__":
     if (len(out) > 2):
         jobId = out[2]
 
-        submission['status'] = 2
+        submission['status'] = 2 # Running
         submission['jobId'] = jobId
         assignment = db.submissions.find_one_and_update(
             {'_id': ObjectId(submission_id)},

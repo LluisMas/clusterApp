@@ -12,4 +12,20 @@ export class Submission {
   jobId: number;
   originalName: string;
   executionTime: number;
+
+  constructor (values: object = {}) {
+    Object.assign(this as any, values);
+  }
+
+  getState () {
+    switch (this.status) {
+      case 0: return 'No empezado';
+      case 1: return 'En cola';
+      case 2: return 'En ejecución';
+      case 3: return 'Correcto';
+      case 4: return 'Incorrecto';
+      case 5: return 'Cancelado';
+    }
+  }
+
 }

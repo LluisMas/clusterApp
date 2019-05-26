@@ -40,7 +40,7 @@ export class AssignmentDetailComponent implements OnInit {
 
   assignment = new Assignment();
   subject = new Subject();
-  submissions: Submission[];
+  submissions = [];
 
   newSubmissionForm: FormGroup;
 
@@ -65,8 +65,12 @@ export class AssignmentDetailComponent implements OnInit {
     });
 
     this.submissionService.getSubmissionsOfAssignmentFromuUser(id, user._id).subscribe(submissions => {
-      this.submissions = submissions;
-      this.dataSourceSubmissions = new MatTableDataSource(submissions);
+      const self = this;
+      submissions.forEach(function (submission) {
+        self.submissions.push(new Submission(submission));
+      });
+
+      this.dataSourceSubmissions = new MatTableDataSource(this.submissions);
     });
 
     this.newSubmissionForm = new FormGroup({

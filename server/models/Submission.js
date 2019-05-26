@@ -9,9 +9,11 @@ const SubmissionSchema = new Schema({
   author:         { type: Schema.Types.ObjectId, required: false, ref: 'User' },
   assignment:     { type: Schema.Types.ObjectId, required: false, ref: 'Assignment' },
   file:             Buffer, contentType: String,
-  jobId:          { type: Number, default: -1},
-  originalName:   { type: String, default: ''},
-  executionTime:  { type: Number, default: -1}
+  jobId:          { type: Number, default: -1 },
+  originalName:   { type: String, default: '' },
+  executionTime:  { type: [Number], default: -1 },
+  outputs:        { type: [String] },
+  results:        { type: [Boolean] }
 });
 
 SubmissionSchema.parse = function() {
@@ -25,7 +27,9 @@ SubmissionSchema.parse = function() {
     file: this.file,
     jobId: this.jobId,
     origin: this.originalName,
-    executionTime: this.executionTime
+    executionTime: this.executionTime,
+    outputs: this.outputs,
+    results: this.results
   }
 };
 

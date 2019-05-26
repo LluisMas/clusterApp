@@ -74,3 +74,9 @@ exports.uploadFile = function(req, res) {
     res.send(toSend);
   });
 };
+
+exports.checkRunningSubmissions = function (req, res) {
+  Submission.findOne({status: Status.Running}, function (err, submissions) {
+    res.json(submissions);
+  });
+};

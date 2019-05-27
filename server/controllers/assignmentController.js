@@ -11,6 +11,31 @@ exports.findAll = function(req, res) {
   })
 };
 
+exports.getRanking = function(req, res) {
+  Submission.find({status: 4},function (err, submissions) {
+
+    const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
+
+    let ranking = {};
+    submissions.forEach(function (submission) {
+      time = average(submission.executionTime);
+
+      if (ranking[submission.author] === undefined || ranking[submission.author] > time)
+        ranking[submission.author] = time;
+    });
+
+    let items = Object.keys(ranking).map(function(key) {
+      return [key, ranking[key]];
+    });
+
+    items.sort(function(first, second) {
+      return  first[1] - second[1];
+    });
+
+    res.send(items);
+  });
+};
+
 exports.find = function(req, res) {
   Assignment.findOne({_id: req.params.id})
     .populate('subject')

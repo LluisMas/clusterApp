@@ -1,6 +1,6 @@
 CLUSTER = {
-    'user' : 'user',
-    'host' : 'host'
+    'user' : 'lmr14',
+    'host' : 'moore.udl.cat'
 }
 
 DATABASE = {

@@ -13,8 +13,19 @@ def handle_finished(submission):
     cpus = assignment['cpuamount']
     times_file = submission_id + '_times.txt'
 
-    with open(times_file) as f:
-        submission['executionTime'] = [line.split()[2] for line in f.readlines()]
+    try:
+        with open(times_file) as f:
+            submission['executionTime'] = [line.split()[2] for line in f.readlines()]
+
+        os.remove(times_file)
+    except IOError as e:
+        submission['status'] = 5
+        db.submissions.find_one_and_update(
+            {'_id': ObjectId(submission_id)},
+            {'$set': submission})
+
+        sys.exit()
+
 
     results = []
     outputs = []
@@ -23,14 +34,18 @@ def handle_finished(submission):
 
         for j in range(len(cpus)):
             result_file = submission_id + '_' + str(i) + '_' + str(j) + '_out.txt'
-            with open(result_file) as f:
-                lines = f.readlines()
 
-            output = clean_output(lines)
-            results.append(expected == output)
-            submission['status'] = 3 if expected == output and submission['results'] != 4 else 4
-            outputs.append(output)
-            os.remove(result_file)
+            try:
+                with open(result_file) as f:
+                    lines = f.readlines()
+
+                output = clean_output(lines)
+                results.append(expected == output)
+                submission['status'] = 3 if expected == output and submission['results'] != 4 else 4
+                outputs.append(output)
+                os.remove(result_file)
+            except IOError as e:
+                print e
 
     submission['results'] = results
     submission['outputs'] = outputs
@@ -38,14 +53,16 @@ def handle_finished(submission):
         {'_id': ObjectId(submission_id)},
         {'$set': submission})
 
-    os.remove(times_file)
-
 
 if __name__== "__main__":
     mongo = MongoClient(config.DATABASE['host'], config.DATABASE['port'])
     db = mongo.tfg
     result = db.submissions.find({'status': 2})
     connection = config.CLUSTER['user'] + '@' + config.CLUSTER['host']
+
+    if result.count() == 0:
+        print "No jobs to check"
+        sys.exit()
 
     out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', connection, 'qstat'])
     out = out.split()
@@ -76,7 +93,10 @@ if __name__== "__main__":
 
     path = path[:-1]
     path += "}{out.txt,times.txt}"
-    out = subprocess.check_output(['scp', connection + ':' + path, '.'])
+    try:
+        out = subprocess.check_output(['scp', connection + ':' + path, '.'])
+    except subprocess.CalledProcessError as e:
+        print e
 
     for submission in toFinish:
         handle_finished(submission)

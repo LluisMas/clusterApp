@@ -73,7 +73,6 @@ if __name__== "__main__":
     if len(out) > 0:
         out = out[11:]
         results = len(out) / 8
-        print "-----------"
         for x in range(results):
             currentlyRunning[int(out[x * 8])] = True
 

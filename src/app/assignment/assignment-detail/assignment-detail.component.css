@@ -1,3 +1,23 @@
 .align-right {
   float: right;
 }
+
+.make-green {
+  background-color: #baffc9
+}
+
+.make-red {
+  background-color: #ffb3ba
+}
+
+.make-yellow {
+  background-color:	#ffffba
+}
+
+.make-blue {
+  background-color: #bae1ff
+}
+
+.make-orange {
+  background-color:	#ffdfba
+}

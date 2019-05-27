@@ -68,7 +68,6 @@ export class AssignmentProgressComponent implements OnInit {
     });
 
     this.submissionService.getSuccessfulSubmissionsOfAssignmentFromuUser(id, user._id).subscribe(submissions => {
-    // this.submissionService.getSubmissions().subscribe(submissions => {
       this.submissions = submissions;
       const self = this;
       submissions.forEach(function (submission) {

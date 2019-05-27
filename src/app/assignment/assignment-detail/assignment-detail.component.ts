@@ -10,26 +10,13 @@
   import { DataSubmissionService } from '../../submission/data-submission.service';
   import { MatTableDataSource } from '@angular/material';
 
-  export interface PeriodicElement {
+  export interface Ranking {
     name: string;
     position: number;
-    weight: number;
+    time: number;
   }
 
   const URL = 'http://localhost:4600/routes/submission/file';
-
-  const ELEMENT_DATA: PeriodicElement[] = [
-    {position: 1, name: 'Hydrogen', weight: 1.0079},
-    {position: 2, name: 'Helium', weight: 4.0026},
-    {position: 3, name: 'Lithium', weight: 6.941},
-    {position: 4, name: 'Beryllium', weight: 9.0122},
-    {position: 5, name: 'Boron', weight: 10.811},
-    {position: 6, name: 'Carbon', weight: 12.0107},
-    {position: 7, name: 'Nitrogen', weight: 14.0067},
-    {position: 8, name: 'Oxygen', weight: 15.9994},
-    {position: 9, name: 'Fluorine', weight: 18.9984},
-    {position: 10, name: 'Neon', weight: 20.1797},
-  ];
 
 @Component({
   selector: 'app-assignment-detail',
@@ -44,11 +31,11 @@ export class AssignmentDetailComponent implements OnInit {
 
   newSubmissionForm: FormGroup;
 
-  displayedColumns: string[] = ['position', 'name', 'weight'];
+  displayedColumns: string[] = ['position', 'name', 'time'];
   displayedColumnsSubmissions: string[] = ['date', 'name', 'jobId', 'status'];
   dataSourceSubmissions: MatTableDataSource<Submission>;
 
-  dataSource = ELEMENT_DATA;
+  dataSourceRanking = [];
 
   constructor( private route: ActivatedRoute, private assignmentService: DataAssignmentService, private modalService: NgbModal,
                private submissionService: DataSubmissionService) { }
@@ -62,6 +49,21 @@ export class AssignmentDetailComponent implements OnInit {
     this.assignmentService.getAssignment(id).subscribe(assignment => {
       this.assignment = new Assignment(assignment);
       this.subject = assignment.subject;
+    });
+
+    this.assignmentService.getRanking(id).subscribe(ranking => {
+      let position = 1;
+      const dataSource: Ranking[] = [];
+
+      ranking.forEach(function (row) {
+        const time = row[1];
+        const data = row[0];
+
+        const rankingRow = {name: data.name, time: time, position: position++};
+        dataSource.push(rankingRow);
+      });
+
+      this.dataSourceRanking = dataSource;
     });
 
     this.submissionService.getSubmissionsOfAssignmentFromuUser(id, user._id).subscribe(submissions => {

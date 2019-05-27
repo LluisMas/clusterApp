@@ -27,6 +27,11 @@ export class DataAssignmentService {
     return this.http.get<Assignment[]>(this.assignmentUrl);
   }
 
+  getRanking (id: any): Observable<any[]> {
+    const url = `${this.assignmentUrl}/${id}/ranking`;
+    return this.http.get<any[]>(url);
+  }
+
   deleteAssignment (id: any): Observable<Assignment> {
     const url = `${this.assignmentUrl}/${id}`;
     return this.http.delete<Assignment>(url, httpOptions);

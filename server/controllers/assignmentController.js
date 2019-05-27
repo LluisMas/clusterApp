@@ -12,20 +12,23 @@ exports.findAll = function(req, res) {
 };
 
 exports.getRanking = function(req, res) {
-  Submission.find({status: 4},function (err, submissions) {
+  Submission.find({status: 4}).populate('author').exec( function(err, submissions) {
 
     const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
 
     let ranking = {};
+    let users = {};
     submissions.forEach(function (submission) {
       time = average(submission.executionTime);
 
-      if (ranking[submission.author] === undefined || ranking[submission.author] > time)
-        ranking[submission.author] = time;
+      if (ranking[submission.author._id] === undefined || ranking[submission.author] > time)
+        ranking[submission.author._id] = time;
+
+      users[submission.author._id] = submission.author;
     });
 
     let items = Object.keys(ranking).map(function(key) {
-      return [key, ranking[key]];
+      return [users[key], ranking[key]];
     });
 
     items.sort(function(first, second) {

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataSubjectService } from '../data-subject.service';
 import { Subject } from '../subject';
@@ -7,7 +7,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import * as _moment from 'moment';
-import {default as _rollupMoment, Moment} from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
 import { Assignment } from '../../assignment/assignment';
 import { DataAssignmentService } from '../../assignment/data-assignment.service';
 import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';

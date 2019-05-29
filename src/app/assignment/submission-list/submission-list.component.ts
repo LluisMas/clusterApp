@@ -15,9 +15,9 @@ export class SubmissionListComponent implements OnInit {
 
   assignment = new Assignment();
   dataSource: MatTableDataSource<Submission>;
-  submissions: Submission[];
+  submissions = [];
 
-  displayedColumns: string[] = ['name', 'status', 'author', 'jobId', 'originalName'];
+  displayedColumns: string[] = ['name', 'status', 'author', 'jobId', 'time', 'originalName'];
 
   constructor(private route: ActivatedRoute, private submissionService: DataSubmissionService,
               private assignmentService: DataAssignmentService) { }
@@ -26,8 +26,25 @@ export class SubmissionListComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.assignmentService.getAssignment(id).subscribe(assignment => this.assignment = assignment);
     this.assignmentService.getSubmissionAssignment(id).subscribe(submissions => {
-      this.submissions = submissions;
+      const self = this;
+      submissions.forEach(function (submission) {
+        self.submissions.push(new Submission(submission));
+      });
+
       this.dataSource = new MatTableDataSource(this.submissions);
     });
+  }
+
+  average(arr: any) {
+    let sum, avg = 0;
+
+    if (arr.length) {
+      sum = arr.reduce(function(a, b) { return a + b; });
+      avg = sum / arr.length;
+    } else {
+      return 0;
+    }
+
+    return avg;
   }
 }

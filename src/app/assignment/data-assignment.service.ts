@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Assignment} from './assignment';
-import {Submission} from '../submission/submission';
+import { Assignment } from './assignment';
+import { Submission } from '../submission/submission';
+import { StatisticsElement } from './assignment-statistics/assignment-statistics.component';
 
 
 const httpOptions = {
@@ -49,5 +50,10 @@ export class DataAssignmentService {
   getSubmissionAssignment(id: any): Observable<Submission[]> {
     const url = `${this.assignmentUrl}/${id}/submissions`;
     return this.http.get<Submission[]>(url);
+  }
+
+  getStatistics(id: any): Observable<StatisticsElement[]> {
+    const url = `${this.assignmentUrl}/${id}/statistics`;
+    return this.http.get<StatisticsElement[]>(url);
   }
 }

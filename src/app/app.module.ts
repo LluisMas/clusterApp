@@ -33,9 +33,10 @@ import { AssignmentEditComponent } from './assignment/assignment-edit/assignment
 import { AdminSubmissionsComponent } from './admin/admin-submissions/admin-submissions.component';
 import { SubmissionListComponent } from './assignment/submission-list/submission-list.component';
 import { AssignmentProgressComponent } from './assignment/assignment-progress/assignment-progress.component';
+import { AssignmentStatisticsComponent } from './assignment/assignment-statistics/assignment-statistics.component';
+
+
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
-
-
 import { ChartsModule } from 'ng2-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -60,6 +61,7 @@ const Routes = [
   { path: 'assignments/:id/edit', component: AssignmentEditComponent },
   { path: 'assignments/:id/submissions', component: SubmissionListComponent },
   { path: 'assignments/:id/progress', component: AssignmentProgressComponent },
+  { path: 'assignments/:id/statistics', component: AssignmentStatisticsComponent },
 
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/subjects', component: AdminSubjectsComponent },
@@ -88,7 +90,8 @@ const Routes = [
     AdminSubmissionsComponent,
     SubmissionListComponent,
     AssignmentProgressComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    AssignmentStatisticsComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -39,6 +39,43 @@ exports.getRanking = function(req, res) {
   });
 };
 
+exports.getStatistics = function(req, res) {
+  Submission.find({assignment: req.params.id}).populate('author').exec( function(err, submissions) {
+    if (err) throw err;
+
+    let result = {};
+
+    submissions.forEach(function (submission) {
+      if(result[submission.author._id] === undefined) {
+        result[submission.author._id] = {
+          name: submission.author.name,
+          total: 0,
+          correct: 0,
+          incorrect: 0,
+          waiting: 0
+        };
+      }
+
+      result[submission.author._id]['total'] += 1;
+
+      if (submission.status === 3)
+        result[submission.author._id]['correct'] += 1;
+
+      if (submission.status === 4 || submission.status === 5)
+        result[submission.author._id]['incorrect'] += 1;
+
+      if (submission.status === 0 || submission.status === 1 || submission.status === 2)
+        result[submission.author._id]['waiting'] += 1;
+    });
+
+    const stats = Object.keys(result).map(function(key){
+      return result[key];
+    });
+
+    res.json(stats);
+  });
+};
+
 exports.find = function(req, res) {
   Assignment.findOne({_id: req.params.id})
     .populate('subject')

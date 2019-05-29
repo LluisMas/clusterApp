@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { DataSubmissionService } from '../../submission/data-submission.service';
 import { Assignment } from '../assignment';
-import {DataAssignmentService} from '../data-assignment.service';
+import { DataAssignmentService } from '../data-assignment.service';
 
 @Component({
   selector: 'app-submission-list',

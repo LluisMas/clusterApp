@@ -30,7 +30,6 @@ export class AssignmentStatisticsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.assignmentService.getAssignment(id).subscribe(assignment => this.assignment = assignment);
     this.assignmentService.getStatistics(id).subscribe( statistics => {
-        console.log(statistics);
         this.dataSource = new MatTableDataSource(statistics);
       });
   }

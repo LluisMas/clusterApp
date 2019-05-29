@@ -3,8 +3,8 @@ import { Assignment } from '../assignment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataAssignmentService } from '../data-assignment.service';
 import { Subject } from '../../subject/subject';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import {AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {DateAdapter, ErrorStateMatcher, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../subject/new-assignment/new-assignment.component';
 

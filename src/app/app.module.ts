@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { RouterModule } from '@angular/router';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MainService } from './main.service';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth/auth.service';
@@ -33,13 +33,14 @@ import { AssignmentEditComponent } from './assignment/assignment-edit/assignment
 import { AdminSubmissionsComponent } from './admin/admin-submissions/admin-submissions.component';
 import { SubmissionListComponent } from './assignment/submission-list/submission-list.component';
 import { AssignmentProgressComponent } from './assignment/assignment-progress/assignment-progress.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
+
+
 import { ChartsModule } from 'ng2-charts';
-
-
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule,
-  MatTableModule, MatCardModule, MatRadioModule
+  MatTableModule, MatCardModule, MatRadioModule, MatIconModule
   } from '@angular/material';
 
 
@@ -49,6 +50,7 @@ const Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminComponent },
+  { path: 'profile', component: UserProfileComponent },
 
   { path: 'subjects/:id', component: SubjectDetailComponent },
   { path: 'subjects/:id/students', component: SubjectStudentsComponent },
@@ -85,7 +87,8 @@ const Routes = [
     AssignmentEditComponent,
     AdminSubmissionsComponent,
     SubmissionListComponent,
-    AssignmentProgressComponent
+    AssignmentProgressComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -104,7 +107,7 @@ const Routes = [
 
     // Material Modules
     MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatTableModule,
-    MatCardModule, MatRadioModule
+    MatCardModule, MatRadioModule, MatIconModule
 ],
   providers: [
     MainService,

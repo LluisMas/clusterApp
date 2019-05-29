@@ -18,6 +18,7 @@ let upload = multer();
 // Users
 router.get('/users', auth.required, userController.findAll);
 router.get('/users/:id', auth.required, userController.find);
+router.post('/users/:id/pass', auth.required, userController.changePass);
 router.delete('/users/:id', auth.required, userController.delete);
 router.put('/users/:id', auth.required, userController.update);
 router.post('/users', auth.required, userController.create);

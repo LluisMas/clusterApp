@@ -38,4 +38,9 @@ export class DataProvider {
   createUser(user: User): Observable<User> {
     return this.http.post<User>(this.usersUrl, user);
   }
+
+  updatePass(id: any, pass: any) {
+    const url = `${this.usersUrl}/${id}/pass`;
+    return this.http.post(url, pass);
+  }
 }

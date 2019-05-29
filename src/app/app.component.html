@@ -23,8 +23,10 @@
       <a *ngIf="user.role === 'Admin'" class="dropdown-item" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"
          [routerLink]="['/admin']"><span class="fa fa-tablet ml"></span> Administración </a>
 
-      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"
+      [routerLink]="['/profile']"><span class="fa fa-id-badge ml"></span> Perfil </a>
 
+      <div class="dropdown-divider"></div>
       <a class="dropdown-item btn-primary" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">
         <button mat-button color="warn" routerLink="logout" (click)="logout()">Cerrar sesion </button>
       </a>

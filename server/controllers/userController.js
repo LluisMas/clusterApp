@@ -1,12 +1,19 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Subject = mongoose.model('Subject');
-const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.find = function(req, res) {
   User.findOne({_id: req.params.id}).populate('subjects').exec(function (err, user) {
     res.json(user);
   })
+};
+
+exports.changePass = function(req, res) {
+  User.findOne({_id: req.params.id}, function (err, user) {
+    user.setPassword(req.body.pass);
+    user.save();
+    res.send();
+  });
 };
 
 exports.findAll = function(req, res) {

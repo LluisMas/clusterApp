@@ -29,6 +29,7 @@ def handle_finished(submission):
 
     results = []
     outputs = []
+    correct = True
     for i in range(len(run_commands)):
         expected = run_commands[i]['expected']
 
@@ -41,14 +42,20 @@ def handle_finished(submission):
 
                 output = clean_output(lines)
                 results.append(expected == output)
-                submission['status'] = 3 if expected == output and submission['results'] != 4 else 4
+                if correct:
+                    correct = expected == output
+
                 outputs.append(output)
                 os.remove(result_file)
             except IOError as e:
+                submission['status'] = 5
+                outputs.append("")
+                results.append(false)
                 print e
 
     submission['results'] = results
     submission['outputs'] = outputs
+    submission['status'] = 3 if correct else 4
     db.submissions.find_one_and_update(
         {'_id': ObjectId(submission_id)},
         {'$set': submission})
@@ -76,7 +83,7 @@ if __name__== "__main__":
         for x in range(results):
             currentlyRunning[int(out[x * 8])] = True
 
-    path = "{"
+    path = "{" if result.count() > 1 else ""
     for submission in result:
         submission_id = str(submission['_id'])
         assignment_id = str(submission['assignment'])
@@ -91,7 +98,8 @@ if __name__== "__main__":
         toFinish.append(submission)
 
     path = path[:-1]
-    path += "}{out.txt,times.txt}"
+    path += "}{out.txt,times.txt}" if result.count() > 1 else "{out.txt,times.txt}"
+    print path
     try:
         out = subprocess.check_output(['scp', connection + ':' + path, '.'])
     except subprocess.CalledProcessError as e:

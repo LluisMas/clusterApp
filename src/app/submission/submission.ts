@@ -12,6 +12,8 @@ export class Submission {
   jobId: number;
   originalName: string;
   executionTime: number;
+  results: [boolean];
+  outputs: [string];
 
   constructor (values: object = {}) {
     Object.assign(this as any, values);

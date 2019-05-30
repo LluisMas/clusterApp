@@ -21,3 +21,10 @@
 .make-orange {
   background-color:	#ffdfba
 }
+
+.make-text-blue {
+  color: #bae1ff
+}
+
+.clickable { cursor: pointer; }
+

@@ -1,4 +1,4 @@
-  import { Component, OnInit } from '@angular/core';
+  import {Component, OnInit, ViewChild} from '@angular/core';
   import { DataAssignmentService } from '../data-assignment.service';
   import { Assignment } from '../assignment';
   import { ActivatedRoute } from '@angular/router';
@@ -27,15 +27,23 @@ export class AssignmentDetailComponent implements OnInit {
 
   assignment = new Assignment();
   subject = new Subject();
+  currentSubmission: Submission;
   submissions = [];
 
   newSubmissionForm: FormGroup;
 
   displayedColumns: string[] = ['position', 'name', 'time'];
-  displayedColumnsSubmissions: string[] = ['date', 'name', 'jobId', 'status'];
+  displayedColumnsSubmissions: string[] = ['date', 'name', 'jobId', 'status', 'details'];
   dataSourceSubmissions: MatTableDataSource<Submission>;
 
+  currentExecutionDetails = {
+    output: '',
+    expected: ''
+  };
+
   dataSourceRanking = [];
+
+  @ViewChild('submissionDetails') private detailsPopup;
 
   constructor( private route: ActivatedRoute, private assignmentService: DataAssignmentService, private modalService: NgbModal,
                private submissionService: DataSubmissionService) { }
@@ -48,6 +56,7 @@ export class AssignmentDetailComponent implements OnInit {
 
     this.assignmentService.getAssignment(id).subscribe(assignment => {
       this.assignment = new Assignment(assignment);
+      console.log(assignment);
       this.subject = assignment.subject;
     });
 
@@ -92,8 +101,34 @@ export class AssignmentDetailComponent implements OnInit {
     };
   }
 
+  openDetails(id) {
+    const self = this;
+
+    this.submissions.forEach(function (submission) {
+      if (submission._id === id) {
+        self.currentSubmission = submission;
+        self.onTestClick(0);
+      }
+    });
+
+    this.open(this.detailsPopup, 'modal-details-title');
+  }
+
+  onTestClick(id) {
+    this.currentExecutionDetails.output = this.currentSubmission.outputs[id];
+
+    const index = Math.floor(id / this.assignment.cpuamount.length);
+    console.log(index);
+    this.currentExecutionDetails.expected = this.assignment.runcommand[index]['expected'];
+  }
+
   open(content, id) {
-    this.modalService.open(content, {ariaLabelledBy: id})
+    this.modalService.open(content, {
+      ariaLabelledBy: id,
+      windowClass: 'hugeModal',
+      backdrop: 'static',
+      size: 'lg'
+      })
       .result.then((result) => {
       const token = localStorage.getItem('access_token');
       const user = localStorage.getItem('current_user');

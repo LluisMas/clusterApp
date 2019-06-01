@@ -9,11 +9,14 @@
   import { Submission } from '../../submission/submission';
   import { DataSubmissionService } from '../../submission/data-submission.service';
   import { MatTableDataSource } from '@angular/material';
+  import { DomSanitizer } from '@angular/platform-browser';
+  import { MatIconRegistry } from '@angular/material/icon';
 
   export interface Ranking {
     name: string;
     position: number;
     time: number;
+    change: number;
   }
 
   const URL = 'http://localhost:4600/routes/submission/file';
@@ -51,35 +54,49 @@ export class AssignmentDetailComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'text'});
 
   ngOnInit() {
+
     const id = this.route.snapshot.paramMap.get('id');
     const user = JSON.parse(localStorage.getItem('current_user'));
 
     this.assignmentService.getAssignment(id).subscribe(assignment => {
       this.assignment = new Assignment(assignment);
-      console.log(assignment);
       this.subject = assignment.subject;
     });
 
     this.assignmentService.getRanking(id).subscribe(ranking => {
       let position = 1;
       const dataSource: Ranking[] = [];
+      if (ranking !== null) {
+        ranking.forEach(function (row) {
+          const time = row[1];
+          const data = row[0];
+          const change = row[2];
 
-      ranking.forEach(function (row) {
-        const time = row[1];
-        const data = row[0];
+          const rankingRow = {name: data.name, time: time, position: position++, change: change};
+          dataSource.push(rankingRow);
+        });
 
-        const rankingRow = {name: data.name, time: time, position: position++};
-        dataSource.push(rankingRow);
-      });
+        dataSource.push({name: 'alumno1', time: 10, position: position++, change: 0});
+        dataSource.push({name: 'alumno2', time: 10, position: position++, change: -100});
+        dataSource.push({name: 'alumno3', time: 10, position: position++, change: -100});
+        dataSource.push({name: 'alumno4', time: 10, position: position++, change: -100});
+        dataSource.push({name: 'alumno5', time: 10, position: position++, change: -100});
+        dataSource.push({name: 'alumno6', time: 10, position: position++, change: -100});
+        dataSource.push({name: 'alumno7', time: 10, position: position++, change: -100});
+      }
 
+      console.log(dataSource);
       this.dataSourceRanking = dataSource;
     });
 
     this.submissionService.getSubmissionsOfAssignmentFromuUser(id, user._id).subscribe(submissions => {
-      const self = this;
-      submissions.forEach(function (submission) {
-        self.submissions.push(new Submission(submission));
-      });
+
+      if (submissions !== null) {
+        const self = this;
+        submissions.forEach(function (submission) {
+          self.submissions.push(new Submission(submission));
+        });
+      }
 
       this.dataSourceSubmissions = new MatTableDataSource(this.submissions);
     });
@@ -99,6 +116,19 @@ export class AssignmentDetailComponent implements OnInit {
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.uploader.clearQueue();
     };
+  }
+
+  getClass(row) {
+    let result = 'mat-row';
+    if (row.position === 1) {
+      result += ' make-gold';
+    } else if (row.position === 2) {
+      result += ' make-silver';
+    } else if (row.position === 3) {
+      result += ' make-bronze';
+    }
+
+    return result;
   }
 
   openDetails(id) {

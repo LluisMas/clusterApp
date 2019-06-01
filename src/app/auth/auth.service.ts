@@ -33,6 +33,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('current_user');
   }
 
   public static get loggedIn(): boolean {

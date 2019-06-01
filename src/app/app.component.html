@@ -16,11 +16,11 @@
   </ul>
 
 
-  <li *ngIf="isLoggedIn" class="navbar-nav nav-item" ngbDropdown>
+  <li *ngIf="user && isLoggedIn" class="navbar-nav nav-item" ngbDropdown>
     <a class="nav-link dropdown-toggle " id="adminDropdown" role="button"
        aria-haspopup="true" aria-expanded="false" ngbDropdownToggle> <span class="fa fa-user mr-2"></span>{{user.name}}</a>
     <div class="dropdown-menu" aria-labelledby="adminDropdown" ngbDropdownMenu>
-      <a *ngIf="user.role === 'Admin'" class="dropdown-item" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"
+      <a *ngIf="user && user.role === 'Admin'" class="dropdown-item" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"
          [routerLink]="['/admin']"><span class="fa fa-tablet ml"></span> Administración </a>
 
       <a class="dropdown-item" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"

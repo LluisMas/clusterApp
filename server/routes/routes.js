@@ -10,6 +10,7 @@ const utilsController = require('../controllers/utilsController');
 const scriptsController = require('../controllers/scriptsController');
 const submissionController = require('../controllers/submissionController');
 const authController = require('../controllers/authController');
+const oldRankingController = require('../controllers/oldRankingController');
 
 const multer = require('multer');
 
@@ -54,6 +55,9 @@ router.post('/submission/file', auth.required, upload.single('text'), submission
 router.get('/submission', auth.required, submissionController.findAll);
 router.get('/submission/:assignmentid/author/:userid', auth.required, submissionController.getSubmissionsOfAssignmentFromuUser);
 router.get('/submission/:assignmentid/author/:userid/successful', auth.required, submissionController.getSuccessfulSubmissionsOfAssignmentFromuUser);
+
+// Old Ranking
+router.get('/oldranking', auth.required, oldRankingController.findAll);
 
 // Utils
 router.post('/init', utilsController.init);

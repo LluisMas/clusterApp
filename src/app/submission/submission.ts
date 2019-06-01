@@ -21,12 +21,12 @@ export class Submission {
 
   getState () {
     switch (this.status) {
-      case 0: return ['No empezado', ''];
-      case 1: return ['En cola', ''];
-      case 2: return ['En ejecución', ''];
-      case 3: return ['Correcto', 'make-green'];
-      case 4: return ['Incorrecto', 'make-red'];
-      case 5: return ['Cancelado', 'make-red'];
+      case 0: return ['No empezado', 'mat-row'];
+      case 1: return ['En cola', 'mat-row'];
+      case 2: return ['En ejecución', 'mat-row'];
+      case 3: return ['Correcto', 'mat-row make-green'];
+      case 4: return ['Incorrecto', 'mat-row make-red'];
+      case 5: return ['Cancelado', 'mat-row make-red'];
     }
   }
 

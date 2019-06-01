@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Assignment = mongoose.model('Assignment');
 const Submission = mongoose.model('Submission');
+const oldranking = mongoose.model('oldranking');
 const scriptsController = require('../controllers/scriptsController');
 const fs = require('fs');
 
@@ -12,30 +13,50 @@ exports.findAll = function(req, res) {
 };
 
 exports.getRanking = function(req, res) {
+  const userid = JSON.parse(req.headers.user)._id;
+  const assignmentid = req.params.id;
   Submission.find({status: 4}).populate('author').exec( function(err, submissions) {
+    oldranking.findOne( { $and :[{user: userid}, {assignment: assignmentid}]}, function (err, result) {
 
-    const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
+      const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
 
-    let ranking = {};
-    let users = {};
-    submissions.forEach(function (submission) {
-      time = average(submission.executionTime);
+      let rankingToSend = {};
+      let students = {};
 
-      if (ranking[submission.author._id] === undefined || ranking[submission.author] > time)
-        ranking[submission.author._id] = time;
+      submissions.forEach(function (submission) {
+        const time = average(submission.executionTime);
 
-      users[submission.author._id] = submission.author;
+        if (rankingToSend[submission.author._id] === undefined || rankingToSend[submission.author] > time)
+          rankingToSend[submission.author._id] = time;
+
+        students[submission.author._id] = submission.author;
+      });
+
+      let items = Object.keys(rankingToSend).map(function(key) {
+        return [students[key], rankingToSend[key]];
+      });
+
+      items.sort(function(first, second) {
+        return  first[1] - second[1];
+      });
+
+      const itemAmount = items.length;
+      const oldRanking = result.ranking;
+
+      items.forEach(function (item, index) {
+        const userID = item[0]._id;
+        const currentTime = item[1];
+        const currentPos = index + 1;
+        let oldPos = oldRanking[userID];
+
+        if (oldPos === undefined)
+          oldPos = itemAmount;
+
+        item.push(oldPos - currentPos);
+      });
+
+      res.send(items);
     });
-
-    let items = Object.keys(ranking).map(function(key) {
-      return [users[key], ranking[key]];
-    });
-
-    items.sort(function(first, second) {
-      return  first[1] - second[1];
-    });
-
-    res.send(items);
   });
 };
 

@@ -1,11 +1,43 @@
 import sys, os
 import subprocess
 import config
+import operator, collections
+import json
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 def clean_output(output):
     return ('\n').join([line.strip() for line in output if line != '\n'])
+
+def Average(lst):
+    return reduce(lambda a, b: int(a) + int(b), lst) / len(lst)
+
+def updateOldRanking(submission):
+    result = db.submissions.find({'status' : 2}, {"executionTime" : 1, "author" : 1})
+
+    assignment_id = submission['assignment']
+    user = submission['author']
+
+    ranking = {}
+    for submission in result:
+        avg = Average(submission['executionTime'])
+        author_id = str(submission['author'])
+
+        if author_id not in ranking or ranking[author_id] > avg:
+            ranking[author_id] = avg
+
+
+    rankings = sorted(ranking.items(), key=operator.itemgetter(1))
+    rankingToInsert = {x[0] : ind + 1  for ind, x in enumerate(rankings)}
+
+    toinsert = {}
+    toinsert['ranking'] = rankingToInsert
+    toinsert['user'] = user
+    toinsert['assignment'] = assignment_id
+
+    db.oldrankings.delete_many({ '$and' :[{'user': user}, {'assignment': assignment_id}]})
+    db.oldrankings.insert_one(toinsert)
+
 
 def handle_finished(submission):
     submission_id = str(submission['_id'])
@@ -56,6 +88,8 @@ def handle_finished(submission):
     submission['results'] = results
     submission['outputs'] = outputs
     submission['status'] = 3 if correct else 4
+
+    updateOldRanking(submission)
     db.submissions.find_one_and_update(
         {'_id': ObjectId(submission_id)},
         {'$set': submission})
@@ -99,7 +133,7 @@ if __name__== "__main__":
 
     path = path[:-1]
     path += "}{out.txt,times.txt}" if result.count() > 1 else "{out.txt,times.txt}"
-    print path
+
     try:
         out = subprocess.check_output(['scp', connection + ':' + path, '.'])
     except subprocess.CalledProcessError as e:

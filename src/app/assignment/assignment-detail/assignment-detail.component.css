@@ -18,12 +18,29 @@
   background-color: #bae1ff
 }
 
+.make-gold {
+  background-color: #F3F298
+}
+
+.make-silver {
+  background-color: #D7D7D7
+}
+
+.make-bronze {
+  background-color: #e0ac69
+}
+
 .make-orange {
   background-color:	#ffdfba
 }
 
 .make-text-blue {
   color: #bae1ff
+}
+
+.flex-vert-center {
+  display: flex;
+  align-items: center;
 }
 
 .clickable { cursor: pointer; }

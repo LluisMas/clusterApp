@@ -10,6 +10,7 @@ require('./server/models/User');
 require('./server/models/Subject');
 require('./server/models/Assignment');
 require('./server/models/Submission');
+require('./server/models/OldRanking');
 const winston = require('winston'), expressWinston = require('express-winston');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
@@ -63,7 +64,7 @@ const routes = require('./server/routes/routes');
 
 
 app.use('/routes', function(req, res, next) {
-  if (req.headers.user) {
+  if (req.headers.user && req.headers.user !== 'null') {
     const reqUser = JSON.parse(req.headers.user);
 
     User.findOne({_id: reqUser._id}).populate('subjects').exec( function (err, user) {

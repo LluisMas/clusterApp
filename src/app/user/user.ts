@@ -5,6 +5,7 @@ export class User {
   role: string;
   name: string;
   subjects: any[];
+  changedPass: boolean;
 
   constructor (values: object = {}) {
     Object.assign(this as any, values);

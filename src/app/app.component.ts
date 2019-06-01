@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import {NavbarService} from './navbar/navbar.service';
 import {LoginComponent} from './login/login.component';
@@ -21,6 +21,17 @@ export class AppComponent implements OnInit {
     this.iconRegistry.addSvgIcon('green-arrow', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/greenarrow.svg'));
     this.iconRegistry.addSvgIcon('red-arrow', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/redarrow.svg'));
     this.iconRegistry.addSvgIcon('equals', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/equals.svg'));
+
+    this.router.events.subscribe((ev) => {
+      if (ev instanceof NavigationEnd) {
+        const currentUser = JSON.parse(localStorage.getItem('current_user'));
+        if (currentUser && currentUser.role === 'Estudiante' && ev.url !== '/profile' && ev.url !== '/login' && !currentUser.changedPass) {
+          this.router.navigate(['profile']).then( () => {
+            alert('Cambia la contraseña antes de continuar');
+          });
+        }
+      }
+    });
   }
 
   links: Array<{ text: string, path: string, param: string}>;

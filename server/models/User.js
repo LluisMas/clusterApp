@@ -21,7 +21,7 @@ const UsersSchema = new Schema({
   },
   hash: String,
   salt: String,
-
+  changedPass: { type: Boolean, default: false, required: true }
 });
 
 UsersSchema.methods.setPassword = function(password) {
@@ -54,7 +54,8 @@ UsersSchema.methods.toAuthJSON = function() {
     dni: this.dni,
     token: this.generateJWT(),
     role: this.role,
-    subjects: this.subjects
+    subjects: this.subjects,
+    changedPass: this.changedPass
   };
 };
 

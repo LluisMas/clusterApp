@@ -11,6 +11,7 @@ exports.find = function(req, res) {
 exports.changePass = function(req, res) {
   User.findOne({_id: req.params.id}, function (err, user) {
     user.setPassword(req.body.pass);
+    user.changedPass = true;
     user.save();
     res.send();
   });

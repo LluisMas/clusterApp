@@ -50,7 +50,6 @@ export class UserProfileComponent implements OnInit {
     }
 
     this.userService.updatePass(this.user._id, {pass: this.newPassForm.get('pass').value }).subscribe(result => {
-      console.log(result);
       this.router.navigate(['login']);
     });
   }

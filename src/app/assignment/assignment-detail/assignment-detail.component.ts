@@ -85,7 +85,6 @@ export class AssignmentDetailComponent implements OnInit {
         dataSource.push({name: 'alumno7', time: 10, position: position++, change: -100});
       }
 
-      console.log(dataSource);
       this.dataSourceRanking = dataSource;
     });
 

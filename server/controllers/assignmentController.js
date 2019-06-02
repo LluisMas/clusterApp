@@ -15,7 +15,7 @@ exports.findAll = function(req, res) {
 exports.getRanking = function(req, res) {
   const userid = JSON.parse(req.headers.user)._id;
   const assignmentid = req.params.id;
-  Submission.find({status: 4}).populate('author').exec( function(err, submissions) {
+  Submission.find({ $and :[{status: 4}, {assignment: assignmentid}]}).populate('author').exec( function(err, submissions) {
     oldranking.findOne( { $and :[{user: userid}, {assignment: assignmentid}]}, function (err, result) {
 
       const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
@@ -41,18 +41,22 @@ exports.getRanking = function(req, res) {
       });
 
       const itemAmount = items.length;
-      const oldRanking = result.ranking;
+      const oldRanking = result ? result.ranking : null;
 
       items.forEach(function (item, index) {
         const userID = item[0]._id;
-        const currentTime = item[1];
         const currentPos = index + 1;
-        let oldPos = oldRanking[userID];
 
-        if (oldPos === undefined)
-          oldPos = itemAmount;
+        if (oldRanking === null) {
+          item.push(0);
+        } else {
+          let oldPos = oldRanking[userID];
 
-        item.push(oldPos - currentPos);
+          if (oldPos === undefined)
+            oldPos = itemAmount;
+
+          item.push(oldPos - currentPos);
+        }
       });
 
       res.send(items);

@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
-import {NavbarService} from './navbar/navbar.service';
-import {LoginComponent} from './login/login.component';
-import {MatIconRegistry} from '@angular/material';
-import {DomSanitizer} from '@angular/platform-browser';
+import { NavbarService } from './navbar/navbar.service';
+import { LoginComponent } from './login/login.component';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +14,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class AppComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router, navbarService: NavbarService,  private iconRegistry: MatIconRegistry,
               private sanitizer: DomSanitizer) {
+
     this.router.config.unshift({ path: 'login', component: LoginComponent });
     this.isLoggedIn = localStorage.getItem('access_token') !== null;
     this.navbarService = navbarService;

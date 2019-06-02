@@ -33,12 +33,13 @@ import { AssignmentEditComponent } from './assignment/assignment-edit/assignment
 import { AdminSubmissionsComponent } from './admin/admin-submissions/admin-submissions.component';
 import { SubmissionListComponent } from './assignment/submission-list/submission-list.component';
 import { AssignmentProgressComponent } from './assignment/assignment-progress/assignment-progress.component';
-import { AssignmentStatisticsComponent } from './assignment/assignment-statistics/assignment-statistics.component';
-
-
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { AssignmentStatisticsComponent } from './assignment/assignment-statistics/assignment-statistics.component';
+import { AdminGuard } from './user/admin.guard';
 import { ChartsModule } from 'ng2-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfessorGuard } from './user/professor.guard';
+
 import {
   MatAutocompleteModule, MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule,
   MatTableModule, MatCardModule, MatRadioModule, MatIconModule
@@ -50,23 +51,23 @@ const Routes = [
   { path: 'posts', component: MainComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
   { path: 'profile', component: UserProfileComponent },
 
   { path: 'subjects/:id', component: SubjectDetailComponent },
-  { path: 'subjects/:id/students', component: SubjectStudentsComponent },
-  { path: 'subjects/:id/newAssignment', component: NewAssignmentComponent },
+  { path: 'subjects/:id/students', component: SubjectStudentsComponent, canActivate: [AdminGuard] },
+  { path: 'subjects/:id/newAssignment', component: NewAssignmentComponent, canActivate: [ProfessorGuard] },
 
   { path: 'assignments/:id', component: AssignmentDetailComponent },
-  { path: 'assignments/:id/edit', component: AssignmentEditComponent },
-  { path: 'assignments/:id/submissions', component: SubmissionListComponent },
+  { path: 'assignments/:id/edit', component: AssignmentEditComponent, canActivate: [ProfessorGuard] },
+  { path: 'assignments/:id/submissions', component: SubmissionListComponent, canActivate: [ProfessorGuard] },
   { path: 'assignments/:id/progress', component: AssignmentProgressComponent },
-  { path: 'assignments/:id/statistics', component: AssignmentStatisticsComponent },
+  { path: 'assignments/:id/statistics', component: AssignmentStatisticsComponent, canActivate: [ProfessorGuard] },
 
-  { path: 'admin/users', component: AdminUsersComponent },
-  { path: 'admin/subjects', component: AdminSubjectsComponent },
-  { path: 'admin/assignments', component: AdminAssignmentsComponent },
-  { path: 'admin/submissions', component: AdminSubmissionsComponent },
+  { path: 'admin/users', component: AdminUsersComponent, canActivate: [AdminGuard] },
+  { path: 'admin/subjects', component: AdminSubjectsComponent, canActivate: [AdminGuard] },
+  { path: 'admin/assignments', component: AdminAssignmentsComponent, canActivate: [AdminGuard] },
+  { path: 'admin/submissions', component: AdminSubmissionsComponent, canActivate: [AdminGuard] },
 ];
 
 @NgModule({

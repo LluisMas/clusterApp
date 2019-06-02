@@ -2,12 +2,16 @@
 
   <div class="h-100 bg-light border-right sidebar full-heigh"  id="sidebar-wrapper">
     <div class="h-100 list-group list-group-flush sidebar-item full-heigh">
+      <div *ngIf="currentUser.role != 'Estudiante'; then showName;"></div>
+      <ng-template #showName>
+        <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/assignments', assignment._id, 'edit']"> Modificar </a>
+        <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/assignments', assignment._id, 'submissions']"> Entregas </a>
+        <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/assignments', assignment._id, 'statistics']"> Estadisticas </a>
+        <button class="list-group-item list-group-item-action bg-light sidebar-item" style="color: red" (click)="deleteSubject()">Eliminar</button>
+      </ng-template>
+
       <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/assignments', assignment._id]"> Inicio </a>
-      <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/assignments', assignment._id, 'edit']"> Modificar </a>
-      <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/assignments', assignment._id, 'submissions']"> Entregas </a>
-      <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/assignments', assignment._id, 'statistics']"> Estadisticas </a>
       <a class="list-group-item list-group-item-action bg-light sidebar-item" [routerLink]="['/assignments', assignment._id, 'progress']"> Progreso </a>
-      <button class="list-group-item list-group-item-action bg-light sidebar-item" style="color: red" (click)="deleteSubject()">Eliminar</button>
     </div>
 
   </div>

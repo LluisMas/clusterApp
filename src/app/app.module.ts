@@ -55,7 +55,7 @@ const Routes = [
   { path: 'profile', component: UserProfileComponent },
 
   { path: 'subjects/:id', component: SubjectDetailComponent },
-  { path: 'subjects/:id/students', component: SubjectStudentsComponent, canActivate: [AdminGuard] },
+  { path: 'subjects/:id/students', component: SubjectStudentsComponent, canActivate: [ProfessorGuard] },
   { path: 'subjects/:id/newAssignment', component: NewAssignmentComponent, canActivate: [ProfessorGuard] },
 
   { path: 'assignments/:id', component: AssignmentDetailComponent },

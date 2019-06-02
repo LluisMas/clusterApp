@@ -7,7 +7,10 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 def clean_output(output):
-    return ('\n').join([line.strip() for line in output if line != '\n'])
+    return [line[10:].strip() for line in output if line != '\n' and line.startswith('$resultado')]
+
+def clean_expected(expected):
+    return [str(line.strip()) for line in expected if line != '\n']
 
 def Average(lst):
     return reduce(lambda a, b: int(a) + int(b), lst) / len(lst)
@@ -63,7 +66,8 @@ def handle_finished(submission):
     outputs = []
     correct = True
     for i in range(len(run_commands)):
-        expected = run_commands[i]['expected']
+        expected = clean_expected(run_commands[i]['expected'])
+        expected = sorted(expected)
 
         for j in range(len(cpus)):
             result_file = submission_id + '_' + str(i) + '_' + str(j) + '_out.txt'
@@ -73,7 +77,7 @@ def handle_finished(submission):
                     lines = f.readlines()
 
                 output = clean_output(lines)
-                results.append(expected == output)
+                results.append(expected == sorted(output))
                 if correct:
                     correct = expected == output
 

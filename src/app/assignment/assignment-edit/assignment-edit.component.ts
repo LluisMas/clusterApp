@@ -55,7 +55,7 @@ export class AssignmentEditComponent implements OnInit {
       name : new FormControl(this.assignment.name, [Validators.required]),
       startDate : new FormControl(moment()),
       endDate   : new FormControl(moment()),
-      compilecommand      : new FormControl('', [Validators.required]),
+      compilecommand      : new FormControl(''),
       parallelenvironment : new FormControl('', [Validators.required]),
       cpuamount           : this.cpuamount
     });

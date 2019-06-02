@@ -67,7 +67,7 @@ export class NewAssignmentComponent implements OnInit {
       name                : new FormControl('', [Validators.required]),
       startDate           : new FormControl(moment()),
       endDate             : new FormControl(moment()),
-      compilecommand      : new FormControl('', [Validators.required]),
+      compilecommand      : new FormControl(''),
       parallelenvironment : new FormControl('', [Validators.required]),
       cpuamount           : this.cpuamount
     });

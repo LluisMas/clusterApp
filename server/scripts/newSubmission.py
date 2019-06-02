@@ -20,6 +20,7 @@ def create_submission_file(subject_id, assignment, submission):
     run_commands = assignment['runcommand']
     cpu = assignment['cpuamount']
     penv = assignment['parallelenvironment']
+    compile = assignment['compilecommand']
     tastkamount = len(cpu) * len (run_commands)
 
     # f.write("\n#$ -t 1-" + str(tastkamount))
@@ -85,7 +86,11 @@ if __name__== "__main__":
     os.remove(file_name) # We don't need the file locally anymore
     os.remove(submission_file) # We don't need the file locally anymore
 
-    out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', connection, 'cd', path, '&& ' + 'qsub ' + submission_file])
+    if compile == '':
+        out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', connection, 'cd', path, '&& ' + 'qsub ' + submission_file])
+    else:
+        out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', connection, 'cd', path, '&& ' + compile,'&& ' + 'qsub ' + submission_file])
+
     out = out.split()
 
     if (len(out) > 2):

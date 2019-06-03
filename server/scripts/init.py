@@ -18,6 +18,10 @@ def initAssignment():
     file = 'uploads/' + assignment + '.' + ext
     clusterFile =  path + '/data/' + assignment + '.' + ext
 
+    if ext == '':
+        out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', config.CLUSTER['user'] + '@' + config.CLUSTER['host'], 'mkdir', path])
+        sys.exit()
+
     out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', config.CLUSTER['user'] + '@' + config.CLUSTER['host'], 'mkdir', path, '&&' , 'mkdir', path + '/data'])
     out = subprocess.check_output(['scp', file, config.CLUSTER['user'] + '@' + config.CLUSTER['host'] + ':' + path + '/data'])
 

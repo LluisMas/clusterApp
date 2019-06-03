@@ -1,5 +1,4 @@
 import { Subject } from '../subject/subject';
-import { FileItem } from 'ng2-file-upload';
 
 export class Assignment {
   _id: string;
@@ -11,7 +10,7 @@ export class Assignment {
   cpuamount: number[];
   compilecommand: string;
   runcommand: any[];
-  file: FileItem;
+  file: boolean;
 
   constructor (values: object = {}) {
     Object.assign(this as any, values);

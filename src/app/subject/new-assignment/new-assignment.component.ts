@@ -105,6 +105,7 @@ export class NewAssignmentComponent implements OnInit {
 
     assignment.parallelenvironment = this.newAssignmentForm.get('parallelenvironment').value;
     assignment.compilecommand = this.newAssignmentForm.get('compilecommand').value;
+    assignment.file = this.uploader.queue[0] !== undefined;
 
     this.items.forEach(function (item) {
       delete item.id;

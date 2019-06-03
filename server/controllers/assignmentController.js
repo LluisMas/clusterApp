@@ -165,6 +165,9 @@ exports.create = function(req, res) {
   assignment.save(function (err, newAssig) {
     if (err) throw err;
 
+    if (!req.body.file)
+      scriptsController.initAssignment(newAssig.subject, newAssig._id, '');
+
     res.send(newAssig);
   });
 

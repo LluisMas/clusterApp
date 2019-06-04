@@ -55,6 +55,7 @@ router.post('/submission/file', auth.required, upload.single('text'), submission
 router.get('/submission', auth.required, submissionController.findAll);
 router.get('/submission/:assignmentid/author/:userid', auth.required, submissionController.getSubmissionsOfAssignmentFromuUser);
 router.get('/submission/:assignmentid/author/:userid/successful', auth.required, submissionController.getSuccessfulSubmissionsOfAssignmentFromuUser);
+router.get('/submission/:id/successful', auth.required, submissionController.getSuccessfulSubmissionsFromuUser);
 
 // Old Ranking
 router.get('/oldranking', auth.required, oldRankingController.findAll);

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Submission = mongoose.model('Submission');
+const Assignment = mongoose.model('Assignment');
+const User = mongoose.model('User');
 const scriptsController = require('../controllers/scriptsController');
 const Status = require('../models/SubmissionStatus');
 
@@ -39,6 +41,35 @@ exports.getSuccessfulSubmissionsOfAssignmentFromuUser = function(req, res) {
     if (err) throw err;
 
     res.json(submissions);
+  });
+};
+
+exports.getSuccessfulSubmissionsFromuUser = function(req, res) {
+  // Submission.find({$and: [{author: req.params.id}, {status: Status.Correct}]})
+  User.findOne({_id: req.params.id}).populate('subjects').exec( function (err, user) {
+    Submission.find({$and: [{author: req.params.id}]})
+      .populate('author').populate('assignment').exec(async function (err, submissions) {
+      if (err) throw err;
+
+      const toSend = {};
+
+      user.subjects.forEach(async function (subject) {
+        const query = Assignment.find({subject: subject});
+        const result = await query.exec();
+        result.forEach(function (assignment) {
+          toSend[assignment._id] = [assignment.name];
+        });
+
+        submissions.forEach(function (submission) {
+          if (toSend [submission.assignment._id] === undefined)
+            toSend[submission.assignment._id] = [submission];
+          else
+            toSend[submission.assignment._id].push(submission);
+        });
+
+        res.json(toSend);
+      });
+    });
   });
 };
 

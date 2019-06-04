@@ -86,10 +86,13 @@ if __name__== "__main__":
     os.remove(file_name) # We don't need the file locally anymore
     os.remove(submission_file) # We don't need the file locally anymore
 
+    compile = assignment['compilecommand']
+    print compile
+
     if compile == '':
         out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', connection, 'cd', path, '&& ' + 'qsub ' + submission_file])
     else:
-        out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', connection, 'cd', path, '&& ' + compile,'&& ' + 'qsub ' + submission_file])
+        out = subprocess.check_output(['ssh', '-o' , 'ConnectTimeout=3', connection, 'cd', path, '&& ' + compile, '&& ' + 'qsub ' + submission_file])
 
     out = out.split()
 

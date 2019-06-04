@@ -53,9 +53,19 @@ div.well{
   width: 80%;
 }
 
+.container-20 {
+  margin-left: 10px;
+  width: 20%;
+}
+
 .container-30 {
   margin-left: 10px;
   width: 30%;
+}
+
+.container-45 {
+  margin-left: 10px;
+  width: 45%;
 }
 
 .divider{

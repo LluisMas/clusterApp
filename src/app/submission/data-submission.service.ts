@@ -39,4 +39,9 @@ export class DataSubmissionService {
     const url = `${this.submissionUrl}/${assignmentid}/author/${userid}/successful`;
     return this.http.get<Submission[]>(url);
   }
+
+  getSuccessfulSubmissionsFromuUser(userid: any) {
+    const url = `${this.submissionUrl}/${userid}/successful`;
+    return this.http.get(url);
+  }
 }

@@ -22,6 +22,9 @@ export class AppComponent implements OnInit {
     this.iconRegistry.addSvgIcon('green-arrow', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/greenarrow.svg'));
     this.iconRegistry.addSvgIcon('red-arrow', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/redarrow.svg'));
     this.iconRegistry.addSvgIcon('equals', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/equals.svg'));
+    this.iconRegistry.addSvgIcon('gold', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/gold.svg'));
+    this.iconRegistry.addSvgIcon('silver', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/silver.svg'));
+    this.iconRegistry.addSvgIcon('bronze', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/bronze.svg'));
 
     this.router.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {

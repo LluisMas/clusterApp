@@ -117,19 +117,6 @@ export class AssignmentDetailComponent implements OnInit {
     };
   }
 
-  getClass(row) {
-    let result = 'mat-row';
-    if (row.position === 1) {
-      result += ' make-gold';
-    } else if (row.position === 2) {
-      result += ' make-silver';
-    } else if (row.position === 3) {
-      result += ' make-bronze';
-    }
-
-    return result;
-  }
-
   openDetails(id) {
     const self = this;
 

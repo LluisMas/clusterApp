@@ -127,28 +127,37 @@
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef> No. </th>
         <td mat-cell *matCellDef="let element">
-          <ng-template [ngIf]="element.change > 0">
-            <div>
-              {{element.position}}.
-              <span><mat-icon class="ml-3" svgIcon="green-arrow"></mat-icon></span>
-              <span> <b>{{element.change}}</b></span>
-            </div>
-          </ng-template>
 
-          <ng-template [ngIf]="element.change < 0">
-            <div>
-              {{element.position}}.
-              <span><mat-icon class="ml-3" svgIcon="red-arrow"></mat-icon></span>
-              <span> <b>{{element.change * -1}}</b> </span>
-            </div>
-          </ng-template>
+          <div class="row">
 
-          <ng-template [ngIf]="element.change == 0">
-            <div>
+            <ng-template [ngIf]="element.position == 1">
+              <span><mat-icon class="ml-n2" svgIcon="gold"></mat-icon></span>
+            </ng-template>
+            <ng-template [ngIf]="element.position == 2">
+              <span><mat-icon class="ml-n2" svgIcon="silver"></mat-icon></span>
+            </ng-template>
+            <ng-template [ngIf]="element.position == 3">
+              <span><mat-icon class="ml-n2" svgIcon="bronze"></mat-icon></span>
+            </ng-template>
+            <ng-template [ngIf]="element.position > 3">
               {{element.position}}.
-              <span><mat-icon class="ml-3" svgIcon="equals"></mat-icon></span>
-            </div>
-          </ng-template>
+            </ng-template>
+
+            <ng-template [ngIf]="element.change > 0">
+                <span><mat-icon class="ml-3" svgIcon="green-arrow"></mat-icon></span>
+                <span> <b>{{element.change}}</b></span>
+            </ng-template>
+
+            <ng-template [ngIf]="element.change < 0">
+                <span><mat-icon class="ml-3" svgIcon="red-arrow"></mat-icon></span>
+                <span> <b>{{element.change * -1}}</b> </span>
+            </ng-template>
+
+            <ng-template [ngIf]="element.change == 0">
+                <span><mat-icon class="ml-3" svgIcon="equals"></mat-icon></span>
+            </ng-template>
+
+          </div>
         </td>
       </ng-container>
 
@@ -163,7 +172,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [className]="getClass(row)"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     </div>
 </div>

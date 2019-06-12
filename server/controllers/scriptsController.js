@@ -44,10 +44,21 @@ exports.removeSubject = function (subject) {
   spawn('python', ['server/scripts/destroy.py', 'Subject', subject]);
 };
 
-
 exports.newSubmission = function (submission) {
   const { spawn } = require('child_process');
   const pyProg = spawn('python', ['server/scripts/newSubmission.py', submission]);
+
+  pyProg.stdout.on('data', function(data) {
+    console.log('Data:' +  data);
+  });
+  pyProg.stderr.on('data', function(data) {
+    console.log('Data:' +  data);
+  });
+};
+
+exports.checkSubmissions = function () {
+  const { spawn } = require('child_process');
+  const pyProg = spawn('python', ['server/scripts/checkSubmissions.py']);
 
   pyProg.stdout.on('data', function(data) {
     console.log('Data:' +  data);

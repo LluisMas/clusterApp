@@ -76,13 +76,13 @@ export class AssignmentDetailComponent implements OnInit {
           dataSource.push(rankingRow);
         });
 
-        dataSource.push({name: 'alumno1', time: 10, position: position++, change: 0});
-        dataSource.push({name: 'alumno2', time: 10, position: position++, change: -100});
-        dataSource.push({name: 'alumno3', time: 10, position: position++, change: -100});
-        dataSource.push({name: 'alumno4', time: 10, position: position++, change: -100});
-        dataSource.push({name: 'alumno5', time: 10, position: position++, change: -100});
-        dataSource.push({name: 'alumno6', time: 10, position: position++, change: -100});
-        dataSource.push({name: 'alumno7', time: 10, position: position++, change: -100});
+        dataSource.push({name: 'alumno 1', time: 10, position: position++, change: 2});
+        dataSource.push({name: 'alumno 2', time: 20, position: position++, change: -1});
+        dataSource.push({name: 'alumno 3', time: 39, position: position++, change: -1});
+        dataSource.push({name: 'alumno 4', time: 40, position: position++, change: 1});
+        dataSource.push({name: 'alumno 5', time: 45, position: position++, change: 1});
+        dataSource.push({name: 'alumno 6', time: 60, position: position++, change: -2});
+        dataSource.push({name: 'alumno 7', time: 80, position: position++, change: 0});
       }
 
       this.dataSourceRanking = dataSource;

@@ -32,7 +32,7 @@ exports.init = function(req, res) {
 
 exports.initAssignment = function (req, res) {
   const assignment = new Assignment();
-  assignment.name = 'vergactividad';
+  assignment.name = 'avtividad';
 
   let deleted = false;
   Assignment.remove({name: assignment.name})
@@ -53,7 +53,7 @@ exports.initAssignment = function (req, res) {
 
 exports.initSubmission = function (req, res) {
   const submission = new Submission();
-  submission.name = 'verga';
+  submission.name = 'submission';
   submission.status = 3;
   submission.author = '5ccafcd5316dd6539529ff08';
   submission.assignment = '5ce278dd0152af750a8a2e6f';

@@ -11,6 +11,8 @@ require('./server/models/Subject');
 require('./server/models/Assignment');
 require('./server/models/Submission');
 require('./server/models/OldRanking');
+
+const scriptsController = require('./server/controllers/scriptsController');
 const winston = require('winston'), expressWinston = require('express-winston');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
@@ -101,7 +103,8 @@ app.use(function (err, req, res, next) {
 let clusterChecker = setInterval(function(){ checkCluster() }, 10 * 1000);
 
 function checkCluster() {
-  // Check cluster stuff
+  console.log('Checking submission');
+  scriptsController.checkSubmissions();
 }
 
 function stopCheckers() {

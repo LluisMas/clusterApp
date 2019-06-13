@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import { Subject } from 'rxjs';
 import { User } from '../user/user';
 
@@ -6,7 +6,7 @@ import { User } from '../user/user';
 @Injectable({
   providedIn: 'root'
 })
-export class NavbarService {
+export class NavbarService implements OnInit {
 
 
   private links = new Array<{ text: string, path: string, param: string }>();
@@ -16,7 +16,9 @@ export class NavbarService {
   constructor() {
     this.isLoggedIn.next(localStorage.getItem('access_token') !== null);
     this.visible = true;
+  }
 
+  ngOnInit(): void {
     const user: User = JSON.parse(localStorage.getItem('current_user'));
     if (!user) {
       return;
@@ -53,6 +55,18 @@ export class NavbarService {
 
   updateNavAfterAuth(): void {
     this.removeItem({ text: 'Login' });
+    this.clearAllItems();
+
+    const user: User = JSON.parse(localStorage.getItem('current_user'));
+    console.log(user);
+    if (!user) {
+      return;
+    }
+
+    const self = this;
+    user.subjects.forEach(function (subject) {
+      self.addItem({text: subject.name, path: '/subjects', param: subject._id});
+    });
   }
 
   addItem({ text, path, param }) {

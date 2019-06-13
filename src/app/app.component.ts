@@ -28,8 +28,11 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
-        const currentUser = JSON.parse(localStorage.getItem('current_user'));
-        if (currentUser && currentUser.role === 'Estudiante' && ev.url !== '/profile' && ev.url !== '/login' && !currentUser.changedPass) {
+
+        this.user = JSON.parse(localStorage.getItem('current_user'));
+        this.links = this.navbarService.getLinks();
+
+        if (this.user && this.user.role === 'Estudiante' && ev.url !== '/profile' && ev.url !== '/login' && !this.user.changedPass) {
           this.router.navigate(['profile']).then( () => {
             alert('Cambia la contraseña antes de continuar');
           });

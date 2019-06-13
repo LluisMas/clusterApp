@@ -47,7 +47,7 @@ export class NavbarService {
 
     if (!status) {
       this.clearAllItems();
-      this.addItem({ text: 'Login', path: 'login', param: '' });
+      // this.addItem({ text: 'Login', path: 'login', param: '' });
     }
   }
 

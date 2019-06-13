@@ -12,8 +12,9 @@ import { Assignment } from '../../assignment/assignment';
 import { DataAssignmentService } from '../../assignment/data-assignment.service';
 import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment';
 
-const URL = 'http://localhost:4600/routes/assignments/uploadData';
+const URL = `http://${environment.apiHost}:${environment.apiPort}/routes/assignments/uploadData`;
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {

@@ -5,8 +5,9 @@ import { FileUploader, FileUploaderOptions} from 'ng2-file-upload/ng2-file-uploa
 import { FormControl, FormGroup} from '@angular/forms';
 import { Role } from '../../user/roles';
 import { User } from '../../user/user';
+import { environment } from '../../../environments/environment';
 
-const URL = 'http://localhost:4600/routes/users/file';
+const URL = `http://${environment.apiHost}:${environment.apiPort}/routes/users/file`;
 
 @Component({
   selector: 'app-admin-users',

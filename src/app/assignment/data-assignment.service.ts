@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Assignment } from './assignment';
 import { Submission } from '../submission/submission';
 import { StatisticsElement } from './assignment-statistics/assignment-statistics.component';
+import { environment } from '../../environments/environment';
 
 
 const httpOptions = {
@@ -15,7 +16,7 @@ const httpOptions = {
 })
 export class DataAssignmentService {
 
-  private assignmentUrl = 'http://localhost:4600/routes/assignments';
+  private assignmentUrl = `http://${environment.apiHost}:${environment.apiPort}/routes/assignments`;
 
   constructor(private http: HttpClient) { }
 

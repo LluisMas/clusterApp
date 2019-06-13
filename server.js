@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 4600;
 const passport = require('passport');
+const config = require('./server/config/config');
 require('./server/config/passport');
 require('./server/models/User');
 require('./server/models/Subject');
@@ -111,6 +112,6 @@ function stopCheckers() {
   clearInterval(clusterChecker);
 }
 
-app.listen(port, (req, res) => {
+app.listen(config.server.port, config.server.host, (req, res) => {
   console.log(`working on port ${port}`);
 });

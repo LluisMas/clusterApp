@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Subject } from './subject';
 import { User } from '../user/user';
 import { Assignment } from '../assignment/assignment';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +15,7 @@ const httpOptions = {
 })
 export class DataSubjectService {
 
-  private subjectsUrl = 'http://localhost:4600/routes/subjects';
+  private subjectsUrl = `http://${environment.apiHost}:${environment.apiPort}/routes/subjects`;
 
   constructor( private http: HttpClient ) { }
 

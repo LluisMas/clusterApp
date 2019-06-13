@@ -9,8 +9,7 @@
   import { Submission } from '../../submission/submission';
   import { DataSubmissionService } from '../../submission/data-submission.service';
   import { MatTableDataSource } from '@angular/material';
-  import { DomSanitizer } from '@angular/platform-browser';
-  import { MatIconRegistry } from '@angular/material/icon';
+  import { environment } from '../../../environments/environment';
 
   export interface Ranking {
     name: string;
@@ -19,7 +18,7 @@
     change: number;
   }
 
-  const URL = 'http://localhost:4600/routes/submission/file';
+  const URL = `http://${environment.apiHost}:${environment.apiPort}/routes/submission/file`;
 
 @Component({
   selector: 'app-assignment-detail',

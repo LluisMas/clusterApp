@@ -3,14 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NavbarService } from '../navbar/navbar.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
 export class AuthService {
 
   isLoggedIn = false;
-  private URL = 'http://localhost:4600/routes/auth';
+  private URL = `http://${environment.apiHost}:${environment.apiPort}/routes/auth`;
 
   constructor(private http: HttpClient, private navbarService: NavbarService, private router: Router) {
     this.navbarService.getLoginStatus().subscribe(status => this.isLoggedIn = status);

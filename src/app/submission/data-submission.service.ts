@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Submission } from './submission';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,7 +13,7 @@ const httpOptions = {
 })
 export class DataSubmissionService {
 
-  private submissionUrl = 'http://localhost:4600/routes/submission';
+  private submissionUrl = `http://${environment.apiHost}:${environment.apiPort}/routes/submission`;
 
   constructor(private http: HttpClient) { }
 

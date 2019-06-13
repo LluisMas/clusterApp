@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiHost: '0.0.0.0',
+  apiHost: '172.16.116.161',
   apiPort: '4600'
 };
 

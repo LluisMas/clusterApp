@@ -87,6 +87,7 @@ if __name__== "__main__":
     os.remove(submission_file) # We don't need the file locally anymore
 
     compile = assignment['compilecommand']
+    compile = compile.replace('$FILE', file_name)
     print compile
 
     if compile == '':

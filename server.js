@@ -101,7 +101,7 @@ app.use(function (err, req, res, next) {
   }
 });
 
-let clusterChecker = setInterval(function(){ checkCluster() }, 10 * 1000);
+let clusterChecker = setInterval(function(){ checkCluster() }, 5 * 1000);
 
 function checkCluster() {
   console.log('Checking submission');

@@ -12,7 +12,7 @@ const SubmissionSchema = new Schema({
   jobId:          { type: Number, default: -1 },
   originalName:   { type: String, default: '' },
   executionTime:  { type: [Number], default: -1 },
-  outputs:        { type: [String] },
+  outputs:        { type: [] },
   results:        { type: [Boolean] }
 });
 

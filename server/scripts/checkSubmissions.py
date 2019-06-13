@@ -10,7 +10,7 @@ def clean_output(output):
     return [line[10:].strip() for line in output if line != '\n' and line.startswith('$resultado')]
 
 def clean_expected(expected):
-    return [str(line.strip()) for line in expected if line != '\n']
+    return [str(line.strip()) for line in expected.split() if line != '\n']
 
 def Average(lst):
     return reduce(lambda a, b: int(a) + int(b), lst) / len(lst)
@@ -76,7 +76,8 @@ def handle_finished(submission):
                 with open(result_file) as f:
                     lines = f.readlines()
 
-                output = clean_output(lines)
+                output = sorted(clean_output(lines))
+                outputs.append(output)
                 results.append(expected == sorted(output))
                 if correct:
                     correct = expected == output
@@ -89,6 +90,7 @@ def handle_finished(submission):
                 results.append(false)
                 print e
 
+    print 'Outputs:', outputs
     submission['results'] = results
     submission['outputs'] = outputs
     submission['status'] = 3 if correct else 4
@@ -126,6 +128,9 @@ if __name__== "__main__":
         submission_id = str(submission['_id'])
         assignment_id = str(submission['assignment'])
 
+        if int(submission['jobId']) in currentlyRunning:
+            continue
+
         if assignment_id not in subjects:
             assignment = db.assignments.find_one({'_id': ObjectId(assignment_id)})
             subjects[assignment_id] = assignment
@@ -134,6 +139,9 @@ if __name__== "__main__":
         path += subject_id + '/' + assignment_id + '/' + submission_id + '/' + submission_id + '*,'
 
         toFinish.append(submission)
+
+    if len(toFinish) <= 0:
+        sys.exit()
 
     path = path[:-1]
     path += "}{out.txt,times.txt}" if result.count() > 1 else "{out.txt,times.txt}"

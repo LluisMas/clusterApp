@@ -113,6 +113,7 @@ const Routes = [
     MatListModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatTableModule,
     MatCardModule, MatRadioModule, MatIconModule
 ],
+  exports: [ChartsModule],
   providers: [
     MainService,
     AuthService,

@@ -16,6 +16,17 @@ export class NavbarService implements OnInit {
   constructor() {
     this.isLoggedIn.next(localStorage.getItem('access_token') !== null);
     this.visible = true;
+    this.clearAllItems();
+
+    const user: User = JSON.parse(localStorage.getItem('current_user'));
+    if (!user) {
+      return;
+    }
+
+    const self = this;
+    user.subjects.forEach(function (subject) {
+      self.addItem({text: subject.name, path: '/subjects', param: subject._id});
+    });
   }
 
   ngOnInit(): void {
@@ -49,7 +60,6 @@ export class NavbarService implements OnInit {
 
     if (!status) {
       this.clearAllItems();
-      // this.addItem({ text: 'Login', path: 'login', param: '' });
     }
   }
 

@@ -252,7 +252,7 @@ exports.createFromFile = function(req, res) {
 
           let found = false;
           user.subjects.forEach(function (sub) {
-            if (sub._id === subject._id)
+            if (sub._id.equals(subject._id))
               found = true;
           });
 

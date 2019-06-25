@@ -36,6 +36,11 @@ exports.findAll = function(req, res) {
 exports.delete = function(req, res) {
 
   User.find({_id: req.params.id}, function (err, users) {
+    if (err)
+      return err;
+
+    if (!users)
+      res.json({});
 
     users.forEach(function (user) {
       user.subjects.forEach( function (subject) {
